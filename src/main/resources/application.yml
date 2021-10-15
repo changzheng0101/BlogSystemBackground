@@ -1,0 +1,5 @@
+server:
+  port: 2021
+spring:
+  application:
+    name: cz_blog_system
