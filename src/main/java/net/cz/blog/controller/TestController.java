@@ -1,6 +1,8 @@
 package net.cz.blog.controller;
 
 
+import net.cz.blog.Response.ResponseResult;
+import net.cz.blog.Response.ResponseState;
 import net.cz.blog.pojo.House;
 import net.cz.blog.pojo.User;
 import org.springframework.web.bind.annotation.*;
@@ -9,18 +11,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/test")  //代表所有文件都在test目录之下
 public class TestController {
     @RequestMapping(value = "/hello-world", method = RequestMethod.GET)
-    public String helloWorld() {
-
+    public ResponseResult helloWorld() {
         System.out.println("this is helloWorld from Spring boot");
-        return "hello";
+        return ResponseResult.SUCCESS().setData("hello world");
     }
 
     @GetMapping("/test-json")
-    public User getJson() {
+    public ResponseResult getJson() {
         System.out.println("this is json data test");
-        User user = new User("json", 18, true);
+        User user = new User("json", 18);
         House house = new House("baiGong", "china");
         user.setHouse(house);
-        return user;
+        return ResponseResult.FAILED().setData(user);
     }
 }
