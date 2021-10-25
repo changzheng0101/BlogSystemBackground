@@ -1,0 +1,5 @@
+[2021/10/25-15:13:49] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 11636 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/10/25-15:13:49] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/10/25-15:13:51] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 2.93 seconds (JVM running for 3.571)
+[2021/10/25-15:13:59] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.controller.TestController] : this is helloWorld from Spring boot
+[2021/10/25-15:14:05] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.controller.TestController] : this is json data test
