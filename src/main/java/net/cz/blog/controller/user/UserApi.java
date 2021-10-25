@@ -45,8 +45,8 @@ public class UserApi {
     }
 
     //修改密码 put请求用于更新
-    @PutMapping("/password")
-    public ResponseResult updatePassword(@RequestBody BlogUser user) {
+    @PutMapping("/password/{userId}")
+    public ResponseResult updatePassword(@PathVariable("userId") String userId, @RequestBody BlogUser user) {
         return null;
     }
 
@@ -57,8 +57,8 @@ public class UserApi {
     }
 
     //更新用户
-    @PutMapping
-    public ResponseResult updateUserInfo(@RequestBody BlogUser user) {
+    @PutMapping("/{userId}")
+    public ResponseResult updateUserInfo(@PathVariable("userId") String userId, @RequestBody BlogUser user) {
         return null;
     }
 }

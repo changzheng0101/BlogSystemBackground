@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "tb_categories")
-public class Categories {
+public class Category {
 
     @Id
     @Column(name = "id")
