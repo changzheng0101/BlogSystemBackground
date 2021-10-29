@@ -9,23 +9,23 @@ import java.util.Date;
 
 @Entity
 @Table(name = "tb_settings")
-public class Settings {
+public class Setting {
 
     @Id
     @Column(name = "id")
     private String id;
 
-    @Column(name = "key")
+    @Column(name = "`key`")
     private String key;
 
-    @Column(name = "value")
+    @Column(name = "`value`")
     private String value;
 
     @Column(name = "createTime")
-    private java.sql.Timestamp createTime;
+    private Date createTime;
 
     @Column(name = "updateTime")
-    private java.sql.Timestamp updateTime;
+    private Date updateTime;
 
 
     public String getId() {
@@ -45,7 +45,6 @@ public class Settings {
         this.key = key;
     }
 
-
     public String getValue() {
         return value;
     }
@@ -54,22 +53,19 @@ public class Settings {
         this.value = value;
     }
 
-
-    public java.sql.Timestamp getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(java.sql.Timestamp createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-
-    public java.sql.Timestamp getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(java.sql.Timestamp updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
-
 }

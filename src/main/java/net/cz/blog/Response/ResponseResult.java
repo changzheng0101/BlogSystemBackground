@@ -16,8 +16,20 @@ public class ResponseResult {
         return new ResponseResult(ResponseState.SUCCESS);
     }
 
+    public static ResponseResult SUCCESS(String message) {
+        ResponseResult responseResult = new ResponseResult(ResponseState.SUCCESS);
+        responseResult.setMessage(message);
+        return responseResult;
+    }
+
     public static ResponseResult FAILED() {
         return new ResponseResult(ResponseState.FAILED);
+    }
+
+    public static ResponseResult FAILED(String message) {
+        ResponseResult responseResult = new ResponseResult(ResponseState.FAILED);
+        responseResult.setMessage(message);
+        return responseResult;
     }
 
     public boolean isSuccess() {
