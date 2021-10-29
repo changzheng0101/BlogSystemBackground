@@ -61,4 +61,16 @@ public class UserApi {
     public ResponseResult updateUserInfo(@PathVariable("userId") String userId, @RequestBody BlogUser user) {
         return null;
     }
+
+    //查看用户
+    @GetMapping("/list")
+    public ResponseResult getUserList(@RequestParam("page") int page, @RequestParam("size") int size) {
+        return null;
+    }
+
+    //删除用户
+    @DeleteMapping("/{userId}")
+    public ResponseResult deleteUser(@PathVariable("userId") String userId) {
+        return null;
+    }
 }

@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "tb_friends")
-public class Friends {
+public class FriendLink {
 
     @Id
     @Column(name = "id")
