@@ -22,10 +22,10 @@ public class Label {
     private long count;
 
     @Column(name = "createTime")
-    private java.sql.Timestamp createTime;
+    private Date createTime;
 
     @Column(name = "updateTime")
-    private java.sql.Timestamp updateTime;
+    private Date updateTime;
 
 
     public String getId() {
@@ -45,7 +45,6 @@ public class Label {
         this.name = name;
     }
 
-
     public long getCount() {
         return count;
     }
@@ -54,22 +53,19 @@ public class Label {
         this.count = count;
     }
 
-
-    public java.sql.Timestamp getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(java.sql.Timestamp createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-
-    public java.sql.Timestamp getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(java.sql.Timestamp updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
-
 }

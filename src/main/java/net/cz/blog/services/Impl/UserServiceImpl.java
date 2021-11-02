@@ -11,6 +11,7 @@ import net.cz.blog.utils.Constants;
 import net.cz.blog.utils.SnowflakeIdWorker;
 import net.cz.blog.utils.TextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,8 @@ import java.util.Date;
 @Transactional
 public class UserServiceImpl implements IUserService {
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private SnowflakeIdWorker idWorker;
     @Autowired
@@ -52,7 +55,7 @@ public class UserServiceImpl implements IUserService {
         user.setId(String.valueOf(idWorker.nextId()));
         user.setRoles(Constants.User.ROLE_ADMIN);
         user.setState(Constants.User.DEFAULT_STATE);
-        user.setAvatar("https://tse1-mm.cn.bing.net/th/id/OIP-C.50imJhqOFGaS71eWQPnehwE8DF?pid=ImgDet&rs=1");
+        user.setAvatar(Constants.User.DEFAULT_AVATAR);
         String remoteAddress = request.getRemoteAddr();
         String localAddress = request.getLocalAddr();
         user.setLogin_ip(localAddress);
@@ -62,12 +65,16 @@ public class UserServiceImpl implements IUserService {
         user.setUpdate_time(new Date());
         user.setCreate_time(new Date());
 
+        //密码加密
+        String password = user.getPassword();
+        String encode = bCryptPasswordEncoder.encode(password);
+        user.setPassword(encode);
         //保持到数据库
         userDao.save(user);
 
         //更新标记
         Setting setting = new Setting();
-        setting.setId(idWorker.nextId()+"");
+        setting.setId(idWorker.nextId() + "");
         setting.setKey(Constants.Settings.MANAGE_ACCOUNT_INIT_STATE);
         setting.setValue("1");
         setting.setCreateTime(new Date());
