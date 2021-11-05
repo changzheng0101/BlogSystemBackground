@@ -19,6 +19,7 @@ public class BlogApplication {
         SpringApplication.run(BlogApplication.class, args);
     }
 
+    //this is  a test
     @Bean
     public SnowflakeIdWorker createIdWorker() {
         return new SnowflakeIdWorker(0, 0);
