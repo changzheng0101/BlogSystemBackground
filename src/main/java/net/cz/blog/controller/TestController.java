@@ -10,6 +10,7 @@ import net.cz.blog.pojo.House;
 import net.cz.blog.pojo.Label;
 import net.cz.blog.pojo.User;
 import net.cz.blog.utils.Constants;
+import net.cz.blog.utils.RedisUtil;
 import net.cz.blog.utils.SnowflakeIdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,6 +36,9 @@ import java.util.List;
 @RestController  //不用声明 @ResponseBody -->这个代表返回的是json对象 不是一个页面
 @RequestMapping("/test")  //代表所有文件都在test目录之下
 public class TestController {
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Autowired
     private LabelDao labelDao;
@@ -151,8 +155,12 @@ public class TestController {
         // 设置类型，纯数字、纯字母、字母数字混合
         specCaptcha.setCharType(Captcha.TYPE_DEFAULT);
 
-        // 验证码存入session
-        request.getSession().setAttribute("captcha", specCaptcha.text().toLowerCase());
+        String content = specCaptcha.text().toLowerCase();
+        log.info(content);
+        // 验证码存入session 不太OK 进化一下保存到Redis
+//        request.getSession().setAttribute("captcha", specCaptcha.text().toLowerCase());
+        //保存到redis time代表数据有效时间
+        redisUtil.set(Constants.User.KEY_CAPTCHA_CONTENT+"123",content,60*10);
 
         // 输出图片流
         specCaptcha.out(response.getOutputStream());

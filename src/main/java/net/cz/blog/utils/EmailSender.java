@@ -23,7 +23,7 @@ public class EmailSender {
     private List<MimeBodyPart> attachments = new ArrayList<MimeBodyPart>();
 
     private EmailSender() {
-        EmailSender.config(EmailSender.SMTP_ENT_QQ(false), "邮箱地址", "密码");
+        EmailSender.config(EmailSender.SMTP_163(false), "changzheng_ustb@163.com", "UDGHOMZHRAGMDFTP");
     }
 
     public static Properties defaultConfig(Boolean debug) {
@@ -302,6 +302,14 @@ public class EmailSender {
         MimeBodyPart bodyPart = new MimeBodyPart();
         bodyPart.setContent(html, "text/html; charset=utf-8");
         return bodyPart;
+    }
+
+    public static void sendEmail(String emailAddress, String code) throws MessagingException {
+        EmailSender.subject("博客系统的验证码")
+                .from("微笑的个人博客")
+                .text("您好，您的验证码为" + code + ",该验证码10分钟内有效，打死也不要告诉其他人哦~")
+                .to(emailAddress)
+                .send();
     }
 }
 
