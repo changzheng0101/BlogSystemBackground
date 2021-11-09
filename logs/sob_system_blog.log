@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [2021/11/09-15:42:43] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 7404 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
 [2021/11/09-15:42:43] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
 [2021/11/09-15:42:50] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 7.384 seconds (JVM running for 8.302)
@@ -84,3 +85,16 @@
 [2021/11/09-17:12:54] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
 [2021/11/09-17:12:59] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.209 seconds (JVM running for 6.197)
 [2021/11/09-17:13:06] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.controller.TestController] : comment content==>good
+=======
+[2021/11/08-20:55:27] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 3740 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/11/08-20:55:27] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/08-20:55:32] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.41 seconds (JVM running for 6.751)
+[2021/11/08-21:02:33] [http-nio-2021-exec-3] [ERROR] [net.cz.blog.controller.user.UserApi] : org.springframework.transaction.CannotCreateTransactionException: Could not open JPA EntityManager for transaction; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to acquire JDBC Connection
+[2021/11/08-21:05:05] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 1540 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/11/08-21:05:06] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/08-21:05:11] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.882 seconds (JVM running for 7.771)
+[2021/11/08-21:08:37] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 3076 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/11/08-21:08:37] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/08-21:08:41] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 4.522 seconds (JVM running for 6.221)
+[2021/11/08-21:08:47] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>kpujt
+>>>>>>> 8697b170dac72fcea67092d97b8ae5547291a0b9

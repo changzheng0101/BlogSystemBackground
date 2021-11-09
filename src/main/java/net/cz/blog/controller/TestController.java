@@ -8,10 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.cz.blog.Dao.CommentDao;
 import net.cz.blog.Dao.LabelDao;
 import net.cz.blog.Response.ResponseResult;
-import net.cz.blog.pojo.Comment;
-import net.cz.blog.pojo.House;
+import net.cz.blog.pojo.*;
 import net.cz.blog.pojo.Label;
-import net.cz.blog.pojo.User;
 import net.cz.blog.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -185,16 +183,13 @@ public class TestController {
             //空的话就是过期了 但是有可能登录过了 所以要去查refreshToken
             //todo
         }
-
         //已经登录了 解析token
         Claims claims = JwtUtil.parseJWT(token);
+        BlogUser blogUser = ClaimsUtils.claims2BlogUser(claims);
         comment.setId(idWorker.nextId() + "");
-        String userId = (String) claims.get("id");
-        comment.setUserId(userId);
-        String avatar = (String) claims.get("avatar");
-        comment.setUserAvatar(avatar);
-        String userName = (String) claims.get("user_name");
-        comment.setUserName(userName);
+        comment.setUserId(blogUser.getId());
+        comment.setUserAvatar(blogUser.getAvatar());
+        comment.setUserName(blogUser.getUserName());
         comment.setCreateTime(new Date());
         comment.setUpdateTime(new Date());
         commentDao.save(comment);

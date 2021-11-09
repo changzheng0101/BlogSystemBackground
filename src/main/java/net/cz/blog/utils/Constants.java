@@ -18,7 +18,11 @@ public interface Constants {
         String KEY_EMAIL_SEND_TIMES = "key_email_send_times";
         String KEY_EMAIL_SEND_STATE = "key_email_send_state";
         String KEY_TOKEN = "key_token_";
+<<<<<<< HEAD
         String COOKIE_TOKEN_KEY = "blog_token";
+=======
+        String COOKIE_TOKE_KEY = "blog_token";
+>>>>>>> 8697b170dac72fcea67092d97b8ae5547291a0b9
     }
 
     interface Settings {

@@ -321,15 +321,8 @@ public class UserServiceImpl implements IUserService {
             return ResponseResult.FAILED("该账号已被禁止");
         }
         // 生成token
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("id", userFromDb.getId());
-        claims.put("user_name", userFromDb.getUserName());
-        claims.put("roles", userFromDb.getRoles());
-        claims.put("avatar", userFromDb.getAvatar());
-        claims.put("email", userFromDb.getEmail());
-        claims.put("sing", userFromDb.getSign());
+        Map<String, Object> claims = ClaimsUtils.blogUser2Claims(userFromDb);
         String token = JwtUtil.createToken(claims);
-
         //返回token的md5值 token会保存到redis中
         //前端访问的时候，会携带md5的tokenKey，再从redis中获取即可
         String tokenKey = DigestUtils.md5DigestAsHex(token.getBytes());
@@ -338,7 +331,7 @@ public class UserServiceImpl implements IUserService {
         redisUtil.set(Constants.User.KEY_TOKEN + tokenKey, token, 60 * 60 * 2);
         //把tokenKey写到cookie中
         //todo postman无法显示token
-        CookieUtils.setUpCookie(response,Constants.User.COOKIE_TOKEN_KEY,tokenKey);
+        CookieUtils.setUpCookie(response, Constants.User.COOKIE_TOKEN_KEY, tokenKey);
         //todo 生成refresh token
         return ResponseResult.SUCCESS("用户认证成功");
     }
