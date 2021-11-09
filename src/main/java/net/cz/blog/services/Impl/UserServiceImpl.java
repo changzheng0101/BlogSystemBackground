@@ -5,11 +5,13 @@ import com.wf.captcha.GifCaptcha;
 import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.base.Captcha;
 import lombok.extern.slf4j.Slf4j;
+import net.cz.blog.Dao.RefreshTokenDao;
 import net.cz.blog.Dao.SettingsDao;
 import net.cz.blog.Dao.UserDao;
 import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.Response.ResponseState;
 import net.cz.blog.pojo.BlogUser;
+import net.cz.blog.pojo.RefreshToken;
 import net.cz.blog.pojo.Setting;
 import net.cz.blog.services.IUserService;
 import net.cz.blog.utils.*;
@@ -40,6 +42,8 @@ public class UserServiceImpl implements IUserService {
     private UserDao userDao;
     @Autowired
     private SettingsDao settingsDao;
+    @Autowired
+    private RefreshTokenDao refreshTokenDao;
 
     @Override
     public ResponseResult initManagerAccount(BlogUser user, HttpServletRequest request) {
@@ -328,11 +332,20 @@ public class UserServiceImpl implements IUserService {
         String tokenKey = DigestUtils.md5DigestAsHex(token.getBytes());
         log.info("tokenKey==>" + tokenKey);
         //保存到redis中 有效期为两个小时
-        redisUtil.set(Constants.User.KEY_TOKEN + tokenKey, token, 60 * 60 * 2);
+        redisUtil.set(Constants.User.KEY_TOKEN + tokenKey, token, Constants.TimeValue.HOUR * 2);
         //把tokenKey写到cookie中
-        //todo postman无法显示token
         CookieUtils.setUpCookie(response, Constants.User.COOKIE_TOKEN_KEY, tokenKey);
-        //todo 生成refresh token
+        //生成refresh token
+        String refreshTokenVal = JwtUtil.createRefreshToken(userFromDb.getId(), Constants.TimeValue.YEAR);
+        //保存到数据库
+        RefreshToken refreshToken = new RefreshToken();
+        refreshToken.setId(idWorker.nextId() + "");
+        refreshToken.setRefreshToken(refreshTokenVal);
+        refreshToken.setUserId(userFromDb.getId());
+        refreshToken.setTokenKey(tokenKey);
+        refreshToken.setCreateTime(new Date());
+        refreshToken.setUpdateTime(new Date());
+        refreshTokenDao.save(refreshToken);
         return ResponseResult.SUCCESS("用户认证成功");
     }
 

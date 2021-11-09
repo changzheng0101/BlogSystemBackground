@@ -4,8 +4,14 @@ public interface Constants {
 
     int DEFAULT_SIZE = 10;
 
+    //单位是s
     interface TimeValue {
-        int HOUR_2 = 60 * 60 * 2 * 1000;
+        int MIN = 60;
+        int HOUR = MIN * 60;
+        int DAY = 24 * HOUR;
+        int WEEK = 7 * DAY;
+        int MONTH = 30 * DAY;
+        int YEAR = 365 * DAY;
     }
 
     interface User {
@@ -18,11 +24,7 @@ public interface Constants {
         String KEY_EMAIL_SEND_TIMES = "key_email_send_times";
         String KEY_EMAIL_SEND_STATE = "key_email_send_state";
         String KEY_TOKEN = "key_token_";
-<<<<<<< HEAD
         String COOKIE_TOKEN_KEY = "blog_token";
-=======
-        String COOKIE_TOKE_KEY = "blog_token";
->>>>>>> 8697b170dac72fcea67092d97b8ae5547291a0b9
     }
 
     interface Settings {

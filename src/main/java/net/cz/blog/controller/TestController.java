@@ -196,12 +196,11 @@ public class TestController {
         return ResponseResult.SUCCESS("评论成功");
     }
 
-
     //测试cookie的添加和读取
     @GetMapping("/setCookies")
     public ResponseResult setCookie(HttpServletResponse response, HttpServletRequest request) {
         Cookie cookie = new Cookie("sessionId", "CookieTestInfo");
-        cookie.setMaxAge(60 * 60 * 24 * 365);
+        cookie.setMaxAge(Constants.TimeValue.YEAR);
         cookie.setPath("/");
         response.addCookie(cookie);
         return ResponseResult.SUCCESS("添加cookie成功");
