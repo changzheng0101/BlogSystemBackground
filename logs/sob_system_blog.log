@@ -1,25 +1,82 @@
-[2021/11/05-16:13:03] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 16612 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
-[2021/11/05-16:13:03] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
-[2021/11/05-16:13:08] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.106 seconds (JVM running for 5.868)
-[2021/11/05-16:13:37] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.controller.TestController] : ehfqa
-[2021/11/05-16:54:13] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 14620 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
-[2021/11/05-16:54:13] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
-[2021/11/05-16:54:20] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 6.949 seconds (JVM running for 7.992)
-[2021/11/05-16:55:52] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 24444 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
-[2021/11/05-16:55:52] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
-[2021/11/05-16:55:56] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 4.942 seconds (JVM running for 5.854)
-[2021/11/05-16:56:01] [http-nio-2021-exec-1] [ERROR] [net.cz.blog.controller.user.UserApi] : java.lang.ArrayIndexOutOfBoundsException: 2051301300
-[2021/11/05-16:56:26] [http-nio-2021-exec-2] [ERROR] [net.cz.blog.controller.user.UserApi] : java.lang.ArrayIndexOutOfBoundsException: 1414803680
-[2021/11/05-16:57:03] [http-nio-2021-exec-3] [ERROR] [net.cz.blog.controller.user.UserApi] : java.lang.ArrayIndexOutOfBoundsException: 2012512462
-[2021/11/05-16:57:59] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 21188 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
-[2021/11/05-16:57:59] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
-[2021/11/05-16:58:03] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 4.906 seconds (JVM running for 5.68)
-[2021/11/05-18:01:50] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 6756 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
-[2021/11/05-18:01:50] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
-[2021/11/05-18:01:55] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.283 seconds (JVM running for 6.094)
-[2021/11/05-18:03:22] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 26640 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
-[2021/11/05-18:03:22] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
-[2021/11/05-18:03:27] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.021 seconds (JVM running for 5.792)
-[2021/11/05-18:21:57] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 15940 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
-[2021/11/05-18:21:57] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
-[2021/11/05-18:22:01] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.164 seconds (JVM running for 5.917)
+[2021/11/09-15:42:43] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 7404 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-15:42:43] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-15:42:50] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 7.384 seconds (JVM running for 8.302)
+[2021/11/09-15:45:39] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>q5rvw
+[2021/11/09-15:50:45] [http-nio-2021-exec-3] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>vewwg
+[2021/11/09-16:18:04] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 19592 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-16:18:04] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-16:18:09] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.226 seconds (JVM running for 6.037)
+[2021/11/09-16:18:22] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.controller.TestController] : comment content==>good
+[2021/11/09-16:19:01] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.controller.TestController] : comment content==>good
+[2021/11/09-16:19:17] [http-nio-2021-exec-4] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>vcguq
+[2021/11/09-16:19:31] [http-nio-2021-exec-6] [INFO ] [net.cz.blog.controller.TestController] : comment content==>good
+[2021/11/09-16:25:45] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 23676 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-16:25:45] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-16:25:50] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.237 seconds (JVM running for 6.054)
+[2021/11/09-16:25:57] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>10
+[2021/11/09-16:33:43] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 21884 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-16:33:43] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-16:33:48] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.511 seconds (JVM running for 6.343)
+[2021/11/09-16:37:32] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 1040 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-16:37:32] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-16:37:37] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.485 seconds (JVM running for 6.249)
+[2021/11/09-16:38:03] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 8628 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-16:38:03] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-16:38:08] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.575 seconds (JVM running for 6.362)
+[2021/11/09-16:38:48] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 1128 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-16:38:48] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-16:38:53] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.045 seconds (JVM running for 5.782)
+[2021/11/09-16:52:20] [http-nio-2021-exec-4] [INFO ] [net.cz.blog.controller.TestController] : comment content==>good
+[2021/11/09-16:57:17] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 6772 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-16:57:17] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-16:57:22] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.243 seconds (JVM running for 5.956)
+[2021/11/09-16:58:01] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 3500 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-16:58:01] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-16:58:06] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.291 seconds (JVM running for 6.007)
+[2021/11/09-16:59:34] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 12948 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-16:59:34] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-16:59:38] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.259 seconds (JVM running for 5.985)
+[2021/11/09-17:00:30] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 13064 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-17:00:30] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-17:00:35] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.177 seconds (JVM running for 6.152)
+[2021/11/09-17:00:50] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>14
+[2021/11/09-17:01:01] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : tokenKey==>75576f1efc5b64ba157c39370f1f0396
+[2021/11/09-17:03:16] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 21028 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-17:03:16] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-17:03:21] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.496 seconds (JVM running for 6.329)
+[2021/11/09-17:04:24] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>4
+[2021/11/09-17:04:33] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : tokenKey==>8e8cd7737da98de67599e1e1ac737214
+[2021/11/09-17:05:17] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 26388 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-17:05:17] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-17:05:21] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.248 seconds (JVM running for 6.275)
+[2021/11/09-17:05:28] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>zfvtf
+[2021/11/09-17:06:04] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 13028 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-17:06:04] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-17:06:09] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.184 seconds (JVM running for 6.247)
+[2021/11/09-17:06:16] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>80
+[2021/11/09-17:06:45] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 6640 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-17:06:45] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-17:06:50] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.481 seconds (JVM running for 6.237)
+[2021/11/09-17:06:53] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>casyg
+[2021/11/09-17:07:13] [http-nio-2021-exec-3] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : tokenKey==>239514aa3dee556b0dd71a8a33ad42c5
+[2021/11/09-17:07:37] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 10520 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-17:07:37] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-17:07:42] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.314 seconds (JVM running for 6.252)
+[2021/11/09-17:07:55] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>5xzkf
+[2021/11/09-17:08:04] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : tokenKey==>3ce6b0edf7a0c37f6cf0271605f39b94
+[2021/11/09-17:08:30] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 26372 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-17:08:30] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-17:08:35] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.365 seconds (JVM running for 6.139)
+[2021/11/09-17:08:41] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>wv935
+[2021/11/09-17:08:47] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : tokenKey==>b192a91005612c60e37586b5df59636a
+[2021/11/09-17:09:24] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 14076 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-17:09:24] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-17:09:29] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.573 seconds (JVM running for 6.351)
+[2021/11/09-17:09:36] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>2
+[2021/11/09-17:09:42] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : tokenKey==>0a51484ec673efbb07ca881d8549b5bb
+[2021/11/09-17:10:30] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 9944 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/09-17:10:30] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/09-17:10:35] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.223 seconds (JVM running for 6.245)
+[2021/11/09-17:10:42] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>bxqc8
+[2021/11/09-17:10:50] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : tokenKey==>ffc887aaa0f4a1830f4c500bc98124c2
+[2021/11/09-17:11:03] [http-nio-2021-exec-3] [INFO ] [net.cz.blog.controller.TestController] : comment content==>good

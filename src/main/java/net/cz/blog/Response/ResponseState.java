@@ -2,7 +2,8 @@ package net.cz.blog.Response;
 
 public enum ResponseState {
     SUCCESS(true, 200, "获取成功"),
-    FAILED(false, 400, "获取失败");
+    FAILED(false, 400, "获取失败"),
+    JOIN_IN_SUCCESS(true, 202, "注册成功");
 
     private ResponseState(boolean isSuccess, int code, String message) {
         this.isSuccess = isSuccess;

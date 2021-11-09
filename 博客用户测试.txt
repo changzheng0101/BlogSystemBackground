@@ -1,0 +1,7 @@
+127.0.0.1:2021/user/verify_code?type=register&email=2950448386@qq.com
+635236
+127.0.0.1:2021/user/captcha?captcha_key=1636166646275
+Txusq
+
+
+127.0.0.1:2021/user?captcha_key=1636166646276&email_verify_code=767472&captcha=55

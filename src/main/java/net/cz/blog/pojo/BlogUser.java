@@ -16,7 +16,7 @@ public class BlogUser {
     private String id;
 
     @Column(name = "user_name")
-    private String user_name;
+    private String userName;
 
     @Column(name = "password")
     private String password;
@@ -56,12 +56,12 @@ public class BlogUser {
         this.id = id;
     }
 
-    public String getUser_name() {
-        return user_name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
+    public void setUserName(String user_name) {
+        this.userName = user_name;
     }
 
     public String getPassword() {

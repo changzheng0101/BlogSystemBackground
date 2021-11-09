@@ -1,6 +1,5 @@
 package net.cz.blog.services.Impl;
 
-import com.sun.corba.se.spi.ior.IdentifiableFactory;
 import com.wf.captcha.ArithmeticCaptcha;
 import com.wf.captcha.GifCaptcha;
 import com.wf.captcha.SpecCaptcha;
@@ -9,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.cz.blog.Dao.SettingsDao;
 import net.cz.blog.Dao.UserDao;
 import net.cz.blog.Response.ResponseResult;
+import net.cz.blog.Response.ResponseState;
 import net.cz.blog.pojo.BlogUser;
 import net.cz.blog.pojo.Setting;
 import net.cz.blog.services.IUserService;
@@ -16,12 +16,15 @@ import net.cz.blog.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
-import javax.mail.MessagingException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 @Slf4j
@@ -47,7 +50,7 @@ public class UserServiceImpl implements IUserService {
         }
 
         //检查数据
-        if (TextUtils.isEmpty(user.getUser_name())) {
+        if (TextUtils.isEmpty(user.getUserName())) {
             return ResponseResult.FAILED("用户名不能为空");
         }
         if (TextUtils.isEmpty(user.getPassword())) {
@@ -139,6 +142,7 @@ public class UserServiceImpl implements IUserService {
         String content = targetCaptcha.text().toLowerCase();
         //保存到redis time代表数据有效时间
         redisUtil.set(Constants.User.KEY_CAPTCHA_CONTENT + key, content, 60 * 10);
+        log.info("sendVerifyCode==>" + content);
         // 输出图片流
         targetCaptcha.out(response.getOutputStream());
     }
@@ -147,8 +151,28 @@ public class UserServiceImpl implements IUserService {
     private TaskService taskService;
 
     //给邮箱发送验证码
+    //业务场景 注册 找回密码 更换邮箱（会输入新的邮箱）
+    //注册(register)：如果已经注册，提示已经注册
+    //找回密码(forget)：邮箱未注册的话，提示未注册
+    //更换邮箱(update)：查看新的邮箱是否已经注册
+    //用一个type来区别这几种情况
     @Override
-    public ResponseResult sendEmail(String emailAddress, HttpServletRequest request) {
+    public ResponseResult sendEmail(String type, String emailAddress, HttpServletRequest request) {
+        if (emailAddress == null) {
+            return ResponseResult.FAILED("邮箱地址不可以为空");
+        }
+        if ("register".equals(type) || "update".equals(type)) {
+            BlogUser userByEmail = userDao.findOneByEmail(emailAddress);
+            if (userByEmail != null) {
+                return ResponseResult.FAILED("该邮箱已经被注册");
+            }
+        } else if ("forget".equals(type)) {
+            BlogUser userByEmail = userDao.findOneByEmail(emailAddress);
+            if (userByEmail == null) {
+                return ResponseResult.FAILED("该邮箱未注册");
+            }
+        }
+
         //1.防止暴力发送 1个小时内每个ip发送10次 最少间隔30s发第二次
         String remoteAddr = request.getRemoteAddr();
         if (remoteAddr != null) {
@@ -160,7 +184,7 @@ public class UserServiceImpl implements IUserService {
             return ResponseResult.FAILED("您发送邮件过于频繁，请稍后再试");
         }
         //拿到ip是否发送的状态
-        Object isSend = redisUtil.get(Constants.User.KEY_EMAIL_SEND_STATE + remoteAddr);
+        Object isSend = redisUtil.get(Constants.User.KEY_EMAIL_SEND_STATE + emailAddress);
         if (isSend != null) {
             return ResponseResult.FAILED("您发送邮件过于频繁，请稍后再试");
         }
@@ -183,9 +207,145 @@ public class UserServiceImpl implements IUserService {
         ipSendTimes++;
         redisUtil.set(Constants.User.KEY_EMAIL_SEND_TIMES + remoteAddr, ipSendTimes, 60 * 10);
         //设置30s无法再次发送
-        redisUtil.set(Constants.User.KEY_EMAIL_SEND_STATE + remoteAddr, "true", 30);
+        redisUtil.set(Constants.User.KEY_EMAIL_SEND_STATE + emailAddress, "true", 30);
         //保存code 10分钟有效
-        redisUtil.set(Constants.User.KEY_EMAIL_CODE_CONTENT, String.valueOf(code), 60 * 10);
+        redisUtil.set(Constants.User.KEY_EMAIL_CODE_CONTENT + emailAddress, String.valueOf(code), 60 * 10);
         return ResponseResult.SUCCESS("验证码发送成功");
     }
+
+
+    @Override
+    public ResponseResult register(BlogUser user, String emailVerifyCode, String captcha, String captchaKey,
+                                   HttpServletRequest request) {
+        //第一步：检查当前用户名是否已经注册
+        String userName = user.getUserName();
+        if (userName == null) {
+            return ResponseResult.FAILED("用户名不可以为空");
+        }
+        BlogUser userByUserName = userDao.findOneByUserName(userName);
+        if (userByUserName != null) {
+            return ResponseResult.FAILED("该用户已经被注册");
+        }
+        //第二步：检查邮箱格式是否正确
+        String email = user.getEmail();
+        if (email.isEmpty()) {
+            return ResponseResult.FAILED("邮箱不可以为空");
+        }
+        if (!TextUtils.isEmail(email)) {
+            return ResponseResult.FAILED("邮箱格式不正确");
+        }
+        //第三步：检查邮箱是否已经被注册
+        BlogUser userByEmail = userDao.findOneByEmail(email);
+        if (userByEmail != null) {
+            return ResponseResult.FAILED("该邮箱已经被注册");
+        }
+        //第四步：检查邮箱验证码是否正确
+        String emailVerifyCodeCorrect = (String) redisUtil.get(Constants.User.KEY_EMAIL_CODE_CONTENT + email);
+        if (TextUtils.isEmpty(emailVerifyCodeCorrect)) {
+            return ResponseResult.FAILED("验证码已过期");
+        }
+        if (!emailVerifyCode.equals(emailVerifyCodeCorrect)) {
+            return ResponseResult.FAILED("邮箱验证码错误");
+        }
+        //第五步：检查图灵验证码是否正确
+        String captchaCorrect = (String) redisUtil.get(Constants.User.KEY_CAPTCHA_CONTENT + captchaKey);
+        if (captchaCorrect == null) {
+            return ResponseResult.FAILED("邮箱验证码已经过期");
+        }
+        if (!captchaCorrect.equals(captcha)) {
+            return ResponseResult.FAILED("验证码错误");
+        }
+        //达到可以注册的条件
+        //第六步：对密码进行加密
+        if (user.getPassword() == null) {
+            return ResponseResult.FAILED("密码不能为空");
+        }
+        if (user.getPassword().length() < 6) {
+            return ResponseResult.FAILED("密码长度过短");
+        }
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        //第七步：补全数据
+        user.setId(String.valueOf(idWorker.nextId()));
+        user.setRoles(Constants.User.ROLE_NORMAL);
+        user.setState(Constants.User.DEFAULT_STATE);
+        user.setAvatar(Constants.User.DEFAULT_AVATAR);
+        String remoteAddress = request.getRemoteAddr();
+        String localAddress = request.getLocalAddr();
+        user.setLogin_ip(localAddress);
+        user.setReg_ip(remoteAddress);
+        user.setUpdate_time(new Date());
+        user.setCreate_time(new Date());
+        //第八步：保存到数据库
+        userDao.save(user);
+        //第九步： 删除应该删除的数据
+        redisUtil.del(Constants.User.KEY_EMAIL_CODE_CONTENT + email);
+        redisUtil.del(Constants.User.KEY_CAPTCHA_CONTENT + captchaKey);
+        //第十步：返回结果
+        return ResponseResult.GET(ResponseState.JOIN_IN_SUCCESS);
+    }
+
+    @Override
+    public ResponseResult doLogin(String captcha, String captchaKey, BlogUser user,
+                                  HttpServletRequest request, HttpServletResponse response) {
+        String captchaCorrect = (String) redisUtil.get(Constants.User.KEY_CAPTCHA_CONTENT + captchaKey);
+        if (!captchaCorrect.equals(captcha)) {
+            return ResponseResult.FAILED("人类验证码不正确");
+        }
+        //用户名可能为邮箱也可能为用户名
+        String userAccount = user.getUserName();
+        if (TextUtils.isEmpty(userAccount)) {
+            return ResponseResult.FAILED("账号不可以为空");
+        }
+        String password = user.getPassword();
+        if (TextUtils.isEmpty(password)) {
+            return ResponseResult.FAILED("密码不可以为空");
+        }
+
+        BlogUser userFromDb = userDao.findOneByUserName(userAccount);
+        if (userFromDb == null) {
+            userFromDb = userDao.findOneByEmail(userAccount);
+        }
+        if (userFromDb == null) {
+            return ResponseResult.FAILED("用户名或密码错误");
+        }
+
+        //用户存在
+        //对比密码
+        boolean matches = bCryptPasswordEncoder.matches(password, userFromDb.getPassword());
+        if (!matches) {
+            return ResponseResult.FAILED("用户名或密码错误");
+        }
+        // 密码正确
+        // 判断状态是否正常
+        if (!"1".equals(userFromDb.getState())) {
+            return ResponseResult.FAILED("该账号已被禁止");
+        }
+        // 生成token
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", userFromDb.getId());
+        claims.put("user_name", userFromDb.getUserName());
+        claims.put("roles", userFromDb.getRoles());
+        claims.put("avatar", userFromDb.getAvatar());
+        claims.put("email", userFromDb.getEmail());
+        claims.put("sing", userFromDb.getSign());
+        String token = JwtUtil.createToken(claims);
+
+        //返回token的md5值 token会保存到redis中
+        //前端访问的时候，会携带md5的tokenKey，再从redis中获取即可
+        String tokenKey = DigestUtils.md5DigestAsHex(token.getBytes());
+        log.info("tokenKey==>" + tokenKey);
+        //保存到redis中 有效期为两个小时
+        redisUtil.set(Constants.User.KEY_TOKEN + tokenKey, token, 60 * 60 * 2);
+        //把tokenKey写到cookie中
+        //todo postman无法显示token
+        Cookie cookie = new Cookie(Constants.User.COOKIE_TOKEN_KEY, tokenKey);
+        //之后会动态获取该地址
+        cookie.setMaxAge(60 * 60 * 24 * 365);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        //todo 生成refresh token
+        return ResponseResult.SUCCESS("用户认证成功");
+    }
+
+
 }

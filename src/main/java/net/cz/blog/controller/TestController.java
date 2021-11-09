@@ -3,20 +3,23 @@ package net.cz.blog.controller;
 
 import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.base.Captcha;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
+import net.cz.blog.Dao.CommentDao;
 import net.cz.blog.Dao.LabelDao;
 import net.cz.blog.Response.ResponseResult;
+import net.cz.blog.pojo.Comment;
 import net.cz.blog.pojo.House;
 import net.cz.blog.pojo.Label;
 import net.cz.blog.pojo.User;
 import net.cz.blog.utils.Constants;
+import net.cz.blog.utils.JwtUtil;
 import net.cz.blog.utils.RedisUtil;
 import net.cz.blog.utils.SnowflakeIdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
@@ -160,10 +164,81 @@ public class TestController {
         // 验证码存入session 不太OK 进化一下保存到Redis
 //        request.getSession().setAttribute("captcha", specCaptcha.text().toLowerCase());
         //保存到redis time代表数据有效时间
-        redisUtil.set(Constants.User.KEY_CAPTCHA_CONTENT+"123",content,60*10);
+        redisUtil.set(Constants.User.KEY_CAPTCHA_CONTENT + "123", content, 60 * 10);
 
         // 输出图片流
         specCaptcha.out(response.getOutputStream());
     }
 
+
+    @Autowired
+    private CommentDao commentDao;
+
+    @PostMapping("/comment")
+    public ResponseResult testComment(@RequestBody Comment comment, HttpServletRequest request) {
+        String content = comment.getContent();
+        log.info("comment content==>" + content);
+        //对评论的身份进行确定
+        String tokenKey = getCookie(Constants.User.COOKIE_TOKEN_KEY, request);
+        if (tokenKey == null) {
+            return ResponseResult.FAILED("账号未登录");
+        }
+        String token = (String) redisUtil.get(Constants.User.KEY_TOKEN + tokenKey);
+        if (token == null) {
+            //空的话就是过期了 但是有可能登录过了 所以要去查refreshToken
+            //todo
+        }
+
+        //已经登录了 解析token
+        Claims claims = JwtUtil.parseJWT(token);
+        comment.setId(idWorker.nextId()+"");
+        String userId = (String) claims.get("id");
+        comment.setUserId(userId);
+        String avatar = (String) claims.get("avatar");
+        comment.setUserAvatar(avatar);
+        String userName = (String) claims.get("user_name");
+        comment.setUserName(userName);
+        comment.setCreateTime(new Date());
+        comment.setUpdateTime(new Date());
+        commentDao.save(comment);
+        return ResponseResult.SUCCESS("评论成功");
+    }
+
+    private String getCookie(String cookieKey, HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return null;
+        }
+        for (Cookie cookie : cookies) {
+            if (cookieKey.equals(cookie.getName())) {
+                return cookie.getValue();
+            }
+        }
+        return null;
+    }
+
+
+    //测试cookie的添加和读取
+    @GetMapping("/setCookies")
+    public ResponseResult setCookie(HttpServletResponse response,HttpServletRequest request) {
+        Cookie cookie = new Cookie("sessionId", "CookieTestInfo");
+        cookie.setMaxAge(60 * 60 * 24 * 365);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return ResponseResult.SUCCESS("添加cookie成功");
+    }
+
+    @GetMapping("cookie")
+    public ResponseResult getCookie(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String data = null;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("sessionId")) {
+                    data = cookie.getValue();
+                }
+            }
+        }
+        return ResponseResult.SUCCESS("获取数据成功").setData(data);
+    }
 }

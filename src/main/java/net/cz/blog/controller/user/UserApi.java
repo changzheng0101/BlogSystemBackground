@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.pojo.BlogUser;
 import net.cz.blog.services.IUserService;
-import net.cz.blog.utils.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +22,7 @@ public class UserApi {
     //   初始化管理员账号
     @PostMapping("/admin_account")
     public ResponseResult initManagerAccount(@RequestBody BlogUser user, HttpServletRequest request) {
-        log.info("user name==>" + user.getUser_name());
+        log.info("user name==>" + user.getUserName());
         log.info("password==>" + user.getPassword());
         log.info("email ==> " + user.getEmail());
 
@@ -32,30 +31,33 @@ public class UserApi {
 
     //注册
     @PostMapping
-    public ResponseResult register(@RequestBody BlogUser user) {
-        //第一步：检查当前用户名是否已经注册
-        //第二步：检查邮箱格式是否正确
-        //第三步：检查邮箱是否已经被注册
-        //第四步：检查邮箱验证码是否正确
-        //第五步：检查图灵验证码是否正确
-        //达到可以注册的条件
-        //第六步：对密码进行加密
-        //第七步：补全数据
-        //第八步：保存到数据库
-        //第九步：返回结果
-        return null;
+    public ResponseResult register(@RequestBody BlogUser user,
+                                   @RequestParam("email_verify_code") String emailVerifyCode,
+                                   @RequestParam("captcha") String captcha,
+                                   @RequestParam("captcha_key") String captchaKey,
+                                   HttpServletRequest request) {
+        return userService.register(user, emailVerifyCode, captcha, captchaKey, request);
     }
 
     //登录   加验证码  测试是否是人类
-    @PostMapping("/{captcha}")
-    public ResponseResult login(@PathVariable("captcha") String captcha, @RequestBody BlogUser user) {
-        return null;
+    //需要提交的数据
+    //1 用户账号或者邮箱 已经进行唯一处理
+    //2 密码
+    //3 图灵验证码
+    //4 图灵验证码的key
+    @PostMapping("/{captcha}/{captcha_key}")
+    public ResponseResult login(@PathVariable("captcha_key") String captchaKey,
+                                @PathVariable("captcha") String captcha,
+                                @RequestBody BlogUser user,
+                                HttpServletRequest request,
+                                HttpServletResponse response) {
+        return userService.doLogin(captcha, captchaKey, user, request, response);
     }
 
 
     //获取图灵验证码
     @GetMapping("/captcha")
-    public void getCaptcha(HttpServletResponse response, @RequestParam("captcha_key") String captcha_key) throws Exception {
+    public void getCaptcha(HttpServletResponse response, @RequestParam("captcha_key") String captcha_key) {
         try {
             userService.createCaptcha(response, captcha_key);
         } catch (Exception e) {
@@ -64,11 +66,18 @@ public class UserApi {
     }
 
     //发送邮件
+    //业务场景 注册 找回密码 更换邮箱（会输入新的邮箱）
+    //注册：如果已经注册，提示已经注册
+    //找回密码：邮箱未注册的话，提示未注册
+    //更换邮箱：查看新的邮箱是否已经注册
+    //用一个type来区别这几种情况
     @GetMapping("/verify_code")
-    public ResponseResult sendVerifyCode(HttpServletRequest request, @RequestParam("email") String emailAddress) {
+    public ResponseResult sendVerifyCode(HttpServletRequest request, @RequestParam("type") String type,
+                                         @RequestParam("email") String emailAddress) {
         ResponseResult responseResult = ResponseResult.FAILED();
         try {
-            responseResult = userService.sendEmail(emailAddress, request);
+            responseResult = userService.sendEmail(type, emailAddress, request);
+
         } catch (Exception e) {
             log.error("sendVerifyCode==>" + e);
         }

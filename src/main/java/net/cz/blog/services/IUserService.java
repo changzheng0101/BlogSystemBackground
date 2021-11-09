@@ -12,5 +12,12 @@ public interface IUserService {
 
     void createCaptcha(HttpServletResponse response, String captcha_key) throws Exception;
 
-    ResponseResult sendEmail(String emailAddress, HttpServletRequest request) throws MessagingException;
+    ResponseResult sendEmail(String type,String emailAddress, HttpServletRequest request) throws MessagingException;
+
+    ResponseResult register(BlogUser user, String emailVerifyCode, String captcha,
+                            String captchaKey, HttpServletRequest request);
+
+    ResponseResult doLogin(String captcha, String captcha_key, BlogUser user,
+                           HttpServletRequest request, HttpServletResponse response);
+
 }
