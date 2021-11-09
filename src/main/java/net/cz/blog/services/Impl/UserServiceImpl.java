@@ -338,11 +338,7 @@ public class UserServiceImpl implements IUserService {
         redisUtil.set(Constants.User.KEY_TOKEN + tokenKey, token, 60 * 60 * 2);
         //把tokenKey写到cookie中
         //todo postman无法显示token
-        Cookie cookie = new Cookie(Constants.User.COOKIE_TOKEN_KEY, tokenKey);
-        //之后会动态获取该地址
-        cookie.setMaxAge(60 * 60 * 24 * 365);
-        cookie.setPath("/");
-        response.addCookie(cookie);
+        CookieUtils.setUpCookie(response,Constants.User.COOKIE_TOKEN_KEY,tokenKey);
         //todo 生成refresh token
         return ResponseResult.SUCCESS("用户认证成功");
     }

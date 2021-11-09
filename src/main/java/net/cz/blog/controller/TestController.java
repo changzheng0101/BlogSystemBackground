@@ -12,10 +12,7 @@ import net.cz.blog.pojo.Comment;
 import net.cz.blog.pojo.House;
 import net.cz.blog.pojo.Label;
 import net.cz.blog.pojo.User;
-import net.cz.blog.utils.Constants;
-import net.cz.blog.utils.JwtUtil;
-import net.cz.blog.utils.RedisUtil;
-import net.cz.blog.utils.SnowflakeIdWorker;
+import net.cz.blog.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -179,7 +176,7 @@ public class TestController {
         String content = comment.getContent();
         log.info("comment content==>" + content);
         //对评论的身份进行确定
-        String tokenKey = getCookie(Constants.User.COOKIE_TOKEN_KEY, request);
+        String tokenKey = CookieUtils.getCookie(request, Constants.User.COOKIE_TOKEN_KEY);
         if (tokenKey == null) {
             return ResponseResult.FAILED("账号未登录");
         }
@@ -191,7 +188,7 @@ public class TestController {
 
         //已经登录了 解析token
         Claims claims = JwtUtil.parseJWT(token);
-        comment.setId(idWorker.nextId()+"");
+        comment.setId(idWorker.nextId() + "");
         String userId = (String) claims.get("id");
         comment.setUserId(userId);
         String avatar = (String) claims.get("avatar");
@@ -204,23 +201,10 @@ public class TestController {
         return ResponseResult.SUCCESS("评论成功");
     }
 
-    private String getCookie(String cookieKey, HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies == null) {
-            return null;
-        }
-        for (Cookie cookie : cookies) {
-            if (cookieKey.equals(cookie.getName())) {
-                return cookie.getValue();
-            }
-        }
-        return null;
-    }
-
 
     //测试cookie的添加和读取
     @GetMapping("/setCookies")
-    public ResponseResult setCookie(HttpServletResponse response,HttpServletRequest request) {
+    public ResponseResult setCookie(HttpServletResponse response, HttpServletRequest request) {
         Cookie cookie = new Cookie("sessionId", "CookieTestInfo");
         cookie.setMaxAge(60 * 60 * 24 * 365);
         cookie.setPath("/");
