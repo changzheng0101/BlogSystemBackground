@@ -51,10 +51,7 @@ public class UserApi {
                                 @RequestBody BlogUser user,
                                 HttpServletRequest request,
                                 HttpServletResponse response) {
-<<<<<<< HEAD
-=======
 
->>>>>>> 8697b170dac72fcea67092d97b8ae5547291a0b9
         return userService.doLogin(captcha, captchaKey, user, request, response);
     }
 

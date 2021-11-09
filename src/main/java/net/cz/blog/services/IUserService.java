@@ -20,4 +20,7 @@ public interface IUserService {
     ResponseResult doLogin(String captcha, String captcha_key, BlogUser user,
                            HttpServletRequest request, HttpServletResponse response);
 
+
+    BlogUser checkBolgUser(HttpServletRequest request, HttpServletResponse response);
+
 }

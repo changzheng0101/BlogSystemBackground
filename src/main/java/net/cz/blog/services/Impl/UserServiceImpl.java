@@ -4,6 +4,7 @@ import com.wf.captcha.ArithmeticCaptcha;
 import com.wf.captcha.GifCaptcha;
 import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.base.Captcha;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import net.cz.blog.Dao.RefreshTokenDao;
 import net.cz.blog.Dao.SettingsDao;
@@ -20,12 +21,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -324,6 +323,12 @@ public class UserServiceImpl implements IUserService {
         if (!"1".equals(userFromDb.getState())) {
             return ResponseResult.FAILED("该账号已被禁止");
         }
+        createToken(response, userFromDb);
+        return ResponseResult.SUCCESS("用户认证成功");
+    }
+
+    private String createToken(HttpServletResponse response, BlogUser userFromDb) {
+        refreshTokenDao.deleteAllByUserId(userFromDb.getId());
         // 生成token
         Map<String, Object> claims = ClaimsUtils.blogUser2Claims(userFromDb);
         String token = JwtUtil.createToken(claims);
@@ -346,7 +351,56 @@ public class UserServiceImpl implements IUserService {
         refreshToken.setCreateTime(new Date());
         refreshToken.setUpdateTime(new Date());
         refreshTokenDao.save(refreshToken);
-        return ResponseResult.SUCCESS("用户认证成功");
+
+        return tokenKey;
+    }
+
+    @Override
+    public BlogUser checkBolgUser(HttpServletRequest request, HttpServletResponse response) {
+        //拿到token_key 注意保存的时候有前缀
+        String tokenKey = CookieUtils.getCookie(request, Constants.User.COOKIE_TOKEN_KEY);
+        BlogUser blogUser = parseByTokenKey(tokenKey);
+        if (blogUser == null) {
+            //说明无法识别token
+            //1.去mysql中查找有没有refreshToken
+            RefreshToken refreshToken = refreshTokenDao.findOneByTokenKey(tokenKey);
+            //2.如果没有 则当前用户未登录 提示登录
+            if (refreshToken == null) {
+                return null;
+            }
+            //3.如果存在 解析refreshToken 并保存新的数据
+            try {
+                JwtUtil.parseJWT(refreshToken.getRefreshToken());
+                //5.如果refreshToken有效 创建新的refreshToken和token
+                String userId = refreshToken.getUserId();
+                BlogUser userFromDb = userDao.findOneById(userId);
+                //这里不要直接返回user  这个user带密码 会泄露密码
+                // 该方法不可取 会直接将数据库中的密码置空
+//                userFromDb.setPassword("");
+                String newTokenKey = createToken(response, userFromDb);
+                log.info("create new token and refresh token");
+                //返回token
+                return parseByTokenKey(newTokenKey);
+            } catch (Exception e) {
+                //4.解析refreshToken失败 表示没有登录 提示用户登录
+                return null;
+            }
+        }
+        return blogUser;
+    }
+
+    private BlogUser parseByTokenKey(String tokenKey) {
+        String token = (String) redisUtil.get(Constants.User.KEY_TOKEN + tokenKey);
+        if (token != null) {
+            try {
+                Claims claims = JwtUtil.parseJWT(token);
+                return ClaimsUtils.claims2BlogUser(claims);
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
+        return null;
     }
 
 

@@ -10,6 +10,7 @@ import net.cz.blog.Dao.LabelDao;
 import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.pojo.*;
 import net.cz.blog.pojo.Label;
+import net.cz.blog.services.IUserService;
 import net.cz.blog.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -169,8 +170,12 @@ public class TestController {
     @Autowired
     private CommentDao commentDao;
 
+    @Autowired
+    private IUserService userService;
+
     @PostMapping("/comment")
-    public ResponseResult testComment(@RequestBody Comment comment, HttpServletRequest request) {
+    public ResponseResult testComment(@RequestBody Comment comment, HttpServletRequest request
+            , HttpServletResponse response) {
         String content = comment.getContent();
         log.info("comment content==>" + content);
         //对评论的身份进行确定
@@ -178,14 +183,12 @@ public class TestController {
         if (tokenKey == null) {
             return ResponseResult.FAILED("账号未登录");
         }
-        String token = (String) redisUtil.get(Constants.User.KEY_TOKEN + tokenKey);
-        if (token == null) {
-            //空的话就是过期了 但是有可能登录过了 所以要去查refreshToken
-            //todo
+        log.info("tokenKey ==>" + tokenKey);
+        BlogUser blogUser = userService.checkBolgUser(request, response);
+        log.info("blogUser ==>" + blogUser);
+        if (blogUser == null) {
+            return ResponseResult.FAILED("账号未登录");
         }
-        //已经登录了 解析token
-        Claims claims = JwtUtil.parseJWT(token);
-        BlogUser blogUser = ClaimsUtils.claims2BlogUser(claims);
         comment.setId(idWorker.nextId() + "");
         comment.setUserId(blogUser.getId());
         comment.setUserAvatar(blogUser.getAvatar());
