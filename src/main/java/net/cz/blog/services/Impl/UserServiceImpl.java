@@ -1,5 +1,6 @@
 package net.cz.blog.services.Impl;
 
+import com.google.gson.Gson;
 import com.wf.captcha.ArithmeticCaptcha;
 import com.wf.captcha.GifCaptcha;
 import com.wf.captcha.SpecCaptcha;
@@ -43,6 +44,8 @@ public class UserServiceImpl implements IUserService {
     private SettingsDao settingsDao;
     @Autowired
     private RefreshTokenDao refreshTokenDao;
+    @Autowired
+    private Gson gson;
 
     @Override
     public ResponseResult initManagerAccount(BlogUser user, HttpServletRequest request) {
@@ -389,6 +392,27 @@ public class UserServiceImpl implements IUserService {
         return blogUser;
     }
 
+    @Override
+    public ResponseResult getUserInfo(String userId) {
+        BlogUser userFromDb = userDao.findOneById(userId);
+        //为空 表示未找到
+        if (userFromDb == null) {
+            return ResponseResult.FAILED("用户不存在");
+        }
+        //对敏感信息进行处理
+        String userJson = gson.toJson(userFromDb);
+        BlogUser newUser = gson.fromJson(userJson, BlogUser.class);
+        newUser.setPassword("");
+        newUser.setEmail("");
+        newUser.setReg_ip("");
+        newUser.setRoles("");
+        newUser.setRoles("");
+        newUser.setLogin_ip("");
+        newUser.setCreate_time(null);
+        newUser.setUpdate_time(null);
+        return ResponseResult.SUCCESS("用户查询成功").setData(newUser);
+    }
+
     private BlogUser parseByTokenKey(String tokenKey) {
         String token = (String) redisUtil.get(Constants.User.KEY_TOKEN + tokenKey);
         if (token != null) {
@@ -399,7 +423,6 @@ public class UserServiceImpl implements IUserService {
                 return null;
             }
         }
-
         return null;
     }
 

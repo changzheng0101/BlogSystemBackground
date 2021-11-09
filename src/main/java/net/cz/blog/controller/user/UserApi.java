@@ -95,7 +95,7 @@ public class UserApi {
     //获取用户信息
     @GetMapping("/{userId}")
     public ResponseResult getUserInfo(@PathVariable("userId") String userId) {
-        return null;
+        return userService.getUserInfo(userId);
     }
 
     //更新用户

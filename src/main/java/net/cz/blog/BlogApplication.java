@@ -1,6 +1,7 @@
 package net.cz.blog;
 
 
+import com.google.gson.Gson;
 import net.cz.blog.utils.RedisUtil;
 import net.cz.blog.utils.SnowflakeIdWorker;
 import org.springframework.boot.SpringApplication;
@@ -38,5 +39,10 @@ public class BlogApplication {
     @Bean
     public Random createRandom() {
         return new Random();
+    }
+
+    @Bean
+    public Gson createGson() {
+        return new Gson();
     }
 }

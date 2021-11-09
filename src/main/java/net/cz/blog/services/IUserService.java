@@ -23,4 +23,5 @@ public interface IUserService {
 
     BlogUser checkBolgUser(HttpServletRequest request, HttpServletResponse response);
 
+    ResponseResult getUserInfo(String userId);
 }
