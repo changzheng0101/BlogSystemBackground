@@ -11,6 +11,34 @@ import java.util.Date;
 @Table(name = "tb_user")
 public class BlogUser {
 
+    public BlogUser() {
+    }
+
+    public BlogUser(String id,
+                    String userName,
+                    String roles,
+                    String avatar,
+                    String email,
+                    String sign,
+                    String state,
+                    String reg_ip,
+                    String login_ip,
+                    Date createTime,
+                    Date updateTime) {
+        this.id = id;
+        this.userName = userName;
+        this.password = "";
+        this.roles = roles;
+        this.avatar = avatar;
+        this.email = email;
+        this.sign = sign;
+        this.state = state;
+        this.reg_ip = reg_ip;
+        this.login_ip = login_ip;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
 
     @Id
     @Column(name = "id")

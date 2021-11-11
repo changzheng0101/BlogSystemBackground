@@ -1,6 +1,8 @@
 package net.cz.blog.Dao;
 
 import net.cz.blog.pojo.BlogUser;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -23,4 +25,8 @@ public interface UserDao extends JpaRepository<BlogUser, String>, JpaSpecificati
     @Modifying
     @Query(nativeQuery = true, value = "UPDATE `tb_user` SET state = '0' WHERE id=?")
     int deleteBlogUserByState(String userId);
+
+    @Query(value = "select new BlogUser(u.id,u.userName,u.roles,u.avatar,u.email,u.sign,u.state" +
+            ",u.reg_ip,u.login_ip,u.createTime,u.updateTime) from BlogUser as u")
+    Page<BlogUser> listAllUserWithoutPassword(Pageable pageable);
 }

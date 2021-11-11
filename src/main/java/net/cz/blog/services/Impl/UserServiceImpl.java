@@ -509,7 +509,7 @@ public class UserServiceImpl implements IUserService {
         //根据注册日期来排序
         Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
         Pageable pageable = PageRequest.of(page - 1, size, sort);
-        Page<BlogUser> userList = userDao.findAll(pageable);
+        Page<BlogUser> userList = userDao.listAllUserWithoutPassword(pageable);
         return ResponseResult.SUCCESS("用户查询成功").setData(userList);
     }
 
