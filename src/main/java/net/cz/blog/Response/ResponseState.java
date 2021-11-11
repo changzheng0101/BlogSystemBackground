@@ -2,8 +2,10 @@ package net.cz.blog.Response;
 
 public enum ResponseState {
     SUCCESS(true, 200, "获取成功"),
+    JOIN_IN_SUCCESS(true, 202, "注册成功"),
     FAILED(false, 400, "获取失败"),
-    JOIN_IN_SUCCESS(true, 202, "注册成功");
+    ACCOUNT_NOT_LOGIN(false, 402, "账号未登录"),
+    PERMISSION_FORBID(false, 403, "无权限");
 
     private ResponseState(boolean isSuccess, int code, String message) {
         this.isSuccess = isSuccess;

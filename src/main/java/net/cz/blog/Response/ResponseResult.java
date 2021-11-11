@@ -26,6 +26,14 @@ public class ResponseResult {
         return responseResult;
     }
 
+    public static ResponseResult ACCOUNT_NOT_LOGIN() {
+        return new ResponseResult(ResponseState.ACCOUNT_NOT_LOGIN);
+    }
+
+    public static ResponseResult PERMISSION_FORBID() {
+        return new ResponseResult(ResponseState.PERMISSION_FORBID);
+    }
+
     public static ResponseResult FAILED() {
         return new ResponseResult(ResponseState.FAILED);
     }
