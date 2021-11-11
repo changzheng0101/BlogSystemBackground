@@ -30,6 +30,22 @@ public class ResponseResult {
         return new ResponseResult(ResponseState.ACCOUNT_DENY);
     }
 
+    public static ResponseResult Error_403() {
+        return new ResponseResult(ResponseState.Error_403);
+    }
+
+    public static ResponseResult Error_404() {
+        return new ResponseResult(ResponseState.Error_404);
+    }
+
+    public static ResponseResult Error_504() {
+        return new ResponseResult(ResponseState.Error_504);
+    }
+
+    public static ResponseResult Error_505() {
+        return new ResponseResult(ResponseState.Error_505);
+    }
+
     public static ResponseResult ACCOUNT_NOT_LOGIN() {
         return new ResponseResult(ResponseState.ACCOUNT_NOT_LOGIN);
     }

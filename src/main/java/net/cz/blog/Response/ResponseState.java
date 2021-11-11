@@ -6,7 +6,11 @@ public enum ResponseState {
     FAILED(false, 400, "获取失败"),
     ACCOUNT_NOT_LOGIN(false, 402, "账号未登录"),
     PERMISSION_FORBID(false, 403, "无权限"),
-    ACCOUNT_DENY(false, 405, "账号被加入黑名单");
+    ACCOUNT_DENY(false, 405, "账号被加入黑名单"),
+    Error_403(false, 406, "权限不足"),
+    Error_404(false, 407, "页面丢失"),
+    Error_504(false, 408, "系统繁忙，请稍后重试"),
+    Error_505(false, 409, "请求错误，请查看提交参数");
 
     private ResponseState(boolean isSuccess, int code, String message) {
         this.isSuccess = isSuccess;
@@ -42,4 +46,4 @@ public enum ResponseState {
     public void setMessage(String message) {
         this.message = message;
     }
-    }
+}

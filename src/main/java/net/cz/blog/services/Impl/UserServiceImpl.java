@@ -490,15 +490,15 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ResponseResult getUserList(int page, int size, HttpServletRequest request, HttpServletResponse response) {
-        //检验当前用户是谁
-        BlogUser currentUser = checkBolgUser(request, response);
-        if (currentUser == null) {
-            return ResponseResult.ACCOUNT_NOT_LOGIN();
-        }
-        //判断角色
-        if (!Constants.User.ROLE_ADMIN.equals(currentUser.getRoles())) {
-            return ResponseResult.PERMISSION_FORBID();
-        }
+//        //检验当前用户是谁
+//        BlogUser currentUser = checkBolgUser(request, response);
+//        if (currentUser == null) {
+//            return ResponseResult.ACCOUNT_NOT_LOGIN();
+//        }
+//        //判断角色
+//        if (!Constants.User.ROLE_ADMIN.equals(currentUser.getRoles())) {
+//            return ResponseResult.PERMISSION_FORBID();
+//        }
         //可以查询了
         if (page < Constants.Page.DEFAULT_PAGE) {
             page = Constants.Page.DEFAULT_PAGE;

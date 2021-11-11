@@ -8,6 +8,7 @@ import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.pojo.BlogUser;
 import net.cz.blog.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -117,6 +118,7 @@ public class UserApi {
 
     //查看用户
     //需要管理员权限
+    @PreAuthorize("@permission.isAdmin()")
     @GetMapping("/list")
     public ResponseResult getUserList(@RequestParam("page") int page, @RequestParam("size") int size,
                                       HttpServletRequest request,HttpServletResponse response) {
@@ -125,6 +127,7 @@ public class UserApi {
 
     //删除用户
     //需要管理员权限
+    @PreAuthorize("@permission.isAdmin()")
     @DeleteMapping("/{userId}")
     public ResponseResult deleteUser(HttpServletResponse response, HttpServletRequest request,
                                      @PathVariable("userId") String userId) {
