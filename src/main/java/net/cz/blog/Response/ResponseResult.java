@@ -26,6 +26,10 @@ public class ResponseResult {
         return responseResult;
     }
 
+    public static ResponseResult ACCOUNT_DENY() {
+        return new ResponseResult(ResponseState.ACCOUNT_DENY);
+    }
+
     public static ResponseResult ACCOUNT_NOT_LOGIN() {
         return new ResponseResult(ResponseState.ACCOUNT_NOT_LOGIN);
     }

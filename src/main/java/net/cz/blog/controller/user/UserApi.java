@@ -122,9 +122,11 @@ public class UserApi {
     }
 
     //删除用户
+    //需要管理员权限
     @DeleteMapping("/{userId}")
-    public ResponseResult deleteUser(@PathVariable("userId") String userId) {
-        return null;
+    public ResponseResult deleteUser(HttpServletResponse response,HttpServletRequest request,
+                                     @PathVariable("userId") String userId) {
+        return userService.deleteUser(response, request, userId);
     }
 
     /**

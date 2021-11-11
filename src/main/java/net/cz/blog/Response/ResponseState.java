@@ -5,7 +5,8 @@ public enum ResponseState {
     JOIN_IN_SUCCESS(true, 202, "注册成功"),
     FAILED(false, 400, "获取失败"),
     ACCOUNT_NOT_LOGIN(false, 402, "账号未登录"),
-    PERMISSION_FORBID(false, 403, "无权限");
+    PERMISSION_FORBID(false, 403, "无权限"),
+    ACCOUNT_DENY(false, 405, "账号被加入黑名单");
 
     private ResponseState(boolean isSuccess, int code, String message) {
         this.isSuccess = isSuccess;
@@ -41,4 +42,4 @@ public enum ResponseState {
     public void setMessage(String message) {
         this.message = message;
     }
-}
+    }

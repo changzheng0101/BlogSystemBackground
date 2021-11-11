@@ -32,4 +32,5 @@ public interface IUserService {
     ResponseResult updateUserInfo(HttpServletRequest request, HttpServletResponse response,
                                   String userId, BlogUser user);
 
+    ResponseResult deleteUser(HttpServletResponse response, HttpServletRequest request, String userId);
 }

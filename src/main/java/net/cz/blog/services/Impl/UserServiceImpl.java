@@ -345,7 +345,7 @@ public class UserServiceImpl implements IUserService {
         //把tokenKey写到cookie中
         CookieUtils.setUpCookie(response, Constants.User.COOKIE_TOKEN_KEY, tokenKey);
         //生成refresh token
-        String refreshTokenVal = JwtUtil.createRefreshToken(userFromDb.getId(), Constants.TimeValue.YEAR);
+        String refreshTokenVal = JwtUtil.createRefreshToken(userFromDb.getId(), Constants.TimeValue.YEAR * 1000);
         //保存到数据库
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setId(idWorker.nextId() + "");
@@ -463,6 +463,25 @@ public class UserServiceImpl implements IUserService {
 //        String tokenKey = CookieUtils.getCookie(request, Constants.User.COOKIE_TOKEN_KEY);
 //        redisUtil.del(tokenKey);
         return ResponseResult.SUCCESS("用户信息更新成功");
+    }
+
+    @Override
+    public ResponseResult deleteUser(HttpServletResponse response, HttpServletRequest request, String userId) {
+        //检验当前用户是谁
+        BlogUser currentUser = checkBolgUser(request, response);
+        if (currentUser == null) {
+            return ResponseResult.ACCOUNT_NOT_LOGIN();
+        }
+        //判断角色
+        if (!Constants.User.ROLE_ADMIN.equals(currentUser.getRoles())) {
+            return ResponseResult.PERMISSION_FORBID();
+        }
+        //删除用户
+        int result = userDao.deleteBlogUserByState(userId);
+        if (result > 0) {
+            return ResponseResult.SUCCESS("删除成功");
+        }
+        return ResponseResult.FAILED("用户不存在");
     }
 
 

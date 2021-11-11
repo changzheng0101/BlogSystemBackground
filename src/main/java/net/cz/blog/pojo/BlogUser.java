@@ -11,6 +11,7 @@ import java.util.Date;
 @Table(name = "tb_user")
 public class BlogUser {
 
+
     @Id
     @Column(name = "id")
     private String id;

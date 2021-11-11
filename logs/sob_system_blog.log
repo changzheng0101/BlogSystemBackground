@@ -177,3 +177,18 @@
 [2021/11/10-10:30:58] [http-nio-2021-exec-8] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : tokenKey==>6b26fc4074de5eff31afe8dc3546f0ac
 [2021/11/10-10:30:58] [http-nio-2021-exec-8] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : create new token and refresh token
 [2021/11/10-10:30:58] [http-nio-2021-exec-8] [INFO ] [net.cz.blog.controller.TestController] : blogUser ==>net.cz.blog.pojo.BlogUser@6e659649
+[2021/11/11-16:20:47] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 3708 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/11-16:20:47] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/11-16:20:56] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 9.878 seconds (JVM running for 11.783)
+[2021/11/11-16:21:01] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.controller.user.UserApi] : user name==>null
+[2021/11/11-16:21:01] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.controller.user.UserApi] : password==>123456qqq
+[2021/11/11-16:21:01] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.controller.user.UserApi] : email ==> test@qq.com
+[2021/11/11-16:21:11] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.controller.user.UserApi] : user name==>cz
+[2021/11/11-16:21:11] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.controller.user.UserApi] : password==>123456qqq
+[2021/11/11-16:21:11] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.controller.user.UserApi] : email ==> test@qq.com
+[2021/11/11-16:21:11] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : remoteAddress-->127.0.0.1
+[2021/11/11-16:21:11] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : localAddress-->127.0.0.1
+[2021/11/11-16:21:20] [http-nio-2021-exec-3] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>-8
+[2021/11/11-16:22:14] [http-nio-2021-exec-6] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : tokenKey==>fc7ecc802542ae6c5986b3315eb5fc60
+[2021/11/11-16:23:16] [http-nio-2021-exec-8] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>m6pmp
+[2021/11/11-16:23:42] [http-nio-2021-exec-10] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : tokenKey==>2968d5143c3eca44f5f792e4c9f25660
