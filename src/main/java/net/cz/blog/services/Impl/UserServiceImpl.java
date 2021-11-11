@@ -513,6 +513,24 @@ public class UserServiceImpl implements IUserService {
         return ResponseResult.SUCCESS("用户查询成功").setData(userList);
     }
 
+    @Override
+    public ResponseResult updatePassword(String verifyCode, BlogUser user) {
+        //检查邮箱是否填写
+        String email = user.getEmail();
+        if (TextUtils.isEmail(email)) {
+            return ResponseResult.FAILED("邮箱不可以为空");
+        }
+        //根据邮箱去redis中进行验证
+        String verifyCodeCorrect = (String) redisUtil.get(Constants.User.KEY_EMAIL_CODE_CONTENT + email);
+        if (verifyCodeCorrect == null || !verifyCodeCorrect.equals(verifyCode)) {
+            return ResponseResult.FAILED("验证码不正确");
+        }
+        //删除 节省资源
+        redisUtil.del(Constants.User.KEY_EMAIL_CODE_CONTENT + email);
+        int result = userDao.updatePasswordByEmail(bCryptPasswordEncoder.encode(user.getPassword()), email);
+        return result > 0 ? ResponseResult.SUCCESS("密码修改成功") : ResponseResult.FAILED("密码修改失败");
+    }
+
 
     private BlogUser parseByTokenKey(String tokenKey) {
         String token = (String) redisUtil.get(Constants.User.KEY_TOKEN + tokenKey);

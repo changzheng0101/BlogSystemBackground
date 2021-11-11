@@ -35,4 +35,6 @@ public interface IUserService {
     ResponseResult deleteUser(HttpServletResponse response, HttpServletRequest request, String userId);
 
     ResponseResult getUserList(int page, int size, HttpServletRequest request, HttpServletResponse response);
+
+    ResponseResult updatePassword(String verifyCode, BlogUser user);
 }

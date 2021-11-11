@@ -89,10 +89,30 @@ public class UserApi {
         return responseResult;
     }
 
-    //修改密码 put请求用于更新
-    @PutMapping("/password/{userId}")
-    public ResponseResult updatePassword(@PathVariable("userId") String userId, @RequestBody BlogUser user) {
-        return null;
+
+    /**
+     * 修改密码：
+     * 用户已经登录的情况下，进行修改即可，完事退出登录，让用户重新登录
+     * <p>
+     * 找回密码：
+     * 步骤：
+     * 1、用户填写邮箱
+     * 2、用户获取验证码verifyDoce
+     * 3、用户填写验证码
+     * 4、用户填写新的密码
+     * 5、提交数据
+     * <p>
+     * 数据包括：
+     * 邮箱和验证码
+     * 新密码
+     *
+     * @param userId
+     * @param user
+     * @return
+     */
+    @PutMapping("/password/{verifyCode}")
+    public ResponseResult updatePassword(@PathVariable("verifyCode") String verifyCode, @RequestBody BlogUser user) {
+        return userService.updatePassword(verifyCode, user);
     }
 
     //获取用户信息
@@ -121,8 +141,8 @@ public class UserApi {
     @PreAuthorize("@permission.isAdmin()")
     @GetMapping("/list")
     public ResponseResult getUserList(@RequestParam("page") int page, @RequestParam("size") int size,
-                                      HttpServletRequest request,HttpServletResponse response) {
-        return userService.getUserList(page,size,request,response);
+                                      HttpServletRequest request, HttpServletResponse response) {
+        return userService.getUserList(page, size, request, response);
     }
 
     //删除用户
