@@ -413,6 +413,19 @@ public class UserServiceImpl implements IUserService {
         return ResponseResult.SUCCESS("用户查询成功").setData(newUser);
     }
 
+    @Override
+    public ResponseResult checkEmail(String email) {
+        BlogUser userFromEmail = userDao.findOneByEmail(email);
+        return userFromEmail == null ? ResponseResult.FAILED("该邮箱已经被注册") : ResponseResult.SUCCESS("该邮箱未被注册");
+    }
+
+    @Override
+    public ResponseResult checkUserName(String userName) {
+        BlogUser userFromUserName = userDao.findOneByUserName(userName);
+        return userFromUserName == null ? ResponseResult.FAILED("该用户名已经被注册") :
+                ResponseResult.SUCCESS("该用户名未被注册");
+    }
+
     private BlogUser parseByTokenKey(String tokenKey) {
         String token = (String) redisUtil.get(Constants.User.KEY_TOKEN + tokenKey);
         if (token != null) {

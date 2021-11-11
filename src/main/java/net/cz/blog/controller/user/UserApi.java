@@ -1,6 +1,8 @@
 package net.cz.blog.controller.user;
 
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.pojo.BlogUser;
@@ -99,6 +101,7 @@ public class UserApi {
     }
 
     //更新用户
+    //
     @PutMapping("/{userId}")
     public ResponseResult updateUserInfo(@PathVariable("userId") String userId, @RequestBody BlogUser user) {
         return null;
@@ -114,5 +117,35 @@ public class UserApi {
     @DeleteMapping("/{userId}")
     public ResponseResult deleteUser(@PathVariable("userId") String userId) {
         return null;
+    }
+
+    /**
+     * 检查该邮箱是否已经注册
+     *
+     * @param email 邮箱地址
+     * @return success 已经注册 fail 未注册
+     */
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "邮箱已经注册"),
+            @ApiResponse(code = 400, message = "邮箱未注册")
+    })
+    @GetMapping("/email")
+    public ResponseResult checkEmail(@RequestParam("email") String email) {
+        return userService.checkEmail(email);
+    }
+
+    /**
+     * 检查该用户名是否已经注册
+     *
+     * @param userName 用户名
+     * @return success 已经注册 fail 未注册
+     */
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "用户名已经注册"),
+            @ApiResponse(code = 400, message = "用户名未注册")
+    })
+    @GetMapping("/user_name")
+    public ResponseResult checkUserName(@RequestParam("userName") String userName) {
+        return userService.checkUserName(userName);
     }
 }
