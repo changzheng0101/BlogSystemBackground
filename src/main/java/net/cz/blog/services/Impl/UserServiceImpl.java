@@ -18,6 +18,10 @@ import net.cz.blog.pojo.Setting;
 import net.cz.blog.services.IUserService;
 import net.cz.blog.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -78,8 +82,8 @@ public class UserServiceImpl implements IUserService {
         user.setReg_ip(remoteAddress);
         log.info("remoteAddress-->" + remoteAddress);
         log.info("localAddress-->" + localAddress);
-        user.setUpdate_time(new Date());
-        user.setCreate_time(new Date());
+        user.setCreateTime(new Date());
+        user.setUpdateTime(new Date());
 
         //密码加密
         String password = user.getPassword();
@@ -280,8 +284,8 @@ public class UserServiceImpl implements IUserService {
         String localAddress = request.getLocalAddr();
         user.setLogin_ip(localAddress);
         user.setReg_ip(remoteAddress);
-        user.setUpdate_time(new Date());
-        user.setCreate_time(new Date());
+        user.setUpdateTime(new Date());
+        user.setCreateTime(new Date());
         //第八步：保存到数据库
         userDao.save(user);
         //第九步： 删除应该删除的数据
@@ -410,8 +414,8 @@ public class UserServiceImpl implements IUserService {
         newUser.setRoles("");
         newUser.setRoles("");
         newUser.setLogin_ip("");
-        newUser.setCreate_time(null);
-        newUser.setUpdate_time(null);
+        newUser.setCreateTime(null);
+        newUser.setUpdateTime(null);
         return ResponseResult.SUCCESS("用户查询成功").setData(newUser);
     }
 
@@ -482,6 +486,31 @@ public class UserServiceImpl implements IUserService {
             return ResponseResult.SUCCESS("删除成功");
         }
         return ResponseResult.FAILED("用户不存在");
+    }
+
+    @Override
+    public ResponseResult getUserList(int page, int size, HttpServletRequest request, HttpServletResponse response) {
+        //检验当前用户是谁
+        BlogUser currentUser = checkBolgUser(request, response);
+        if (currentUser == null) {
+            return ResponseResult.ACCOUNT_NOT_LOGIN();
+        }
+        //判断角色
+        if (!Constants.User.ROLE_ADMIN.equals(currentUser.getRoles())) {
+            return ResponseResult.PERMISSION_FORBID();
+        }
+        //可以查询了
+        if (page < Constants.Page.DEFAULT_PAGE) {
+            page = Constants.Page.DEFAULT_PAGE;
+        }
+        if (size < Constants.Page.MIN_SIZE) {
+            size = Constants.Page.MIN_SIZE;
+        }
+        //根据注册日期来排序
+        Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        Page<BlogUser> userList = userDao.findAll(pageable);
+        return ResponseResult.SUCCESS("用户查询成功").setData(userList);
     }
 
 

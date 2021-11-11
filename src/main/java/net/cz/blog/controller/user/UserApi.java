@@ -116,15 +116,17 @@ public class UserApi {
     }
 
     //查看用户
+    //需要管理员权限
     @GetMapping("/list")
-    public ResponseResult getUserList(@RequestParam("page") int page, @RequestParam("size") int size) {
-        return null;
+    public ResponseResult getUserList(@RequestParam("page") int page, @RequestParam("size") int size,
+                                      HttpServletRequest request,HttpServletResponse response) {
+        return userService.getUserList(page,size,request,response);
     }
 
     //删除用户
     //需要管理员权限
     @DeleteMapping("/{userId}")
-    public ResponseResult deleteUser(HttpServletResponse response,HttpServletRequest request,
+    public ResponseResult deleteUser(HttpServletResponse response, HttpServletRequest request,
                                      @PathVariable("userId") String userId) {
         return userService.deleteUser(response, request, userId);
     }

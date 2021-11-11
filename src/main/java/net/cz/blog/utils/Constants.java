@@ -14,6 +14,11 @@ public interface Constants {
         int YEAR = 365 * DAY;
     }
 
+    interface Page {
+        int DEFAULT_PAGE = 1;
+        int MIN_SIZE = 5;
+    }
+
     interface User {
         String ROLE_ADMIN = "role_admin";
         String ROLE_NORMAL = "role_normal";

@@ -33,4 +33,6 @@ public interface IUserService {
                                   String userId, BlogUser user);
 
     ResponseResult deleteUser(HttpServletResponse response, HttpServletRequest request, String userId);
+
+    ResponseResult getUserList(int page, int size, HttpServletRequest request, HttpServletResponse response);
 }
