@@ -102,9 +102,17 @@ public class UserApi {
 
     //更新用户
     //
+    //允许修改内容
+    // 1.头像
+    // 2.用户名 唯一
+    // 3.签名
+    // 4.密码 单独修改
+    // 5.邮箱 唯一 单独处理
     @PutMapping("/{userId}")
-    public ResponseResult updateUserInfo(@PathVariable("userId") String userId, @RequestBody BlogUser user) {
-        return null;
+    public ResponseResult updateUserInfo(HttpServletRequest request, HttpServletResponse response,
+                                         @PathVariable("userId") String userId, @RequestBody BlogUser user) {
+
+        return userService.updateUserInfo(request, response, userId, user);
     }
 
     //查看用户

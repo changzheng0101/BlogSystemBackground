@@ -158,3 +158,22 @@
 [2021/11/09-20:55:56] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 3456 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
 [2021/11/09-20:55:56] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
 [2021/11/09-20:56:01] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 6.236 seconds (JVM running for 7.199)
+[2021/11/10-09:26:28] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 9868 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/11/10-09:26:28] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/10-09:26:33] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.022 seconds (JVM running for 6.514)
+[2021/11/10-10:25:27] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 16492 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/11/10-10:25:27] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/10-10:25:32] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.295 seconds (JVM running for 6.766)
+[2021/11/10-10:25:57] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>pr4fa
+[2021/11/10-10:26:23] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : tokenKey==>a1af7cc2d5a589460cbefd4beefb7820
+[2021/11/10-10:28:05] [http-nio-2021-exec-4] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : tokenKey==>a232b2418b8f64e7cafc8249e696ef78
+[2021/11/10-10:28:05] [http-nio-2021-exec-4] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : create new token and refresh token
+[2021/11/10-10:28:31] [http-nio-2021-exec-5] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : tokenKey==>adcbb379f1d2cba9f63b3f8aab40ab85
+[2021/11/10-10:28:31] [http-nio-2021-exec-5] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : create new token and refresh token
+[2021/11/10-10:28:50] [http-nio-2021-exec-6] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : tokenKey==>035c87804e674a71c0392c5e944c031a
+[2021/11/10-10:28:50] [http-nio-2021-exec-6] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : create new token and refresh token
+[2021/11/10-10:30:58] [http-nio-2021-exec-8] [INFO ] [net.cz.blog.controller.TestController] : comment content==>hdkadhjakd
+[2021/11/10-10:30:58] [http-nio-2021-exec-8] [INFO ] [net.cz.blog.controller.TestController] : tokenKey ==>035c87804e674a71c0392c5e944c031a
+[2021/11/10-10:30:58] [http-nio-2021-exec-8] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : tokenKey==>6b26fc4074de5eff31afe8dc3546f0ac
+[2021/11/10-10:30:58] [http-nio-2021-exec-8] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : create new token and refresh token
+[2021/11/10-10:30:58] [http-nio-2021-exec-8] [INFO ] [net.cz.blog.controller.TestController] : blogUser ==>net.cz.blog.pojo.BlogUser@6e659649

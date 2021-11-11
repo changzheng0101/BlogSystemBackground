@@ -28,4 +28,8 @@ public interface IUserService {
     ResponseResult checkEmail(String email);
 
     ResponseResult checkUserName(String userName);
+
+    ResponseResult updateUserInfo(HttpServletRequest request, HttpServletResponse response,
+                                  String userId, BlogUser user);
+
 }

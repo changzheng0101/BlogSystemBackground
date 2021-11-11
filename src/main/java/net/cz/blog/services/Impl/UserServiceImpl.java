@@ -28,6 +28,7 @@ import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 
 @Slf4j
 @Service
@@ -360,6 +361,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public BlogUser checkBolgUser(HttpServletRequest request, HttpServletResponse response) {
+        //todo blogUser一般获取不到 持续不断创建新的refreshToken和token
         //拿到token_key 注意保存的时候有前缀
         String tokenKey = CookieUtils.getCookie(request, Constants.User.COOKIE_TOKEN_KEY);
         BlogUser blogUser = parseByTokenKey(tokenKey);
@@ -425,6 +427,44 @@ public class UserServiceImpl implements IUserService {
         return userFromUserName == null ? ResponseResult.FAILED("该用户名已经被注册") :
                 ResponseResult.SUCCESS("该用户名未被注册");
     }
+
+
+    @Override
+    public ResponseResult updateUserInfo(HttpServletRequest request, HttpServletResponse response,
+                                         String userId, BlogUser user) {
+        //该对象不是数据库中的 只是携带了部分的信息
+        BlogUser blogUserByTokenKey = checkBolgUser(request, response);
+        if (blogUserByTokenKey == null) {
+            return ResponseResult.ACCOUNT_NOT_LOGIN();
+        }
+        //判断用户id是否一致 一致才可以进行修改
+        if (!blogUserByTokenKey.getId().equals(userId)) {
+            return ResponseResult.PERMISSION_FORBID();
+        }
+        //权限ok 进行修改
+        //首先获取对象
+        BlogUser userFromDb = userDao.findOneById(userId);
+        //修改名称
+        if (user.getUserName() != null) {
+            if (userDao.findOneByUserName(user.getUserName()) == null) {
+                userFromDb.setUserName(user.getUserName());
+            }
+        }
+        //修改头像 不可为空
+        if (user.getAvatar() != null) {
+            userFromDb.setAvatar(user.getAvatar());
+        }
+        //签名 可为空 如果不传入这个参数 会把签名直接置空
+        userFromDb.setSign(user.getSign());
+        //保存
+        userDao.save(userFromDb);
+        //干掉redis中的token  否则redis中的信息还是上次的
+        //todo 目前不需要 因为上面某种原因持续创建
+//        String tokenKey = CookieUtils.getCookie(request, Constants.User.COOKIE_TOKEN_KEY);
+//        redisUtil.del(tokenKey);
+        return ResponseResult.SUCCESS("用户信息更新成功");
+    }
+
 
     private BlogUser parseByTokenKey(String tokenKey) {
         String token = (String) redisUtil.get(Constants.User.KEY_TOKEN + tokenKey);
