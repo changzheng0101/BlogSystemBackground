@@ -43,4 +43,13 @@ public class CategoryServiceImpl implements ICategoryService {
         categoryDao.save(category);
         return ResponseResult.SUCCESS("分类添加成功");
     }
+
+    @Override
+    public ResponseResult getCategory(String categoryId) {
+        Category category = categoryDao.findOneById(categoryId);
+        if (category == null) {
+            return ResponseResult.FAILED("分类未找到");
+        }
+        return ResponseResult.SUCCESS("分类查询成功").setData(category);
+    }
 }

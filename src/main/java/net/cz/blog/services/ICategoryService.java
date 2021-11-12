@@ -5,4 +5,6 @@ import net.cz.blog.pojo.Category;
 
 public interface ICategoryService {
     ResponseResult addCategory(Category category);
+
+    ResponseResult getCategory(String categoryId);
 }

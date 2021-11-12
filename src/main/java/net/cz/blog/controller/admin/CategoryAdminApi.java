@@ -35,9 +35,10 @@ public class CategoryAdminApi {
     }
 
     //获取某个分类
+    @PreAuthorize("@permission.admin()")
     @GetMapping("/{categoryId}")
     public ResponseResult getCategory(@PathVariable("categoryId") String categoryId) {
-        return null;
+        return categoryService.getCategory(categoryId);
     }
 
     //获取整个分类列表 获取部分
