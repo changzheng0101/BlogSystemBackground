@@ -16,7 +16,7 @@ public class CategoryAdminApi {
     private ICategoryService categoryService;
 
     //增加分类
-    @PreAuthorize("@permission.admin()")
+    @PreAuthorize("@permission.isAdmin()")
     @PostMapping
     public ResponseResult addCategory(@RequestBody Category category) {
         return categoryService.addCategory(category);
@@ -35,15 +35,16 @@ public class CategoryAdminApi {
     }
 
     //获取某个分类
-    @PreAuthorize("@permission.admin()")
+    @PreAuthorize("@permission.isAdmin()")
     @GetMapping("/{categoryId}")
     public ResponseResult getCategory(@PathVariable("categoryId") String categoryId) {
         return categoryService.getCategory(categoryId);
     }
 
     //获取整个分类列表 获取部分
-    @GetMapping("/category_list")
-    public ResponseResult getCategoryList(@RequestParam("page") int page, @RequestParam("size") int size) {
-        return null;
+    @PreAuthorize("@permission.isAdmin()")
+    @GetMapping("/category_list/{page}/{size}")
+    public ResponseResult getCategoryList(@PathVariable("page") int page, @PathVariable("size") int size) {
+        return categoryService.getCategoryList(page,size);
     }
 }

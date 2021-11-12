@@ -4,9 +4,14 @@ import net.cz.blog.Dao.CategoryDao;
 import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.pojo.Category;
 import net.cz.blog.services.ICategoryService;
+import net.cz.blog.utils.Constants;
 import net.cz.blog.utils.SnowflakeIdWorker;
 import net.cz.blog.utils.TextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,5 +56,22 @@ public class CategoryServiceImpl implements ICategoryService {
             return ResponseResult.FAILED("分类未找到");
         }
         return ResponseResult.SUCCESS("分类查询成功").setData(category);
+    }
+
+    @Override
+    public ResponseResult getCategoryList(int page, int size) {
+        //判断page和size
+        if (page < Constants.Page.DEFAULT_PAGE) {
+            page = Constants.Page.DEFAULT_PAGE;
+        }
+        if (size < Constants.Page.MIN_SIZE) {
+            size = Constants.Page.MIN_SIZE;
+        }
+        //创建条件
+        Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        //查询
+        Page<Category> categories = categoryDao.findAll(pageable);
+        return ResponseResult.SUCCESS("查询列表成功").setData(categories);
     }
 }

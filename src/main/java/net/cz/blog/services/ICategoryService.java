@@ -7,4 +7,6 @@ public interface ICategoryService {
     ResponseResult addCategory(Category category);
 
     ResponseResult getCategory(String categoryId);
+
+    ResponseResult getCategoryList(int page, int size);
 }
