@@ -38,4 +38,6 @@ public interface IUserService {
     ResponseResult updatePassword(String verifyCode, BlogUser user);
 
     ResponseResult updateEmail(String email, String verifyCode);
+
+    ResponseResult doLogout();
 }

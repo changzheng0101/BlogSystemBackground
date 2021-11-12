@@ -366,13 +366,8 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public BlogUser checkBolgUser() {
-        //拿到request和response
-        ServletRequestAttributes requestAttributes =
-                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = requestAttributes.getRequest();
-        HttpServletResponse response = requestAttributes.getResponse();
         //拿到token_key 注意保存的时候有前缀
-        String tokenKey = CookieUtils.getCookie(request, Constants.User.COOKIE_TOKEN_KEY);
+        String tokenKey = CookieUtils.getCookie(getRequest(), Constants.User.COOKIE_TOKEN_KEY);
         BlogUser blogUser = parseByTokenKey(tokenKey);
         if (blogUser == null) {
             //说明无法识别token
@@ -391,7 +386,7 @@ public class UserServiceImpl implements IUserService {
                 //这里不要直接返回user  这个user带密码 会泄露密码
                 // 该方法不可取 会直接将数据库中的密码置空
 //                userFromDb.setPassword("");
-                String newTokenKey = createToken(response, userFromDb);
+                String newTokenKey = createToken(getResponse(), userFromDb);
                 log.info("create new token and refresh token");
                 //返回token
                 return parseByTokenKey(newTokenKey);
@@ -466,11 +461,25 @@ public class UserServiceImpl implements IUserService {
         userFromDb.setSign(user.getSign());
         //保存
         userDao.save(userFromDb);
+        //拿到request和response
+        HttpServletRequest request = getRequest();
         //干掉redis中的token  否则redis中的信息还是上次的
-        //todo 目前不需要 因为上面某种原因持续创建
-//        String tokenKey = CookieUtils.getCookie(request, Constants.User.COOKIE_TOKEN_KEY);
-//        redisUtil.del(tokenKey);
+        String tokenKey = CookieUtils.getCookie(request, Constants.User.COOKIE_TOKEN_KEY);
+        redisUtil.del(tokenKey);
         return ResponseResult.SUCCESS("用户信息更新成功");
+    }
+
+
+    private HttpServletResponse getResponse() {
+        ServletRequestAttributes requestAttributes =
+                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        return requestAttributes.getResponse();
+    }
+
+    private HttpServletRequest getRequest() {
+        ServletRequestAttributes requestAttributes =
+                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        return requestAttributes.getRequest();
     }
 
     @Override
@@ -532,6 +541,22 @@ public class UserServiceImpl implements IUserService {
         //修改邮箱
         int result = userDao.updateEmailById(email, blogUser.getId());
         return result > 0 ? ResponseResult.SUCCESS("邮箱修改成功") : ResponseResult.FAILED("邮箱修改失败");
+    }
+
+    @Override
+    public ResponseResult doLogout() {
+        //拿到token_key
+        String tokenKey = CookieUtils.getCookie(getRequest(), Constants.User.COOKIE_TOKEN_KEY);
+        if (tokenKey == null) {
+            return ResponseResult.ACCOUNT_NOT_LOGIN();
+        }
+        //删除redis中的数据
+        redisUtil.del(Constants.User.KEY_TOKEN + tokenKey);
+        //删除mysql中的refreshToken
+        refreshTokenDao.deleteAllByTokenKey(tokenKey);
+        //删除cookie
+        CookieUtils.delCookie(getResponse(), Constants.User.COOKIE_TOKEN_KEY);
+        return ResponseResult.SUCCESS("用户退出登录成功");
     }
 
 
