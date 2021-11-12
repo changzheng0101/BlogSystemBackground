@@ -34,7 +34,6 @@ public class PermissionService {
         ServletRequestAttributes requestAttributes =
                 (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
-        HttpServletResponse response = requestAttributes.getResponse();
 
         //判断有没有令牌 机器上没有令牌 肯定没有登录
         String tokenKey = CookieUtils.getCookie(request, Constants.User.COOKIE_TOKEN_KEY);
@@ -42,7 +41,7 @@ public class PermissionService {
             return false;
         }
         //判断是否拥有权限
-        BlogUser currentUser = userService.checkBolgUser(request, response);
+        BlogUser currentUser = userService.checkBolgUser();
         if (currentUser == null) {
             return false;
         }

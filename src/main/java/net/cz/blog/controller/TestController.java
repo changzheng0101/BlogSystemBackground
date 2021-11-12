@@ -184,7 +184,7 @@ public class TestController {
             return ResponseResult.FAILED("账号未登录");
         }
         log.info("tokenKey ==>" + tokenKey);
-        BlogUser blogUser = userService.checkBolgUser(request, response);
+        BlogUser blogUser = userService.checkBolgUser();
         log.info("blogUser ==>" + blogUser);
         if (blogUser == null) {
             return ResponseResult.FAILED("账号未登录");

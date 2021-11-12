@@ -8,6 +8,7 @@ import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.pojo.BlogUser;
 import net.cz.blog.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -97,7 +98,7 @@ public class UserApi {
      * 找回密码：
      * 步骤：
      * 1、用户填写邮箱
-     * 2、用户获取验证码verifyDoce
+     * 2、用户获取验证码verifyCode
      * 3、用户填写验证码
      * 4、用户填写新的密码
      * 5、提交数据
@@ -106,7 +107,7 @@ public class UserApi {
      * 邮箱和验证码
      * 新密码
      *
-     * @param userId
+     * @param verifyCode
      * @param user
      * @return
      */
@@ -130,28 +131,25 @@ public class UserApi {
     // 4.密码 单独修改
     // 5.邮箱 唯一 单独处理
     @PutMapping("/{userId}")
-    public ResponseResult updateUserInfo(HttpServletRequest request, HttpServletResponse response,
-                                         @PathVariable("userId") String userId, @RequestBody BlogUser user) {
+    public ResponseResult updateUserInfo(@PathVariable("userId") String userId, @RequestBody BlogUser user) {
 
-        return userService.updateUserInfo(request, response, userId, user);
+        return userService.updateUserInfo(userId, user);
     }
 
     //查看用户
     //需要管理员权限
     @PreAuthorize("@permission.isAdmin()")
     @GetMapping("/list")
-    public ResponseResult getUserList(@RequestParam("page") int page, @RequestParam("size") int size,
-                                      HttpServletRequest request, HttpServletResponse response) {
-        return userService.getUserList(page, size, request, response);
+    public ResponseResult getUserList(@RequestParam("page") int page, @RequestParam("size") int size) {
+        return userService.getUserList(page, size);
     }
 
     //删除用户
     //需要管理员权限
     @PreAuthorize("@permission.isAdmin()")
     @DeleteMapping("/{userId}")
-    public ResponseResult deleteUser(HttpServletResponse response, HttpServletRequest request,
-                                     @PathVariable("userId") String userId) {
-        return userService.deleteUser(response, request, userId);
+    public ResponseResult deleteUser(@PathVariable("userId") String userId) {
+        return userService.deleteUser(userId);
     }
 
     /**
@@ -182,5 +180,31 @@ public class UserApi {
     @GetMapping("/user_name")
     public ResponseResult checkUserName(@RequestParam("userName") String userName) {
         return userService.checkUserName(userName);
+    }
+
+
+    /**
+     * 1.必须已经登录了
+     * 2.新的邮箱没有注册过
+     * <p>
+     * 用户的步骤：
+     * 1.已经登录
+     * 2。输入新邮箱
+     * 3.发送验证码
+     * 4.输入验证码
+     * 5.提交验证
+     * <p>
+     * 需要提交的数据：
+     * 1.新邮箱
+     * 2.验证码
+     *
+     * @param email
+     * @param verifyCode
+     * @return
+     */
+    @PutMapping("/email")
+    public ResponseResult updateEmail(@RequestParam("email") String email,
+                                      @RequestParam("verify_code") String verifyCode) {
+        return userService.updateEmail(email, verifyCode);
     }
 }

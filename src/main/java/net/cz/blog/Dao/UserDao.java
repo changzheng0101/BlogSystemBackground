@@ -32,6 +32,10 @@ public interface UserDao extends JpaRepository<BlogUser, String>, JpaSpecificati
 
 
     @Modifying
-    @Query(nativeQuery = true, value = "UPDATE `tb_user` SET password = ? WHERE email=?")
-    int updatePasswordByEmail(String password, String email)
+    @Query(nativeQuery = true, value = "UPDATE `tb_user` SET `password` = ? WHERE `email`=?")
+    int updatePasswordByEmail(String password, String email);
+
+    @Modifying
+    @Query(nativeQuery = true, value = "UPDATE `tb_user` SET `email` = ? WHERE `id`=?")
+    int updateEmailById(String email, String id);
 }

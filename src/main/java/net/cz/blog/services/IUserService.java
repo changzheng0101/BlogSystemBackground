@@ -21,7 +21,7 @@ public interface IUserService {
                            HttpServletRequest request, HttpServletResponse response);
 
 
-    BlogUser checkBolgUser(HttpServletRequest request, HttpServletResponse response);
+    BlogUser checkBolgUser();
 
     ResponseResult getUserInfo(String userId);
 
@@ -29,12 +29,13 @@ public interface IUserService {
 
     ResponseResult checkUserName(String userName);
 
-    ResponseResult updateUserInfo(HttpServletRequest request, HttpServletResponse response,
-                                  String userId, BlogUser user);
+    ResponseResult updateUserInfo(String userId, BlogUser user);
 
-    ResponseResult deleteUser(HttpServletResponse response, HttpServletRequest request, String userId);
+    ResponseResult deleteUser( String userId);
 
-    ResponseResult getUserList(int page, int size, HttpServletRequest request, HttpServletResponse response);
+    ResponseResult getUserList(int page, int size);
 
     ResponseResult updatePassword(String verifyCode, BlogUser user);
+
+    ResponseResult updateEmail(String email, String verifyCode);
 }
