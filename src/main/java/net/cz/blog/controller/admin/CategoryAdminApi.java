@@ -2,16 +2,24 @@ package net.cz.blog.controller.admin;
 
 import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.pojo.Category;
+import net.cz.blog.services.ICategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 //分类相关的api
 @RestController
 @RequestMapping("/admin/category")
 public class CategoryAdminApi {
+
+    @Autowired
+    private ICategoryService categoryService;
+
     //增加分类
+    @PreAuthorize("@permission.admin()")
     @PostMapping
     public ResponseResult addCategory(@RequestBody Category category) {
-        return null;
+        return categoryService.addCategory(category);
     }
 
     //删除分类

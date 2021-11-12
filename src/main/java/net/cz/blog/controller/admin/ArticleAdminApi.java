@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/article")
-public class ArticleApi {
+public class ArticleAdminApi {
     //增删改查 还有列出所有数据的方法
     @PostMapping
     public ResponseResult postArticle(@RequestBody Article article) {
