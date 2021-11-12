@@ -303,6 +303,8 @@ public class UserServiceImpl implements IUserService {
         if (!captchaCorrect.equals(captcha)) {
             return ResponseResult.FAILED("人类验证码不正确");
         }
+        //验证成功 删除redis中的数据
+        redisUtil.del(Constants.User.KEY_CAPTCHA_CONTENT + captchaKey);
         //用户名可能为邮箱也可能为用户名
         String userAccount = user.getUserName();
         if (TextUtils.isEmpty(userAccount)) {
@@ -538,6 +540,8 @@ public class UserServiceImpl implements IUserService {
         if (verifyCodeCorrect == null || !verifyCodeCorrect.equals(verifyCode)) {
             return ResponseResult.FAILED("验证码不正确");
         }
+        //删除验证码
+        redisUtil.del(Constants.User.KEY_EMAIL_CODE_CONTENT + email);
         //修改邮箱
         int result = userDao.updateEmailById(email, blogUser.getId());
         return result > 0 ? ResponseResult.SUCCESS("邮箱修改成功") : ResponseResult.FAILED("邮箱修改失败");

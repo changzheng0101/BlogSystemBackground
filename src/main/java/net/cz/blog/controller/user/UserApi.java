@@ -34,7 +34,7 @@ public class UserApi {
     }
 
     //注册
-    @PostMapping
+    @PostMapping("/join_in")
     public ResponseResult register(@RequestBody BlogUser user,
                                    @RequestParam("email_verify_code") String emailVerifyCode,
                                    @RequestParam("captcha") String captcha,
@@ -49,7 +49,7 @@ public class UserApi {
     //2 密码
     //3 图灵验证码
     //4 图灵验证码的key
-    @PostMapping("/{captcha}/{captcha_key}")
+    @PostMapping("/login/{captcha}/{captcha_key}")
     public ResponseResult login(@PathVariable("captcha_key") String captchaKey,
                                 @PathVariable("captcha") String captcha,
                                 @RequestBody BlogUser user,
@@ -117,7 +117,7 @@ public class UserApi {
     }
 
     //获取用户信息
-    @GetMapping("/{userId}")
+    @GetMapping("/user_info/{userId}")
     public ResponseResult getUserInfo(@PathVariable("userId") String userId) {
         return userService.getUserInfo(userId);
     }
@@ -130,7 +130,7 @@ public class UserApi {
     // 3.签名
     // 4.密码 单独修改
     // 5.邮箱 唯一 单独处理
-    @PutMapping("/{userId}")
+    @PutMapping("/user_info/{userId}")
     public ResponseResult updateUserInfo(@PathVariable("userId") String userId, @RequestBody BlogUser user) {
 
         return userService.updateUserInfo(userId, user);
