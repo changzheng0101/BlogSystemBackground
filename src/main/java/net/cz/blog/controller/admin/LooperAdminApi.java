@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/looper")
-public class LooperApi {
+public class LooperAdminApi {
     //增删改查 还有列出所有数据的方法
     @PostMapping
     public ResponseResult addLooper(@RequestBody Looper looper) {

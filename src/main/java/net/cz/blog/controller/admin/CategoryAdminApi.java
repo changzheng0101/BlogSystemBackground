@@ -23,9 +23,10 @@ public class CategoryAdminApi {
     }
 
     //删除分类
+    @PreAuthorize("@permission.isAdmin()")
     @DeleteMapping("/{categoryId}")
     public ResponseResult deleteCategory(@PathVariable("categoryId") String categoryId) {
-        return null;
+        return categoryService.deleteCategory(categoryId);
     }
 
     //修改某个类

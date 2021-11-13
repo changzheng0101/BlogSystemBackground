@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/web_info")
-public class WebInfoApi {
+public class WebInfoAdminApi {
     @GetMapping("/title")
     public ResponseResult getWebsiteTitle() {
         return null;

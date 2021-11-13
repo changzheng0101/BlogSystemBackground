@@ -101,4 +101,13 @@ public class CategoryServiceImpl implements ICategoryService {
         categoryDao.save(categoryFromDb);
         return ResponseResult.SUCCESS("分类更新成功").setData(categoryFromDb);
     }
+
+    @Override
+    public ResponseResult deleteCategory(String categoryId) {
+        int result = categoryDao.deleteCategoryByUpdateStatus(categoryId);
+        if (result == 0) {
+            return ResponseResult.FAILED("该分类不存在");
+        }
+        return ResponseResult.SUCCESS("删除分类成功");
+    }
 }

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/comment")
-public class CommentApi {
+public class CommentAdminApi {
     //增删改查 还有列出所有数据的方法
 
     @DeleteMapping("/{commentId}")

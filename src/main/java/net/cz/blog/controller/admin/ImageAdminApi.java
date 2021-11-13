@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/image")
-public class ImageApi {
+public class ImageAdminApi {
     //增删改查 还有列出所有数据的方法
     @PostMapping
     public ResponseResult uploadImage() {
