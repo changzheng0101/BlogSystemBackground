@@ -1,5 +1,7 @@
 package net.cz.blog;
 
+import net.cz.blog.utils.TextUtils;
+
 import java.util.Calendar;
 
 public class TestDate {
@@ -13,5 +15,7 @@ public class TestDate {
         System.out.println(String.valueOf(currentTimeMillis).length());
         System.out.println(currentTimeMillis);
         System.out.println(String.valueOf(timeInMillis).length());
+
+        System.out.println(TextUtils.isEmpty(""));
     }
 }

@@ -29,9 +29,10 @@ public class CategoryAdminApi {
     }
 
     //修改某个类
+    @PreAuthorize("@permission.isAdmin()")
     @PutMapping("/{categoryId}")
     public ResponseResult updateCategory(@PathVariable("categoryId") String categoryId, @RequestBody Category category) {
-        return null;
+        return categoryService.updateCategory(categoryId,category);
     }
 
     //获取某个分类

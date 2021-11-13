@@ -1,5 +1,6 @@
 package net.cz.blog.services.Impl;
 
+import lombok.extern.slf4j.Slf4j;
 import net.cz.blog.Dao.CategoryDao;
 import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.pojo.Category;
@@ -19,6 +20,7 @@ import java.util.Date;
 
 @Service
 @Transactional
+@Slf4j
 public class CategoryServiceImpl implements ICategoryService {
 
     @Autowired
@@ -73,5 +75,30 @@ public class CategoryServiceImpl implements ICategoryService {
         //查询
         Page<Category> categories = categoryDao.findAll(pageable);
         return ResponseResult.SUCCESS("查询列表成功").setData(categories);
+    }
+
+    @Override
+    public ResponseResult updateCategory(String categoryId, Category category) {
+        Category categoryFromDb = categoryDao.findOneById(categoryId);
+        if (categoryFromDb == null) {
+            return ResponseResult.FAILED("分类不存在");
+        }
+        //判断内容
+        if (!TextUtils.isEmpty(category.getName())) {
+            categoryFromDb.setName(category.getName());
+        }
+        if (!TextUtils.isEmpty(category.getPinyin())) {
+            categoryFromDb.setPinyin(category.getPinyin());
+        }
+        if (!TextUtils.isEmpty(category.getDescription())) {
+            categoryFromDb.setDescription(category.getDescription());
+        }
+        log.info(category.getOrder() + "");
+        if (!TextUtils.isEmpty(category.getOrder() + "")) {
+            categoryFromDb.setOrder(category.getOrder());
+        }
+        //保存数据
+        categoryDao.save(categoryFromDb);
+        return ResponseResult.SUCCESS("分类更新成功").setData(categoryFromDb);
     }
 }
