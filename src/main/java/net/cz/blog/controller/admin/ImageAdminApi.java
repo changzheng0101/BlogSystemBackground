@@ -47,9 +47,9 @@ public class ImageAdminApi {
     }
 
     @PreAuthorize("@permission.isAdmin()")
-    @GetMapping("/list")
-    public ResponseResult getImageList(@RequestParam("page") int page, @RequestParam("size") int size) {
-        return null;
+    @GetMapping("/list/{page}/{size}")
+    public ResponseResult getImageList(@PathVariable("page") int page, @PathVariable("size") int size) {
+        return imageService.getImageList(page, size);
     }
 
 }

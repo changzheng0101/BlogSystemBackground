@@ -38,7 +38,7 @@ import java.util.Random;
 @Slf4j
 @Service
 @Transactional
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl extends BaseService implements IUserService {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -497,12 +497,8 @@ public class UserServiceImpl implements IUserService {
     @Override
     public ResponseResult getUserList(int page, int size) {
         //可以查询了
-        if (page < Constants.Page.DEFAULT_PAGE) {
-            page = Constants.Page.DEFAULT_PAGE;
-        }
-        if (size < Constants.Page.MIN_SIZE) {
-            size = Constants.Page.MIN_SIZE;
-        }
+        page = checkPage(page);
+        size = checkSize(size);
         //根据注册日期来排序
         Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
         Pageable pageable = PageRequest.of(page - 1, size, sort);

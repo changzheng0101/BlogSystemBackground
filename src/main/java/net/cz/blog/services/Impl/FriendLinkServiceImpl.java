@@ -19,7 +19,7 @@ import java.util.Date;
 
 @Service
 @Transactional
-public class FriendLinkServiceImpl implements IFriendLinkService {
+public class FriendLinkServiceImpl extends  BaseService implements IFriendLinkService {
 
     @Autowired
     private SnowflakeIdWorker idWorker;
@@ -59,12 +59,8 @@ public class FriendLinkServiceImpl implements IFriendLinkService {
 
     @Override
     public ResponseResult getFriendLinkList(int page, int size) {
-        if (page < Constants.Page.DEFAULT_PAGE) {
-            page = Constants.Page.DEFAULT_PAGE;
-        }
-        if (size < Constants.Page.MIN_SIZE) {
-            size = Constants.Page.MIN_SIZE;
-        }
+        page = checkPage(page);
+        size = checkSize(size);
         Sort sort = Sort.by(Sort.Direction.DESC, "updateTime");
         Pageable pageable = PageRequest.of(page - 1, size, sort);
         Page<FriendLink> all = friendLinkDao.findAll(pageable);

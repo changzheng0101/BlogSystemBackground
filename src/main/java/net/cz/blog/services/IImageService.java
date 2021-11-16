@@ -11,4 +11,6 @@ public interface IImageService {
     ResponseResult uploadImage(MultipartFile file);
 
     void getImage(String imageId, HttpServletResponse response) throws IOException;
+
+    ResponseResult getImageList(int page, int size);
 }

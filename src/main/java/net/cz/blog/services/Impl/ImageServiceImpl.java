@@ -12,11 +12,20 @@ import net.cz.blog.utils.SnowflakeIdWorker;
 import net.cz.blog.utils.TextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.repository.core.support.ReactiveRepositoryFactorySupport;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,7 +38,7 @@ import java.util.HashMap;
 @Slf4j
 @Service
 @Transactional
-public class ImageServiceImpl implements IImageService {
+public class ImageServiceImpl extends BaseService implements IImageService {
 
 
     public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_dd");
@@ -162,5 +171,25 @@ public class ImageServiceImpl implements IImageService {
         if (fos != null) {
             fos.close();
         }
+    }
+
+    @Override
+    public ResponseResult getImageList(int page, int size) {
+        //检查数据
+        page = checkPage(page);
+        size = checkSize(size);
+        //创建sort
+        Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
+        //查询
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        //返回结果
+        Page<Image> all = imageDao.findAll(new Specification<Image>() {
+            @Override
+            public Predicate toPredicate(Root<Image> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                //判断state是否为1
+                return criteriaBuilder.equal(root.get("state").as(String.class), "1");
+            }
+        }, pageable);
+        return ResponseResult.SUCCESS("查询结果成功").setData(all);
     }
 }

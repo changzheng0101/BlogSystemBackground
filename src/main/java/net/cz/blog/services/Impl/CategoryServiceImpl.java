@@ -21,7 +21,7 @@ import java.util.Date;
 @Service
 @Transactional
 @Slf4j
-public class CategoryServiceImpl implements ICategoryService {
+public class CategoryServiceImpl extends BaseService implements ICategoryService {
 
     @Autowired
     private SnowflakeIdWorker idWorker;
@@ -63,12 +63,8 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public ResponseResult getCategoryList(int page, int size) {
         //判断page和size
-        if (page < Constants.Page.DEFAULT_PAGE) {
-            page = Constants.Page.DEFAULT_PAGE;
-        }
-        if (size < Constants.Page.MIN_SIZE) {
-            size = Constants.Page.MIN_SIZE;
-        }
+        page = checkPage(page);
+        size = checkSize(size);
         //创建条件
         Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
         Pageable pageable = PageRequest.of(page - 1, size, sort);
