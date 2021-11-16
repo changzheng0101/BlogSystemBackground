@@ -13,4 +13,7 @@ public interface IImageService {
     void getImage(String imageId, HttpServletResponse response) throws IOException;
 
     ResponseResult getImageList(int page, int size);
+
+    ResponseResult deleteImage(String imageId);
+
 }

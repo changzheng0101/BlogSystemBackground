@@ -37,7 +37,7 @@ public class ImageAdminApi {
     @PreAuthorize("@permission.isAdmin()")
     @DeleteMapping("/{imageId}")
     public ResponseResult deleteImage(@PathVariable("imageId") String imageId) {
-        return null;
+        return imageService.deleteImage(imageId);
     }
 
     @PreAuthorize("@permission.isAdmin()")

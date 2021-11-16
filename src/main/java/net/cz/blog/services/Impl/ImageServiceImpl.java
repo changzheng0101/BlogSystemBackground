@@ -178,6 +178,10 @@ public class ImageServiceImpl extends BaseService implements IImageService {
         //检查数据
         page = checkPage(page);
         size = checkSize(size);
+        BlogUser blogUser = userService.checkBolgUser();
+        if (blogUser == null) {
+            return ResponseResult.FAILED("用户未登录");
+        }
         //创建sort
         Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
         //查询
@@ -186,10 +190,22 @@ public class ImageServiceImpl extends BaseService implements IImageService {
         Page<Image> all = imageDao.findAll(new Specification<Image>() {
             @Override
             public Predicate toPredicate(Root<Image> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                //判断用户id
+                Predicate userIdPre = criteriaBuilder.equal(root.get("userId").as(String.class), blogUser.getId());
                 //判断state是否为1
-                return criteriaBuilder.equal(root.get("state").as(String.class), "1");
+                Predicate statePre = criteriaBuilder.equal(root.get("state").as(String.class), "1");
+                return criteriaBuilder.and(userIdPre, statePre);
             }
         }, pageable);
         return ResponseResult.SUCCESS("查询结果成功").setData(all);
+    }
+
+    @Override
+    public ResponseResult deleteImage(String imageId) {
+        int result = imageDao.deleteImageByImageId(imageId);
+        if (result > 0) {
+            return ResponseResult.SUCCESS("图片删除成功");
+        }
+        return ResponseResult.FAILED("图片不存在");
     }
 }

@@ -106,3 +106,6 @@
 [2021/11/16-15:35:24] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.ImageServiceImpl] : originalFilename--->data.jpg
 [2021/11/16-15:35:24] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.ImageServiceImpl] : contentType-->image/jpeg
 [2021/11/16-15:35:24] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.ImageServiceImpl] : targetFile==>D:\Code\WEBProject\images\2021_11_16\jpg\910191334575308800.jpg
+[2021/11/16-16:00:34] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 11172 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/16-16:00:34] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
+[2021/11/16-16:00:40] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.78 seconds (JVM running for 6.586)
