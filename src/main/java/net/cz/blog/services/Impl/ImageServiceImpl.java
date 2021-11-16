@@ -1,8 +1,12 @@
 package net.cz.blog.services.Impl;
 
 import lombok.extern.slf4j.Slf4j;
+import net.cz.blog.Dao.ImageDao;
 import net.cz.blog.Response.ResponseResult;
+import net.cz.blog.pojo.BlogUser;
+import net.cz.blog.pojo.Image;
 import net.cz.blog.services.IImageService;
+import net.cz.blog.services.IUserService;
 import net.cz.blog.utils.Constants;
 import net.cz.blog.utils.SnowflakeIdWorker;
 import net.cz.blog.utils.TextUtils;
@@ -38,6 +42,12 @@ public class ImageServiceImpl implements IImageService {
 
     @Autowired
     private SnowflakeIdWorker idWorker;
+
+    @Autowired
+    private IUserService userService;
+
+    @Autowired
+    private ImageDao imageDao;
 
     /**
      * 上传路径：可以配置
@@ -104,8 +114,21 @@ public class ImageServiceImpl implements IImageService {
         try {
             file.transferTo(targetFile);
             HashMap<String, String> data = new HashMap<>();
-            data.put("path", (currentDay + File.separator + type + File.separator + imageId + "." + type)
-                    .replace(File.separator, "-"));
+            String urlPath = (currentDay + File.separator + type + File.separator + imageId + "." + type)
+                    .replace(File.separator, "-");
+            data.put("path", urlPath);
+            //保存数据
+            Image image = new Image();
+            image.setId(imageId);
+            BlogUser blogUser = userService.checkBolgUser();
+            image.setUserId(blogUser.getId());
+            image.setUrl(urlPath);
+            image.setPath(targetPath);
+            image.setName(originalFilename);
+            image.setState("1");
+            image.setCreateTime(new Date());
+            image.setUpdateTime(new Date());
+            imageDao.save(image);
             return ResponseResult.SUCCESS("图片保存成功").setData(data);
         } catch (IOException e) {
             e.printStackTrace();
@@ -115,6 +138,12 @@ public class ImageServiceImpl implements IImageService {
 
     @Override
     public void getImage(String path, HttpServletResponse response) throws IOException {
+        //todo 根据尺寸动态返回图片给前端
+
+        // 优点：减少带宽，传输速率快
+        // 缺点： CPU资源占用高
+        // 也就是根据不同的使用，获取不同的图片尺寸，建议做法，将图片分为大、中、小三个尺寸
+        // 按照需要进行获取
         File file = new File(imagePath + File.separator + path.replace("-", File.separator));
         String type = path.substring(path.length() - 3);
         response.setContentType("image/" + type);
