@@ -19,10 +19,10 @@ public class Looper {
     private String title;
 
     @Column(name = "order")
-    private long order;
+    private long order = 1;
 
     @Column(name = "state")
-    private String state;
+    private String state = "1";
 
     @Column(name = "targetUrl")
     private String targetUrl;
@@ -31,10 +31,10 @@ public class Looper {
     private String imageUrl;
 
     @Column(name = "createTime")
-    private java.sql.Timestamp createTime;
+    private Date createTime;
 
     @Column(name = "updateTime")
-    private java.sql.Timestamp updateTime;
+    private Date updateTime;
 
 
     public String getId() {
@@ -91,21 +91,19 @@ public class Looper {
     }
 
 
-    public java.sql.Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(java.sql.Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-
-    public java.sql.Timestamp getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(java.sql.Timestamp updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 }
