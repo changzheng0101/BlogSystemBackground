@@ -352,7 +352,7 @@ public class UserServiceImpl implements IUserService {
         //把tokenKey写到cookie中
         CookieUtils.setUpCookie(response, Constants.User.COOKIE_TOKEN_KEY, tokenKey);
         //生成refresh token
-        String refreshTokenVal = JwtUtil.createRefreshToken(userFromDb.getId(), Constants.TimeValue.YEAR * 1000);
+        String refreshTokenVal = JwtUtil.createRefreshToken(userFromDb.getId(), Constants.TimeValue.YEAR * 1000L);
         //保存到数据库
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setId(idWorker.nextId() + "");

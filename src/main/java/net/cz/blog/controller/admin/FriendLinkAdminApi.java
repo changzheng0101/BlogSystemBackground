@@ -1,5 +1,6 @@
 package net.cz.blog.controller.admin;
 
+import lombok.extern.slf4j.Slf4j;
 import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.pojo.FriendLink;
 import net.cz.blog.services.IFriendLinkService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/admin/friend_link")
 public class FriendLinkAdminApi {
@@ -18,6 +20,9 @@ public class FriendLinkAdminApi {
     @PreAuthorize("@permission.isAdmin()")
     @PostMapping
     public ResponseResult addFriendLink(@RequestBody FriendLink friendLink) {
+        log.info("name==>" + friendLink.getName());
+        log.info("logo==>" + friendLink.getLogo());
+        log.info("url ==>" + friendLink.getUrl());
         return friendLinkService.addFriendLink(friendLink);
     }
 

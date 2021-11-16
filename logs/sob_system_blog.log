@@ -1,9 +1,31 @@
-[2021/11/12-15:10:08] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 6128 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
-[2021/11/12-15:10:08] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
-[2021/11/12-15:10:15] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 7.227 seconds (JVM running for 8.343)
-[2021/11/12-15:10:45] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 10532 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
-[2021/11/12-15:10:45] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
-[2021/11/12-15:10:49] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.248 seconds (JVM running for 6.004)
-[2021/11/12-18:33:18] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 4748 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
-[2021/11/12-18:33:18] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
-[2021/11/12-18:33:23] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.416 seconds (JVM running for 6.222)
+[2021/11/16-09:18:00] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 10928 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/16-09:18:00] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/16-09:19:19] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 6224 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/16-09:19:19] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/16-09:19:23] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.34 seconds (JVM running for 6.078)
+[2021/11/16-09:24:01] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>vxd8v
+[2021/11/16-09:25:03] [http-nio-2021-exec-3] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : tokenKey==>4f8a5d5cce1f6b7b09bed524c554f278
+[2021/11/16-09:41:31] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 2104 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/16-09:41:31] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/16-09:41:36] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.615 seconds (JVM running for 6.838)
+[2021/11/16-09:46:16] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 3688 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/16-09:46:16] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/16-09:46:21] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.715 seconds (JVM running for 6.504)
+[2021/11/16-09:47:15] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.controller.admin.FriendLinkAdminApi] : name==>baidu
+[2021/11/16-09:47:15] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.controller.admin.FriendLinkAdminApi] : logo==>test
+[2021/11/16-09:47:15] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.controller.admin.FriendLinkAdminApi] : url ==> www.baidu.com
+[2021/11/16-09:49:15] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 5604 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/16-09:49:15] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/16-09:49:20] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.786 seconds (JVM running for 6.557)
+[2021/11/16-09:49:20] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.controller.admin.FriendLinkAdminApi] : name==>baidu
+[2021/11/16-09:49:20] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.controller.admin.FriendLinkAdminApi] : logo==>test
+[2021/11/16-09:49:20] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.controller.admin.FriendLinkAdminApi] : url ==>www.baidu.com
+[2021/11/16-09:53:24] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 7132 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/16-09:53:24] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/16-09:53:29] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.835 seconds (JVM running for 6.632)
+[2021/11/16-09:57:53] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 10120 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/16-09:57:53] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/16-09:57:59] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 6.18 seconds (JVM running for 7.201)
+[2021/11/16-09:58:03] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.controller.admin.FriendLinkAdminApi] : name==>baidu
+[2021/11/16-09:58:03] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.controller.admin.FriendLinkAdminApi] : logo==>test
+[2021/11/16-09:58:03] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.controller.admin.FriendLinkAdminApi] : url ==>www.baidu.com

@@ -8,7 +8,6 @@ import net.cz.blog.utils.Constants;
 import net.cz.blog.utils.SnowflakeIdWorker;
 import net.cz.blog.utils.TextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.SortedMap;
 
 @Service
 @Transactional
@@ -44,6 +42,7 @@ public class FriendLinkServiceImpl implements IFriendLinkService {
         friendLink.setId(idWorker.nextId() + "");
         friendLink.setCreateTime(new Date());
         friendLink.setUpdateTime(new Date());
+
         //保存数据
         friendLinkDao.save(friendLink);
         return ResponseResult.SUCCESS("友情链接添加成功");
@@ -74,7 +73,7 @@ public class FriendLinkServiceImpl implements IFriendLinkService {
 
     @Override
     public ResponseResult deleteFriendLink(String friendsLinkId) {
-        int result = friendLinkDao.deleteAllByID(friendsLinkId);
+        int result = friendLinkDao.deleteAllById(friendsLinkId);
         if (result == 0) {
             return ResponseResult.FAILED("友情链接不存在");
         }

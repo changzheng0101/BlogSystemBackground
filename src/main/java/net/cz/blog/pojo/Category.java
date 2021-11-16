@@ -24,7 +24,7 @@ public class Category {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "order")
+    @Column(name = "`order`")
     private long order = 1;
 
     @Column(name = "status")

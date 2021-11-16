@@ -24,7 +24,7 @@ public class FriendLink {
     @Column(name = "url")
     private String url;
 
-    @Column(name = "order")
+    @Column(name = "`order`")
     private long order = 1;
 
     @Column(name = "state")
