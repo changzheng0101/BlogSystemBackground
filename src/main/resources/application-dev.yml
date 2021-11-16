@@ -15,5 +15,7 @@ spring:
     password: 123456
     host: 47.94.195.238
 blog.images.save-path: D:\Code\WEBProject\images
+#2MB
+blog.images.max-size: 2097152
 
 

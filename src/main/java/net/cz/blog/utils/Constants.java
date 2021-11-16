@@ -19,6 +19,17 @@ public interface Constants {
         int MIN_SIZE = 5;
     }
 
+    interface Image {
+        String PREFIX = "image/";
+        String TYPE_JPG = "jpg";
+        String TYPE_PNG = "png";
+        String TYPE_GIF = "gif";
+        String TYPE_JPG_WITH_PREFIX = PREFIX + "jpg";
+        String TYPE_JPEG_WITH_PREFIX = PREFIX + "jpeg";
+        String TYPE_PNG_WITH_PREFIX = PREFIX + "png";
+        String TYPE_GIF_WITH_PREFIX = PREFIX + "gif";
+    }
+
     interface User {
         String ROLE_ADMIN = "role_admin";
         String ROLE_NORMAL = "role_normal";

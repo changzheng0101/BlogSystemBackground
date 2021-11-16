@@ -3,7 +3,10 @@ package net.cz.blog.services.Impl;
 import lombok.extern.slf4j.Slf4j;
 import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.services.IImageService;
+import net.cz.blog.utils.Constants;
+import net.cz.blog.utils.SnowflakeIdWorker;
 import net.cz.blog.utils.TextUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.core.support.ReactiveRepositoryFactorySupport;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 
 @Slf4j
 @Service
@@ -22,8 +28,16 @@ import java.io.OutputStream;
 public class ImageServiceImpl implements IImageService {
 
 
+    public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_dd");
+
     @Value("${blog.images.save-path}")
     private String imagePath;
+
+    @Value("${blog.images.max-size}")
+    private long maxSize;
+
+    @Autowired
+    private SnowflakeIdWorker idWorker;
 
     /**
      * 上传路径：可以配置
@@ -45,35 +59,68 @@ public class ImageServiceImpl implements IImageService {
         if (TextUtils.isEmpty(contentType)) {
             return ResponseResult.FAILED("图片格式错误");
         }
-        if (!"image/png".equals(contentType) &&
-                !"image/jpg".equals(contentType) &&
-                !"image/gif".equals(contentType) &&
-                !"image/jpeg".equals(contentType)) {
-            return ResponseResult.FAILED("图片格式不支持");
-        }
         // 获取相关数据 比如文件数据 文件名称
-        String name = file.getName();
         String originalFilename = file.getOriginalFilename();
-        log.info("name--->" + name); //file
         log.info("originalFilename--->" + originalFilename); //真正的名字 有后缀
+        String type = null;
+        log.info("contentType-->" + contentType);
+        switch (contentType) {
+            case Constants.Image.TYPE_JPG_WITH_PREFIX:
+            case Constants.Image.TYPE_JPEG_WITH_PREFIX:
+                type = Constants.Image.TYPE_JPG;
+                break;
+            case Constants.Image.TYPE_PNG_WITH_PREFIX:
+                type = Constants.Image.TYPE_PNG;
+                break;
+            case Constants.Image.TYPE_GIF_WITH_PREFIX:
+                type = Constants.Image.TYPE_GIF;
+                break;
+            default:
+                return ResponseResult.FAILED("图片格式不支持");
+        }
+        //限制文件大小
+        long size = file.getSize();
+        if (size > maxSize) {
+            return ResponseResult.FAILED("图片超过最大尺寸");
+        }
         // 根据我们的规则进行命名
-        File targetFile = new File(imagePath + File.separator + originalFilename);
+        //创建对应的保存目夹 根目录/日期/图片类型/图片id.图片类型
+        String currentDay = simpleDateFormat.format(new Date());
+        //判断日期文件夹
+        String dayPath = imagePath + File.separator + currentDay;
+        File dayPathFile = new File(dayPath);
+        if (!dayPathFile.exists()) {
+            dayPathFile.mkdirs();
+        }
+        String imageId = String.valueOf(idWorker.nextId());
+        String targetPath = dayPathFile + File.separator + type + File.separator + imageId + "." + type;
+        File targetFile = new File(targetPath);
+        //判断文件夹是否存在
+        if (!targetFile.getParentFile().exists()) {
+            targetFile.mkdirs();
+        }
+        log.info("targetFile==>" + targetFile);
         // 保存数据
         try {
             file.transferTo(targetFile);
+            HashMap<String, String> data = new HashMap<>();
+            data.put("path", (currentDay + File.separator + type + File.separator + imageId + "." + type)
+                    .replace(File.separator, "-"));
+            return ResponseResult.SUCCESS("图片保存成功").setData(data);
         } catch (IOException e) {
             e.printStackTrace();
-            ResponseResult.FAILED("图片保存失败");
+            return ResponseResult.FAILED("图片保存失败");
         }
-        return ResponseResult.SUCCESS("图片保存成功");
     }
 
     @Override
-    public void getImage(String imageId, HttpServletResponse response) throws IOException {
-        File file = new File(imagePath + File.separator + "test.jpg");
-        response.setContentType("image/jpg");
+    public void getImage(String path, HttpServletResponse response) throws IOException {
+        File file = new File(imagePath + File.separator + path.replace("-", File.separator));
+        String type = path.substring(path.length() - 3);
+        response.setContentType("image/" + type);
         OutputStream writer = response.getOutputStream();
         FileInputStream fos = new FileInputStream(file);
+        //读取
         byte[] buff = new byte[1024];
         int len;
         while ((len = fos.read(buff)) != -1) {
