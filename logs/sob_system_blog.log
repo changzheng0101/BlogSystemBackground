@@ -48,3 +48,20 @@
 [2021/11/16-10:51:58] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 7392 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
 [2021/11/16-10:51:58] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
 [2021/11/16-10:52:05] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 7.315 seconds (JVM running for 8.139)
+[2021/11/16-10:53:14] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 10008 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/16-10:53:14] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/16-10:53:19] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.599 seconds (JVM running for 6.423)
+[2021/11/16-11:14:01] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 9012 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/16-11:14:01] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/16-11:14:07] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.708 seconds (JVM running for 6.515)
+[2021/11/16-11:15:39] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 10232 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/16-11:15:39] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
+[2021/11/16-11:15:44] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.401 seconds (JVM running for 6.162)
+[2021/11/16-11:16:11] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 7116 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/16-11:16:11] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: prob
+[2021/11/16-11:16:45] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 11904 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/16-11:16:45] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
+[2021/11/16-11:16:50] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.557 seconds (JVM running for 6.34)
+[2021/11/16-11:17:08] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 9080 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/16-11:17:08] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: prod
+[2021/11/16-11:17:13] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.518 seconds (JVM running for 6.283)

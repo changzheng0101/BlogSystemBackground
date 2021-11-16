@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.services.IImageService;
 import net.cz.blog.utils.TextUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.core.support.ReactiveRepositoryFactorySupport;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +21,19 @@ import java.io.OutputStream;
 @Transactional
 public class ImageServiceImpl implements IImageService {
 
-    private final String imagePath = "D:\\Code\\WEBProject\\images";
 
+    @Value("${blog.images.save-path}")
+    private String imagePath;
+
+    /**
+     * 上传路径：可以配置
+     * 上传内容：命名 可以用ID
+     * 每天一个文件夹
+     * 保存数据到数据库
+     *
+     * @param file
+     * @return
+     */
     @Override
     public ResponseResult uploadImage(MultipartFile file) {
         //判断文件是否为空
@@ -59,6 +71,7 @@ public class ImageServiceImpl implements IImageService {
     @Override
     public void getImage(String imageId, HttpServletResponse response) throws IOException {
         File file = new File(imagePath + File.separator + "test.jpg");
+        response.setContentType("image/jpg");
         OutputStream writer = response.getOutputStream();
         FileInputStream fos = new FileInputStream(file);
         byte[] buff = new byte[1024];
