@@ -9,8 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 @Slf4j
 @Service
@@ -39,8 +42,8 @@ public class ImageServiceImpl implements IImageService {
         // 获取相关数据 比如文件数据 文件名称
         String name = file.getName();
         String originalFilename = file.getOriginalFilename();
-        log.info("name--->" + name); //无后缀
-        log.info("originalFilename--->" + originalFilename); //有后缀
+        log.info("name--->" + name); //file
+        log.info("originalFilename--->" + originalFilename); //真正的名字 有后缀
         // 根据我们的规则进行命名
         File targetFile = new File(imagePath + File.separator + originalFilename);
         // 保存数据
@@ -51,5 +54,24 @@ public class ImageServiceImpl implements IImageService {
             ResponseResult.FAILED("图片保存失败");
         }
         return ResponseResult.SUCCESS("图片保存成功");
+    }
+
+    @Override
+    public void getImage(String imageId, HttpServletResponse response) throws IOException {
+        File file = new File(imagePath + File.separator + "test.jpg");
+        OutputStream writer = response.getOutputStream();
+        FileInputStream fos = new FileInputStream(file);
+        byte[] buff = new byte[1024];
+        int len;
+        while ((len = fos.read(buff)) != -1) {
+            writer.write(buff, 0, len);
+        }
+        writer.flush();
+        if (writer != null) {
+            writer.close();
+        }
+        if (fos != null) {
+            fos.close();
+        }
     }
 }

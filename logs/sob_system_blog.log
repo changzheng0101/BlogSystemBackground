@@ -40,3 +40,11 @@
 [2021/11/16-10:29:29] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.593 seconds (JVM running for 6.389)
 [2021/11/16-10:33:24] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.services.Impl.ImageServiceImpl] : name--->file
 [2021/11/16-10:33:24] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.services.Impl.ImageServiceImpl] : originalFilename--->test.png
+[2021/11/16-10:35:04] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 9008 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/16-10:35:04] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/16-10:35:09] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.733 seconds (JVM running for 6.893)
+[2021/11/16-10:35:31] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.ImageServiceImpl] : name--->file
+[2021/11/16-10:35:31] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.ImageServiceImpl] : originalFilename--->test.jpg
+[2021/11/16-10:51:58] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 7392 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
+[2021/11/16-10:51:58] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/16-10:52:05] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 7.315 seconds (JVM running for 8.139)
