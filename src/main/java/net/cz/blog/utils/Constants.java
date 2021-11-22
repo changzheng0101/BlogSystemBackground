@@ -45,6 +45,9 @@ public interface Constants {
 
     interface Settings {
         String MANAGE_ACCOUNT_INIT_STATE = "manage_account_init_state";
-
+        String WEBSITE_TITLE = "website_title";
+        String WEBSITE_DESCRIPTION = "website_description";
+        String WEBSITE_KEYWORDS = "website_keywords";
+        String WEBSITE_VIEW_COUNTS = "website_view_counts";
     }
 }

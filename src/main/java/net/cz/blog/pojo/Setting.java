@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
+//对应网站的信息
 @Entity
 @Table(name = "tb_settings")
 public class Setting {

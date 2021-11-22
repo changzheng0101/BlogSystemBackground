@@ -56,7 +56,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
     @Override
     public ResponseResult initManagerAccount(BlogUser user, HttpServletRequest request) {
         //检查是否已经初始化
-        Setting managerAccountState = settingsDao.findValByKey(Constants.Settings.MANAGE_ACCOUNT_INIT_STATE);
+        Setting managerAccountState = settingsDao.findOneByKey(Constants.Settings.MANAGE_ACCOUNT_INIT_STATE);
         if (managerAccountState != null) {
             return ResponseResult.FAILED("管理员账号已经初始化");
         }
