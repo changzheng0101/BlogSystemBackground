@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 [2021/11/16-09:18:00] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 10928 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
 [2021/11/16-09:18:00] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
 [2021/11/16-09:19:19] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 6224 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
@@ -112,3 +113,13 @@
 [2021/11/16-16:13:17] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_312 on DESKTOP-JV6F361 with PID 240 (D:\Code\WEBProject\BlogSystemBackground\target\classes started by user in D:\Code\WEBProject\BlogSystemBackground)
 [2021/11/16-16:13:17] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
 [2021/11/16-16:13:22] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.646 seconds (JVM running for 6.415)
+=======
+[2021/11/20-09:45:00] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 15752 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/11/20-09:45:00] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/20-09:46:13] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 2384 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/11/20-09:46:13] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/20-09:48:05] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 15716 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/11/20-09:48:05] [main] [INFO ] [net.cz.blog.BlogApplication] : No active profile set, falling back to default profiles: default
+[2021/11/20-09:48:10] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 4.927 seconds (JVM running for 6.118)
+[2021/11/20-09:48:40] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>-6
+>>>>>>> Stashed changes

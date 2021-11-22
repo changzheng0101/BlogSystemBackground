@@ -19,7 +19,7 @@ public class Looper {
     private String title;
 
     @Column(name = "order")
-    private long order = 1;
+    private long order = 0;
 
     @Column(name = "state")
     private String state = "1";
@@ -91,19 +91,19 @@ public class Looper {
     }
 
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

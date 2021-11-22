@@ -19,7 +19,6 @@ public class LooperServiceImpl extends BaseService implements ILooperService {
 
     @Autowired
     private SnowflakeIdWorker idWorker;
-
     @Autowired
     private LooperDao looperDao;
 
@@ -35,12 +34,25 @@ public class LooperServiceImpl extends BaseService implements ILooperService {
         if (TextUtils.isEmpty(looper.getImageUrl())) {
             return ResponseResult.FAILED("图片地址不可以为空");
         }
+        //判断数据
+        if (TextUtils.isEmpty(looper.getTitle())) {
+            return ResponseResult.FAILED("标题不可以为空");
+        }
+        if (TextUtils.isEmpty(looper.getImageUrl())) {
+            return ResponseResult.FAILED("图片不可以为空");
+        }
+        if (TextUtils.isEmpty(looper.getTargetUrl())) {
+            return ResponseResult.FAILED("跳转连接不可以为空");
+        }
         //补全数据
         looper.setId(idWorker.nextId() + "");
         looper.setCreateTime(new Date());
         looper.setUpdateTime(new Date());
         //保存数据
+        looper.setCreateTime(new Date());
+        //添加数据
         looperDao.save(looper);
         return ResponseResult.SUCCESS("轮播图添加成功");
     }
 }
+
