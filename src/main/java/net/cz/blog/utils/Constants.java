@@ -50,4 +50,9 @@ public interface Constants {
         String WEBSITE_KEYWORDS = "website_keywords";
         String WEBSITE_VIEW_COUNTS = "website_view_counts";
     }
+
+    interface Article{
+        int TITLE_MAX_LENGTH = 128;
+        int SUMMARY_MAX_LENGTH=256;
+    }
 }

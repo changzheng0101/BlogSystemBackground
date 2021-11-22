@@ -19,40 +19,44 @@ public class Article {
     private String title;
 
     @Column(name = "user_id")
-    private String user_id;
+    private String userId;
 
     @Column(name = "user_avatar")
-    private String user_avatar;
+    private String userAvatar;
 
     @Column(name = "user_name")
-    private String user_name;
+    private String useName;
 
     @Column(name = "category_id")
-    private String category_id;
+    private String categoryId;
 
     @Column(name = "content")
     private String content;
 
+    // 0 富文本 1 markdown
     @Column(name = "type")
     private String type;
 
+    // 0 删除 1 发布成功  2 草稿 3 置顶
     @Column(name = "state")
-    private String state;
+    private String state = "1";
 
     @Column(name = "summary")
     private String summary;
 
+
+    //格式： 标签1-标签2-标签3...
     @Column(name = "labels")
     private String labels;
 
     @Column(name = "view_count")
-    private long view_count;
+    private long viewCount = 0L;
 
     @Column(name = "create_time")
-    private java.sql.Timestamp create_time;
+    private Date createTime;
 
     @Column(name = "update_time")
-    private java.sql.Timestamp update_time;
+    private Date updateTime;
 
 
     public String getId() {
@@ -73,41 +77,37 @@ public class Article {
     }
 
 
-    public String getUser_id() {
-        return user_id;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-
-    public String getUser_avatar() {
-        return user_avatar;
+    public String getUserAvatar() {
+        return userAvatar;
     }
 
-    public void setUser_avatar(String user_avatar) {
-        this.user_avatar = user_avatar;
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
     }
 
-
-    public String getUser_name() {
-        return user_name;
+    public String getUseName() {
+        return useName;
     }
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
+    public void setUseName(String useName) {
+        this.useName = useName;
     }
 
-
-    public String getCategory_id() {
-        return category_id;
+    public String getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory_id(String category_id) {
-        this.category_id = category_id;
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
-
 
     public String getContent() {
         return content;
@@ -117,7 +117,6 @@ public class Article {
         this.content = content;
     }
 
-
     public String getType() {
         return type;
     }
@@ -125,7 +124,6 @@ public class Article {
     public void setType(String type) {
         this.type = type;
     }
-
 
     public String getState() {
         return state;
@@ -135,7 +133,6 @@ public class Article {
         this.state = state;
     }
 
-
     public String getSummary() {
         return summary;
     }
@@ -143,7 +140,6 @@ public class Article {
     public void setSummary(String summary) {
         this.summary = summary;
     }
-
 
     public String getLabels() {
         return labels;
@@ -153,31 +149,27 @@ public class Article {
         this.labels = labels;
     }
 
-
-    public long getView_count() {
-        return view_count;
+    public long getViewCount() {
+        return viewCount;
     }
 
-    public void setView_count(long view_count) {
-        this.view_count = view_count;
+    public void setViewCount(long viewCount) {
+        this.viewCount = viewCount;
     }
 
-
-    public java.sql.Timestamp getCreate_time() {
-        return create_time;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreate_time(java.sql.Timestamp create_time) {
-        this.create_time = create_time;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-
-    public java.sql.Timestamp getUpdate_time() {
-        return update_time;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdate_time(java.sql.Timestamp update_time) {
-        this.update_time = update_time;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
-
 }

@@ -2,15 +2,21 @@ package net.cz.blog.controller.admin;
 
 import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.pojo.Article;
+import net.cz.blog.services.IArticleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/article")
 public class ArticleAdminApi {
+
+    @Autowired
+    private IArticleService articleService;
+
     //增删改查 还有列出所有数据的方法
     @PostMapping
     public ResponseResult postArticle(@RequestBody Article article) {
-        return null;
+        return articleService.postArticle(article);
     }
 
     @DeleteMapping("/{articleId}")
