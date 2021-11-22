@@ -24,24 +24,24 @@ public class LooperAdminApi {
     @PreAuthorize("@permission.isAdmin()")
     @DeleteMapping("/{looperId}")
     public ResponseResult deleteLooper(@PathVariable("looperId") String looperId) {
-        return null;
+        return looperService.deleteLooper(looperId);
     }
 
     @PreAuthorize("@permission.isAdmin()")
     @PutMapping("/{looperId}")
-    public ResponseResult updateLooper(@PathVariable("looperId") String looperId) {
-        return null;
+    public ResponseResult updateLooper(@PathVariable("looperId") String looperId, @RequestBody Looper looper) {
+        return looperService.updateLooper(looperId, looper);
     }
 
     @PreAuthorize("@permission.isAdmin()")
     @GetMapping("/{looperId}")
     public ResponseResult getLooper(@PathVariable("looperId") String looperId) {
-        return null;
+        return looperService.getLooper(looperId);
     }
 
     @PreAuthorize("@permission.isAdmin()")
-    @GetMapping("/list")
-    public ResponseResult getLooperList(@RequestParam("page") int page, @RequestParam("size") int size) {
-        return null;
+    @GetMapping("/list/{page}/{size}")
+    public ResponseResult getLooperList(@PathVariable("page") int page, @PathVariable("size") int size) {
+        return looperService.getLooperList(page,size);
     }
 }

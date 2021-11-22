@@ -89,10 +89,10 @@ public class CategoryServiceImpl extends BaseService implements ICategoryService
         if (!TextUtils.isEmpty(category.getDescription())) {
             categoryFromDb.setDescription(category.getDescription());
         }
-        log.info(category.getOrder() + "");
         if (!TextUtils.isEmpty(category.getOrder() + "")) {
             categoryFromDb.setOrder(category.getOrder());
         }
+        categoryFromDb.setUpdateTime(new Date());
         //保存数据
         categoryDao.save(categoryFromDb);
         return ResponseResult.SUCCESS("分类更新成功").setData(categoryFromDb);

@@ -123,3 +123,6 @@
 [2021/11/20-09:48:10] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 4.927 seconds (JVM running for 6.118)
 [2021/11/20-09:48:40] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>-6
 >>>>>>> Stashed changes
+[2021/11/22-08:44:03] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 10440 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/11/22-08:44:03] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
+[2021/11/22-08:44:08] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.808 seconds (JVM running for 7.079)

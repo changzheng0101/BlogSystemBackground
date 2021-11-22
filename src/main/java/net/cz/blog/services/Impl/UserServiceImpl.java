@@ -461,6 +461,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
         }
         //签名 可为空 如果不传入这个参数 会把签名直接置空
         userFromDb.setSign(user.getSign());
+        userFromDb.setUpdateTime(new Date());
         //保存
         userDao.save(userFromDb);
         //拿到request和response

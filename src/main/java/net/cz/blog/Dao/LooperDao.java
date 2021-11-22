@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface LooperDao extends JpaRepository<Looper, String>, JpaSpecificationExecutor<Looper> {
 
+    Looper findOneById(String looperId);
 }

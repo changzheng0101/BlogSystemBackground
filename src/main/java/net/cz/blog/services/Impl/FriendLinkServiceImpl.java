@@ -19,7 +19,7 @@ import java.util.Date;
 
 @Service
 @Transactional
-public class FriendLinkServiceImpl extends  BaseService implements IFriendLinkService {
+public class FriendLinkServiceImpl extends BaseService implements IFriendLinkService {
 
     @Autowired
     private SnowflakeIdWorker idWorker;
@@ -94,6 +94,7 @@ public class FriendLinkServiceImpl extends  BaseService implements IFriendLinkSe
         if (!TextUtils.isEmpty(friendLink.getOrder() + "")) {
             friendLinkFromDb.setOrder(friendLink.getOrder());
         }
+        friendLinkFromDb.setUpdateTime(new Date());
         friendLinkDao.save(friendLinkFromDb);
         return ResponseResult.SUCCESS("更新友情链接成功");
     }
