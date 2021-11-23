@@ -1,8 +1,10 @@
 package net.cz.blog.services.Impl;
 
 import net.cz.blog.Dao.ArticleDao;
+import net.cz.blog.Dao.ArticleNoContentDao;
 import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.pojo.Article;
+import net.cz.blog.pojo.ArticleNoContent;
 import net.cz.blog.pojo.BlogUser;
 import net.cz.blog.services.IArticleService;
 import net.cz.blog.services.IUserService;
@@ -18,12 +20,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.management.relation.RelationSupport;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.rmi.StubNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +38,8 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
     private SnowflakeIdWorker idWorker;
     @Autowired
     private ArticleDao articleDao;
+    @Autowired
+    private ArticleNoContentDao articleNoContentDao;
 
     /**
      * 后期考虑定时发布的功能
@@ -148,9 +150,9 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
         Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
         //查询
         Pageable pageable = PageRequest.of(page - 1, size, sort);
-        Page<Article> all = articleDao.findAll(new Specification<Article>() {
+        Page<ArticleNoContent> all = articleNoContentDao.findAll(new Specification<ArticleNoContent>() {
             @Override
-            public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+            public Predicate toPredicate(Root<ArticleNoContent> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 //进行条件查询
                 List<Predicate> predicates = new ArrayList<>();
                 if (!TextUtils.isEmpty(state)) {

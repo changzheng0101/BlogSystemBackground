@@ -6,3 +6,6 @@
 [2021/11/23-09:26:27] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 2072 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
 [2021/11/23-09:26:27] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
 [2021/11/23-09:26:31] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.313 seconds (JVM running for 6.5)
+[2021/11/23-09:30:36] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 1960 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/11/23-09:30:36] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
+[2021/11/23-09:30:41] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 4.934 seconds (JVM running for 6.16)
