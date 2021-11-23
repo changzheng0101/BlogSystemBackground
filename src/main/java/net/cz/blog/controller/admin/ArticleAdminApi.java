@@ -34,9 +34,12 @@ public class ArticleAdminApi {
         return null;
     }
 
-    @GetMapping("/list")
-    public ResponseResult getArticleList(@RequestParam("page") int page, @RequestParam("size") int size) {
-        return null;
+    @GetMapping("/list/{page}/{size}")
+    public ResponseResult getArticleList(@PathVariable("page") int page, @PathVariable("size") int size,
+                                         @RequestParam("state") String state,
+                                         @RequestParam("categoryId") String categoryId,
+                                         @RequestParam("keyword") String keyword) {
+        return articleService.getArticleList(page, size, state, categoryId, keyword);
     }
 
     //改变文章状态

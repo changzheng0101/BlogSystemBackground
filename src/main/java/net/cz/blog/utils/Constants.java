@@ -51,8 +51,13 @@ public interface Constants {
         String WEBSITE_VIEW_COUNTS = "website_view_counts";
     }
 
-    interface Article{
+    interface Article {
         int TITLE_MAX_LENGTH = 128;
-        int SUMMARY_MAX_LENGTH=256;
+        int SUMMARY_MAX_LENGTH = 256;
+        // 0 删除 1 发布成功  2 草稿 3 置顶
+        String ARTICLE_DELETE = "0";
+        String ARTICLE_PUBLISH = "1";
+        String ARTICLE_DRAFT = "2";
+        String ARTICLE_TOP = "3";
     }
 }

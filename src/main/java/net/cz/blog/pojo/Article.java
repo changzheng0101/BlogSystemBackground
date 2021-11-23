@@ -37,6 +37,9 @@ public class Article {
     @Column(name = "type")
     private String type;
 
+    @Column(name = "cover")
+    private String cover;
+
     // 0 删除 1 发布成功  2 草稿 3 置顶
     @Column(name = "state")
     private String state = "1";
@@ -91,6 +94,14 @@ public class Article {
 
     public void setUserAvatar(String userAvatar) {
         this.userAvatar = userAvatar;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 
     public String getUseName() {

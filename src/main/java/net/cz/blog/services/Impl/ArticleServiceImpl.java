@@ -10,11 +10,23 @@ import net.cz.blog.utils.Constants;
 import net.cz.blog.utils.SnowflakeIdWorker;
 import net.cz.blog.utils.TextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.management.relation.RelationSupport;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.rmi.StubNotFoundException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -27,56 +39,137 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
     @Autowired
     private ArticleDao articleDao;
 
-
+    /**
+     * 后期考虑定时发布的功能
+     * 如果是多人博客系统，得考虑审核的问题-->成功或不成功 都通知
+     * <p>
+     * 保存成草稿
+     * 1. 用户自己保存-->跳转到新的页面
+     * 2.系统自动保存 -->每隔一段时间自动保存 如果没有唯一标识  就添加到数据库中
+     * <p>
+     * 方案一：每次用户发文章，向后台请求一个id
+     * 更新文章，就不用请求这个id
+     * <p>
+     * 方案二：直接提交，后台判断有无id，如果没有创建id，并且返回id
+     * 如果有，修改已经存在的内容
+     * <p>
+     * 放置重复提交-网络不好的时候，用户多次点击提交
+     * 获得唯一的id
+     * 通过token--key的方式，判断用户，30s内只允许提交一次
+     * <p>
+     * 前端：点击按钮之后，按钮被禁用，等后端有返回结果之后才可以继续使用
+     *
+     * @param article
+     * @return
+     */
     @Override
     public ResponseResult postArticle(Article article) {
-        //检查数据 标题、分类、内容、类型、摘要、标签
+        //只支持两个功能 发布文章和草稿
+        String articleId = article.getId();
+        String state = article.getState();
+        if (TextUtils.isEmpty(state)) {
+            return ResponseResult.FAILED("文章类型不可以为空");
+        }
+        if (!Constants.Article.ARTICLE_PUBLISH.equals(state) &&
+                !Constants.Article.ARTICLE_DRAFT.equals(state)) {
+            return ResponseResult.FAILED("文章类型不支持");
+        }
         BlogUser blogUser = userService.checkBolgUser();
-        String title = article.getTitle();
-        if (TextUtils.isEmpty(title)) {
-            return ResponseResult.FAILED("文章标题不可以为空");
-        }
-        if (title.length() > Constants.Article.TITLE_MAX_LENGTH) {
-            return ResponseResult.FAILED("文章标题过长");
-        }
-        String getCategoryId = article.getCategoryId();
-        if (TextUtils.isEmpty(getCategoryId)) {
-            return ResponseResult.FAILED("文章分类id不可以为空");
-        }
-        String content = article.getContent();
-        if (TextUtils.isEmpty(content)) {
-            return ResponseResult.FAILED("内容不可以为空");
-        }
-        String type = article.getType();
-        if (TextUtils.isEmpty(type)) {
-            return ResponseResult.FAILED("文章类型可以为空");
-        }
-        if (!"0".equals(type) && !"1".equals(type)) {
-            return ResponseResult.FAILED("文章类型有误");
-        }
-        String summary = article.getSummary();
-        if (TextUtils.isEmpty(summary)) {
-            return ResponseResult.FAILED("文章摘要不可以为空");
-        }
-        if (summary.length() > Constants.Article.SUMMARY_MAX_LENGTH) {
-            return ResponseResult.FAILED("摘要过长");
-        }
-        String labels = article.getLabels();
-        if (TextUtils.isEmpty(labels)) {
-            return ResponseResult.FAILED("文章标签不可以为空");
+        if (Constants.Article.ARTICLE_PUBLISH.equals(state)) {
+            //检查数据 标题、分类、内容、类型、摘要、标签
+            String title = article.getTitle();
+            if (TextUtils.isEmpty(title)) {
+                return ResponseResult.FAILED("文章标题不可以为空");
+            }
+            if (title.length() > Constants.Article.TITLE_MAX_LENGTH) {
+                return ResponseResult.FAILED("文章标题过长");
+            }
+            String getCategoryId = article.getCategoryId();
+            if (TextUtils.isEmpty(getCategoryId)) {
+                return ResponseResult.FAILED("文章分类id不可以为空");
+            }
+            String content = article.getContent();
+            if (TextUtils.isEmpty(content)) {
+                return ResponseResult.FAILED("内容不可以为空");
+            }
+            String type = article.getType();
+            if (TextUtils.isEmpty(type)) {
+                return ResponseResult.FAILED("文章类型不可以为空");
+            }
+            if (!"0".equals(type) &&
+                    !"1".equals(type)) {
+                return ResponseResult.FAILED("文章类型不支持");
+            }
+            String summary = article.getSummary();
+            if (TextUtils.isEmpty(summary)) {
+                return ResponseResult.FAILED("文章摘要不可以为空");
+            }
+            if (summary.length() > Constants.Article.SUMMARY_MAX_LENGTH) {
+                return ResponseResult.FAILED("摘要过长");
+            }
+            String labels = article.getLabels();
+            if (TextUtils.isEmpty(labels)) {
+                return ResponseResult.FAILED("文章标签不可以为空");
+            }
         }
 
-        //补全数据 userId,userAvatar，useName 创建更新时间
-        article.setId(idWorker.nextId() + "");
+        if (TextUtils.isEmpty(articleId)) {
+            //补全数据 userId,userAvatar，useName 创建更新时间
+            articleId = idWorker.nextId() + "";
+            article.setId(articleId);
+            article.setUserAvatar(blogUser.getAvatar());
+            article.setUseName(blogUser.getUserName());
+            article.setCreateTime(new Date());
+            //保存数据 最好try一下 要么检查写完整
+        } else {
+            //有id 一定是想保存草稿
+            //如果是已经发布的，就不能再保存为草稿
+            Article articleFromDb = articleDao.findOneById(articleId);
+            if (Constants.Article.ARTICLE_PUBLISH.equals(articleFromDb.getState()) &&
+                    Constants.Article.ARTICLE_DRAFT.equals(state)) {
+                return ResponseResult.FAILED("已经发布的不能再保存为草稿");
+            }
+        }
         article.setUserId(blogUser.getId());
-        article.setUserAvatar(blogUser.getAvatar());
-        article.setUseName(blogUser.getUserName());
-        article.setCreateTime(new Date());
         article.setUpdateTime(new Date());
-
-        //保存数据 最好try一下 要么检查写完整
         articleDao.save(article);
+
         //todo 将搜索的关键字保存到数据库中
-        return ResponseResult.SUCCESS("文章保存成功");
+        return ResponseResult.SUCCESS(Constants.Article.ARTICLE_PUBLISH.equals(state)
+                ? "文章发表成功" : "草稿发布成功").setData(articleId);
+    }
+
+    @Override
+    public ResponseResult getArticleList(int page, int size, String state, String categoryId, String keyword) {
+        //处理数据
+        page = checkPage(page);
+        size = checkSize(size);
+        //sort
+        Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
+        //查询
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        Page<Article> all = articleDao.findAll(new Specification<Article>() {
+            @Override
+            public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                //进行条件查询
+                List<Predicate> predicates = new ArrayList<>();
+                if (!TextUtils.isEmpty(state)) {
+                    Predicate statePre = criteriaBuilder.equal(root.get("state").as(String.class), state);
+                    predicates.add(statePre);
+                }
+                if (!TextUtils.isEmpty(categoryId)) {
+                    Predicate categoryIdPre = criteriaBuilder.equal(root.get("categoryId").as(String.class), categoryId);
+                    predicates.add(categoryIdPre);
+                }
+                if (!TextUtils.isEmpty(keyword)) {
+                    Predicate keywordPre = criteriaBuilder.like(root.get("title").as(String.class), "%" + keyword + "%");
+                    predicates.add(keywordPre);
+                }
+                Predicate[] preArray = new Predicate[predicates.size()];
+                return criteriaBuilder.and(predicates.toArray(preArray));
+            }
+        }, pageable);
+        //返回结果
+        return ResponseResult.SUCCESS("条件查询成功").setData(all);
     }
 }
