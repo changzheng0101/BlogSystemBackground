@@ -31,7 +31,7 @@ public class ArticleAdminApi {
 
     @GetMapping("/{articleId}")
     public ResponseResult getArticle(@PathVariable("articleId") String articleId) {
-        return null;
+        return articleService.getArticle(articleId);
     }
 
     @GetMapping("/list/{page}/{size}")

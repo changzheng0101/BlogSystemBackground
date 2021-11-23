@@ -174,4 +174,35 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
         //返回结果
         return ResponseResult.SUCCESS("条件查询成功").setData(all);
     }
+
+    /**
+     * 如果有审核机制--审核中的管理员和用户才可以看
+     * 删除、草稿、已发布、置顶
+     * 所有人都可以访问已发布和置顶
+     * 只有管理员可以访问草稿和删除的
+     * 草稿用户本人也可以进行访问
+     * <p>
+     * 目前是单人博客 草稿和删除的直接管理员权限才可以访问
+     *
+     * @param articleId 文章id
+     * @return
+     */
+    @Override
+    public ResponseResult getArticle(String articleId) {
+        Article articleFromDb = articleDao.findOneById(articleId);
+        if (articleFromDb == null) {
+            return ResponseResult.FAILED("文章不存在");
+        }
+        String state = articleFromDb.getState();
+        if (Constants.Article.ARTICLE_PUBLISH.equals(state) ||
+                Constants.Article.ARTICLE_TOP.equals(state)) {
+            return ResponseResult.SUCCESS("文章查询成功").setData(articleFromDb);
+        }
+        //鉴权
+        BlogUser blogUser = userService.checkBolgUser();
+        if (!Constants.User.ROLE_ADMIN.equals(blogUser.getRoles())) {
+            return ResponseResult.PERMISSION_FORBID();
+        }
+        return ResponseResult.SUCCESS("文章查询成功").setData(articleFromDb);
+    }
 }
