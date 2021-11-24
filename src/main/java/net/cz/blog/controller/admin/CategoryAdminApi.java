@@ -45,8 +45,8 @@ public class CategoryAdminApi {
 
     //获取整个分类列表 获取部分
     @PreAuthorize("@permission.isAdmin()")
-    @GetMapping("/category_list/{page}/{size}")
-    public ResponseResult getCategoryList(@PathVariable("page") int page, @PathVariable("size") int size) {
-        return categoryService.getCategoryList(page,size);
+    @GetMapping("/category_list")
+    public ResponseResult getCategoryList() {
+        return categoryService.getCategoryList();
     }
 }

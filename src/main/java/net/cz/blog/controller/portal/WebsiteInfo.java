@@ -2,6 +2,8 @@ package net.cz.blog.controller.portal;
 
 
 import net.cz.blog.Response.ResponseResult;
+import net.cz.blog.services.ICategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,9 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/portal/website_info")
 public class WebsiteInfo {
+    @Autowired
+    private ICategoryService categoryService;
+
+
     @GetMapping("/categories")
     public ResponseResult getCategories() {
-        return null;
+        return categoryService.getCategoryList();
     }
 
     @GetMapping("/title")

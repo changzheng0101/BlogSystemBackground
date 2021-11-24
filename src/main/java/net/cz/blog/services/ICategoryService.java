@@ -8,7 +8,7 @@ public interface ICategoryService {
 
     ResponseResult getCategory(String categoryId);
 
-    ResponseResult getCategoryList(int page, int size);
+    ResponseResult getCategoryList();
 
     ResponseResult updateCategory(String categoryId, Category category);
 

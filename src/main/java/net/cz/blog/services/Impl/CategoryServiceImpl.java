@@ -3,8 +3,10 @@ package net.cz.blog.services.Impl;
 import lombok.extern.slf4j.Slf4j;
 import net.cz.blog.Dao.CategoryDao;
 import net.cz.blog.Response.ResponseResult;
+import net.cz.blog.pojo.BlogUser;
 import net.cz.blog.pojo.Category;
 import net.cz.blog.services.ICategoryService;
+import net.cz.blog.services.IUserService;
 import net.cz.blog.utils.Constants;
 import net.cz.blog.utils.SnowflakeIdWorker;
 import net.cz.blog.utils.TextUtils;
@@ -16,7 +18,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -27,6 +31,8 @@ public class CategoryServiceImpl extends BaseService implements ICategoryService
     private SnowflakeIdWorker idWorker;
     @Autowired
     private CategoryDao categoryDao;
+    @Autowired
+    private IUserService userService;
 
 
     @Override
@@ -60,16 +66,25 @@ public class CategoryServiceImpl extends BaseService implements ICategoryService
         return ResponseResult.SUCCESS("分类查询成功").setData(category);
     }
 
+    /**
+     * 管理员：可以获取所有分类 包括删除的
+     * 其余： 只能获取状态为1的
+     *
+     * @return
+     */
     @Override
-    public ResponseResult getCategoryList(int page, int size) {
-        //判断page和size
-        page = checkPage(page);
-        size = checkSize(size);
-        //创建条件
-        Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
-        Pageable pageable = PageRequest.of(page - 1, size, sort);
-        //查询
-        Page<Category> categories = categoryDao.findAll(pageable);
+    public ResponseResult getCategoryList() {
+        BlogUser blogUser = userService.checkBolgUser();
+        List<Category> categories = new ArrayList<>();
+        if (blogUser == null || !Constants.User.ROLE_ADMIN.equals(blogUser.getRoles())) {
+            //处理其余情况
+            categories = categoryDao.listCategoryByStatus("1");
+        } else {
+            //创建条件
+            Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
+            //查询
+            categories = categoryDao.findAll(sort);
+        }
         return ResponseResult.SUCCESS("查询列表成功").setData(categories);
     }
 
