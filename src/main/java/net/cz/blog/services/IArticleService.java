@@ -11,4 +11,10 @@ public interface IArticleService {
     ResponseResult getArticle(String articleId);
 
     ResponseResult updateArticle(String articleId, Article article);
+
+    ResponseResult deleteArticleById(String articleId);
+
+    ResponseResult topArticle(String articleId);
+
+    ResponseResult deleteArticleByChangeState(String articleId);
 }

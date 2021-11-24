@@ -241,4 +241,52 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
         articleDao.save(articleFromDb);
         return ResponseResult.SUCCESS("文章修改成功");
     }
+
+    @Override
+    public ResponseResult deleteArticleById(String articleId) {
+        int result = articleDao.deleteAlLById(articleId);
+        if (result > 0) {
+            return ResponseResult.SUCCESS("文章删除成功");
+        }
+        return ResponseResult.FAILED("文章不存在，删除失败");
+    }
+
+    /**
+     * 置顶文章，要判断状态 草稿和删除的不能置顶
+     * 已经置顶的取消置顶
+     *
+     * @param articleId
+     * @return
+     */
+    @Override
+    public ResponseResult topArticle(String articleId) {
+        Article articleFromDb = articleDao.findOneById(articleId);
+        if (articleFromDb == null) {
+            return ResponseResult.FAILED("文章不存在，置顶失败");
+        }
+        String state = articleFromDb.getState();
+        switch (state) {
+            case Constants.Article.ARTICLE_PUBLISH:
+                articleFromDb.setState(Constants.Article.ARTICLE_TOP);
+                articleDao.save(articleFromDb);
+                return ResponseResult.SUCCESS("文章置顶成功");
+            case Constants.Article.ARTICLE_DRAFT:
+            case Constants.Article.ARTICLE_DELETE:
+                return ResponseResult.FAILED("文章状态有误");
+            case Constants.Article.ARTICLE_TOP:
+                articleFromDb.setState(Constants.Article.ARTICLE_PUBLISH);
+                articleDao.save(articleFromDb);
+                return ResponseResult.SUCCESS("文章取消置顶成功");
+        }
+        return ResponseResult.FAILED("文章状态不在已经给定的状态中");
+    }
+
+    @Override
+    public ResponseResult deleteArticleByChangeState(String articleId) {
+        int result = articleDao.deleteAllByChangeState(articleId);
+        if (result > 0) {
+            return ResponseResult.SUCCESS("文章删除成功");
+        }
+        return ResponseResult.FAILED("文章不存在，删除失败");
+    }
 }
