@@ -10,9 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import net.cz.blog.Dao.RefreshTokenDao;
 import net.cz.blog.Dao.SettingsDao;
 import net.cz.blog.Dao.UserDao;
+import net.cz.blog.Dao.UserNoPasswordDao;
 import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.Response.ResponseState;
 import net.cz.blog.pojo.BlogUser;
+import net.cz.blog.pojo.BlogUserNoPassword;
 import net.cz.blog.pojo.RefreshToken;
 import net.cz.blog.pojo.Setting;
 import net.cz.blog.services.IUserService;
@@ -32,6 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -495,6 +498,9 @@ public class UserServiceImpl extends BaseService implements IUserService {
         return ResponseResult.FAILED("用户不存在");
     }
 
+    @Autowired
+    private UserNoPasswordDao userNoPasswordDao;
+
     @Override
     public ResponseResult getUserList(int page, int size) {
         //可以查询了
@@ -503,7 +509,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
         //根据注册日期来排序
         Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
         Pageable pageable = PageRequest.of(page - 1, size, sort);
-        Page<BlogUser> userList = userDao.listAllUserWithoutPassword(pageable);
+        List<BlogUserNoPassword> userList = userNoPasswordDao.findAll();
         return ResponseResult.SUCCESS("用户查询成功").setData(userList);
     }
 

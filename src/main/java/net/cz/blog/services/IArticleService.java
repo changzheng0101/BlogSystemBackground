@@ -10,4 +10,5 @@ public interface IArticleService {
 
     ResponseResult getArticle(String articleId);
 
+    ResponseResult updateArticle(String articleId, Article article);
 }

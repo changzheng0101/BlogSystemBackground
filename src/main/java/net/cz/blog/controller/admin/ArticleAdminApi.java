@@ -25,8 +25,8 @@ public class ArticleAdminApi {
     }
 
     @PutMapping("/{articleId}")
-    public ResponseResult updateArticle(@PathVariable("articleId") String articleId) {
-        return null;
+    public ResponseResult updateArticle(@PathVariable("articleId") String articleId,@RequestParam Article article) {
+        return articleService.updateArticle(articleId,article);
     }
 
     @GetMapping("/{articleId}")

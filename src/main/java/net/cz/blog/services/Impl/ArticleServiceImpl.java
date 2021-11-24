@@ -205,4 +205,40 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
         }
         return ResponseResult.SUCCESS("文章查询成功").setData(articleFromDb);
     }
+
+    @Override
+    public ResponseResult updateArticle(String articleId, Article article) {
+        Article articleFromDb = articleDao.findOneById(articleId);
+        if (articleFromDb == null) {
+            return ResponseResult.FAILED("文章不存在");
+        }
+        //可更新：标题 分类id 内容 cover 摘要 标签
+        String title = article.getTitle();
+        if (!TextUtils.isEmpty(title)) {
+            articleFromDb.setTitle(title);
+        }
+        String categoryId = article.getCategoryId();
+        if (!TextUtils.isEmpty(categoryId)) {
+            articleFromDb.setTitle(categoryId);
+        }
+        String content = article.getContent();
+        if (!TextUtils.isEmpty(content)) {
+            articleFromDb.setTitle(content);
+        }
+        String cover = article.getCover();
+        if (!TextUtils.isEmpty(cover)) {
+            articleFromDb.setTitle(cover);
+        }
+        String summary = article.getSummary();
+        if (!TextUtils.isEmpty(summary)) {
+            articleFromDb.setTitle(summary);
+        }
+        String labels = article.getLabels();
+        if (TextUtils.isEmpty(labels)) {
+            articleFromDb.setLabels(labels);
+        }
+        articleFromDb.setUpdateTime(new Date());
+        articleDao.save(articleFromDb);
+        return ResponseResult.SUCCESS("文章修改成功");
+    }
 }

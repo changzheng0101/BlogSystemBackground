@@ -26,10 +26,6 @@ public interface UserDao extends JpaRepository<BlogUser, String>, JpaSpecificati
     @Query(nativeQuery = true, value = "UPDATE `tb_user` SET state = '0' WHERE id=?")
     int deleteBlogUserByState(String userId);
 
-    @Query(value = "select new BlogUser(u.id,u.userName,u.roles,u.avatar,u.email,u.sign,u.state" +
-            ",u.reg_ip,u.login_ip,u.createTime,u.updateTime) from BlogUser as u")
-    Page<BlogUser> listAllUserWithoutPassword(Pageable pageable);
-
 
     @Modifying
     @Query(nativeQuery = true, value = "UPDATE `tb_user` SET `password` = ? WHERE `email`=?")

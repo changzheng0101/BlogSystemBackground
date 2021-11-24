@@ -1,11 +1,11 @@
 package net.cz.blog.pojo;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_article")
@@ -61,6 +61,39 @@ public class Article {
     @Column(name = "update_time")
     private Date updateTime;
 
+    @OneToOne(targetEntity = BlogUserNoPassword.class)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private BlogUserNoPassword blogUser;
+
+    @Transient
+    private List<String> labelResult = new ArrayList<>();
+
+    public BlogUserNoPassword getBlogUser() {
+        return blogUser;
+    }
+
+    public void setBlogUser(BlogUserNoPassword blogUser) {
+        this.blogUser = blogUser;
+    }
+
+    public List<String> getLabelResult() {
+        if (labels != null) {
+            labelResult.clear();
+            //换一种形式返回
+            if (labels.contains("-")){
+                labelResult.add(labels);
+            }else {
+                String[] split = labels.split("-");
+                List<String> strings = Arrays.asList(split);
+                labelResult.addAll(strings);
+            }
+        }
+        return labelResult;
+    }
+
+    public void setLabelResult(List<String> labelResult) {
+        this.labelResult = labelResult;
+    }
 
     public String getId() {
         return id;
@@ -153,6 +186,7 @@ public class Article {
     }
 
     public String getLabels() {
+
         return labels;
     }
 

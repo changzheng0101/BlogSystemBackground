@@ -1,11 +1,13 @@
-[2021/11/23-09:22:43] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 15488 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
-[2021/11/23-09:22:43] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
-[2021/11/23-09:22:49] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.983 seconds (JVM running for 7.254)
-[2021/11/23-09:23:01] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : sendVerifyCode==>uh8kw
-[2021/11/23-09:23:17] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.services.Impl.UserServiceImpl] : tokenKey==>87c1629e918a5074fae8faddeea3f84a
-[2021/11/23-09:26:27] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 2072 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
-[2021/11/23-09:26:27] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
-[2021/11/23-09:26:31] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.313 seconds (JVM running for 6.5)
-[2021/11/23-09:30:36] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 1960 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
-[2021/11/23-09:30:36] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
-[2021/11/23-09:30:41] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 4.934 seconds (JVM running for 6.16)
+[2021/11/24-09:10:24] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 2492 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/11/24-09:10:24] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
+[2021/11/24-09:11:28] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 10312 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/11/24-09:11:28] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
+[2021/11/24-09:11:34] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 6.361 seconds (JVM running for 7.633)
+[2021/11/24-09:15:36] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 7364 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/11/24-09:15:36] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
+[2021/11/24-09:15:41] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.958 seconds (JVM running for 7.392)
+[2021/11/24-09:18:21] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 11512 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/11/24-09:18:21] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
+[2021/11/24-09:21:43] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 13320 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/11/24-09:21:43] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
+[2021/11/24-09:21:48] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.077 seconds (JVM running for 6.234)
