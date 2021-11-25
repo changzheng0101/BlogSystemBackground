@@ -24,9 +24,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -200,7 +198,7 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
         }
         //鉴权
         BlogUser blogUser = userService.checkBolgUser();
-        if (!Constants.User.ROLE_ADMIN.equals(blogUser.getRoles())) {
+        if (blogUser == null || !Constants.User.ROLE_ADMIN.equals(blogUser.getRoles())) {
             return ResponseResult.PERMISSION_FORBID();
         }
         return ResponseResult.SUCCESS("文章查询成功").setData(articleFromDb);
@@ -288,5 +286,43 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
             return ResponseResult.SUCCESS("文章删除成功");
         }
         return ResponseResult.FAILED("文章不存在，删除失败");
+    }
+
+    @Override
+    public ResponseResult getTopArticleList() {
+        List<Article> result = articleDao.findAll(new Specification<Article>() {
+            @Override
+            public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("state").as(String.class), Constants.Article.ARTICLE_TOP);
+            }
+        });
+        return ResponseResult.SUCCESS("获取置顶文章成功").setData(result);
+    }
+
+    @Autowired
+    private Random random;
+
+    @Override
+    public ResponseResult getRecommendArticles(String articleId, int size) {
+        //查询文章 只需要标签 无需文章
+        String labels = articleDao.getArticleLabelsById(articleId);
+        //打散标签
+        List<String> labelList = new ArrayList<>();
+        if (!labels.contains("-")) {
+            labelList.add(labels);
+        } else {
+            labelList.addAll(Arrays.asList(labels.split("-")));
+        }
+        //随机取一个标签
+        String randomLabel = labelList.get(random.nextInt(labelList.size()));
+        List<ArticleNoContent> articleListByLabel = articleNoContentDao.getArticleListByLabel(randomLabel, articleId, size);
+        if (articleListByLabel.size() < size) {
+            //没找够继续找
+            //todo 有一定弊端 可能把已经找过的也加进来 但是在文章多的时候概率很小
+            List<ArticleNoContent> lastedArticleListBySize =
+                    articleNoContentDao.getLastedArticleListBySize(articleId, size - articleListByLabel.size());
+            articleListByLabel.addAll(lastedArticleListBySize);
+        }
+        return ResponseResult.SUCCESS("获取推荐文章成功").setData(articleListByLabel);
     }
 }

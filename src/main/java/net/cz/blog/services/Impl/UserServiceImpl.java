@@ -112,7 +112,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
             Captcha.FONT_5, Captcha.FONT_6, Captcha.FONT_7, Captcha.FONT_8, Captcha.FONT_9, Captcha.FONT_10};
 
     @Autowired
-    public Random random;
+    private Random random;
     @Autowired
     private RedisUtil redisUtil;
 

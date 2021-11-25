@@ -17,4 +17,9 @@ public interface IArticleService {
     ResponseResult topArticle(String articleId);
 
     ResponseResult deleteArticleByChangeState(String articleId);
+
+    ResponseResult getTopArticleList();
+
+
+    ResponseResult getRecommendArticles(String articleId, int size);
 }

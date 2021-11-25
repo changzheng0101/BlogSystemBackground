@@ -16,4 +16,8 @@ public interface ArticleDao extends JpaRepository<Article, String>, JpaSpecifica
     @Query(nativeQuery = true, value = "update `tb_user` set `state`='0' where `id`=?")
     int deleteAllByChangeState(String id);
 
+    @Query(nativeQuery = true, value = "select `labels` from `tb_article` where `id`=?")
+    String getArticleLabelsById(String articleId);
+
+
 }

@@ -1,3 +1,6 @@
 [2021/11/25-14:08:17] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 2540 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
 [2021/11/25-14:08:17] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
 [2021/11/25-14:08:22] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 6.055 seconds (JVM running for 7.33)
+[2021/11/25-15:21:11] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 14528 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/11/25-15:21:11] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
+[2021/11/25-15:21:16] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 4.994 seconds (JVM running for 6.213)
