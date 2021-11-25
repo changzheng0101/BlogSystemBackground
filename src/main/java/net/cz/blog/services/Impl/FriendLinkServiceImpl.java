@@ -2,8 +2,10 @@ package net.cz.blog.services.Impl;
 
 import net.cz.blog.Dao.FriendLinkDao;
 import net.cz.blog.Response.ResponseResult;
+import net.cz.blog.pojo.BlogUser;
 import net.cz.blog.pojo.FriendLink;
 import net.cz.blog.services.IFriendLinkService;
+import net.cz.blog.services.IUserService;
 import net.cz.blog.utils.Constants;
 import net.cz.blog.utils.SnowflakeIdWorker;
 import net.cz.blog.utils.TextUtils;
@@ -15,7 +17,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -57,14 +61,23 @@ public class FriendLinkServiceImpl extends BaseService implements IFriendLinkSer
         return ResponseResult.SUCCESS("获取成功").setData(friendLink);
     }
 
+    @Autowired
+    private IUserService userService;
+
     @Override
-    public ResponseResult getFriendLinkList(int page, int size) {
-        page = checkPage(page);
-        size = checkSize(size);
-        Sort sort = Sort.by(Sort.Direction.DESC, "updateTime");
-        Pageable pageable = PageRequest.of(page - 1, size, sort);
-        Page<FriendLink> all = friendLinkDao.findAll(pageable);
-        return ResponseResult.SUCCESS("查询列表成功").setData(all);
+    public ResponseResult getFriendLinkList() {
+        BlogUser blogUser = userService.checkBolgUser();
+        List<FriendLink> friendLinkList = new ArrayList<>();
+        if (blogUser == null || !Constants.User.ROLE_ADMIN.equals(blogUser.getRoles())) {
+            //处理其余情况 只能查询没有改变删除状态的
+            friendLinkList = friendLinkDao.listFriendLinkByStatus("1");
+        } else {
+            //创建条件
+            Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
+            //查询
+            friendLinkList = friendLinkDao.findAll(sort);
+        }
+        return ResponseResult.SUCCESS("查询列表成功").setData(friendLinkList);
     }
 
     @Override

@@ -46,9 +46,9 @@ public class FriendLinkAdminApi {
     }
 
     @PreAuthorize("@permission.isAdmin()")
-    @GetMapping("/list/{page}/{size}")
-    public ResponseResult getFriendLinkList(@PathVariable("page") int page, @PathVariable("size") int size) {
-        return friendLinkService.getFriendLinkList(page, size);
+    @GetMapping("/list")
+    public ResponseResult getFriendLinkList() {
+        return friendLinkService.getFriendLinkList();
     }
 
 }

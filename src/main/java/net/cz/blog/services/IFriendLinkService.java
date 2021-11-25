@@ -8,7 +8,7 @@ public interface IFriendLinkService {
 
     ResponseResult getFriendLink(String friendsLinkId);
 
-    ResponseResult getFriendLinkList(int page, int size);
+    ResponseResult getFriendLinkList();
 
     ResponseResult deleteFriendLink(String friendsLinkId);
 

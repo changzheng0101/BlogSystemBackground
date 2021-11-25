@@ -2,8 +2,11 @@ package net.cz.blog.services.Impl;
 
 import net.cz.blog.Dao.LooperDao;
 import net.cz.blog.Response.ResponseResult;
+import net.cz.blog.pojo.BlogUser;
 import net.cz.blog.pojo.Looper;
 import net.cz.blog.services.ILooperService;
+import net.cz.blog.services.IUserService;
+import net.cz.blog.utils.Constants;
 import net.cz.blog.utils.SnowflakeIdWorker;
 import net.cz.blog.utils.TextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Service
@@ -47,14 +52,23 @@ public class LooperServiceImpl extends BaseService implements ILooperService {
         return ResponseResult.SUCCESS("轮播图添加成功");
     }
 
+    @Autowired
+    private IUserService userService;
+
     @Override
-    public ResponseResult getLooperList(int page, int size) {
-        page = checkPage(page);
-        size = checkSize(size);
-        Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
-        Pageable pageable = PageRequest.of(page - 1, size, sort);
-        Page<Looper> all = looperDao.findAll(pageable);
-        return ResponseResult.SUCCESS("获取数据列表成功").setData(all);
+    public ResponseResult getLooperList() {
+        BlogUser blogUser = userService.checkBolgUser();
+        List<Looper> looperList = new ArrayList<>();
+        if (blogUser == null || !Constants.User.ROLE_ADMIN.equals(blogUser.getRoles())) {
+            //处理其余情况
+            looperList = looperDao.listLooperByStatus("1");
+        } else {
+            //创建条件
+            Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
+            //查询
+            looperList = looperDao.findAll(sort);
+        }
+        return ResponseResult.SUCCESS("获取数据列表成功").setData(looperList);
     }
 
     @Override
