@@ -14,4 +14,5 @@ public interface IWebsiteInfoService {
 
     ResponseResult getWebsiteTitle();
 
+    void updateViewCount();
 }
