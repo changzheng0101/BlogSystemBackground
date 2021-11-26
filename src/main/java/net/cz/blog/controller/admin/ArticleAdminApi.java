@@ -53,6 +53,13 @@ public class ArticleAdminApi {
         return articleService.getArticleList(page, size, state, categoryId, keyword);
     }
 
+    @GetMapping("list/{label}/{page}/{size}")
+    public ResponseResult getArticleListByLabels(@PathVariable("label") String label,
+                                                 @PathVariable("page") int page,
+                                                 @PathVariable("size") int size) {
+        return articleService.getArticleListByLabel(label, page, size);
+    }
+
     //改变文章状态
     @DeleteMapping("/state/{articleId}")
     public ResponseResult deleteArticleByChangeState(@PathVariable("articleId") String articleId) {
@@ -64,5 +71,17 @@ public class ArticleAdminApi {
     @PutMapping("/top/{articleId}")
     public ResponseResult topArticle(@PathVariable("articleId") String articleId) {
         return articleService.topArticle(articleId);
+    }
+
+    /**
+     * 获取标签云
+     * 如果用户点击标签，就会跳转到相应页面
+     *
+     * @param size
+     * @return
+     */
+    @GetMapping("/list/{size}")
+    public ResponseResult getLabels(@PathVariable("size") int size) {
+        return articleService.getLabels(size);
     }
 }

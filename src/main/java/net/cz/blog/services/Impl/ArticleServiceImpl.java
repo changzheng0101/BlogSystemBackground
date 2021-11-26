@@ -1,11 +1,14 @@
 package net.cz.blog.services.Impl;
 
+import jdk.nashorn.internal.ir.IfNode;
 import net.cz.blog.Dao.ArticleDao;
 import net.cz.blog.Dao.ArticleNoContentDao;
+import net.cz.blog.Dao.LabelDao;
 import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.pojo.Article;
 import net.cz.blog.pojo.ArticleNoContent;
 import net.cz.blog.pojo.BlogUser;
+import net.cz.blog.pojo.Label;
 import net.cz.blog.services.IArticleService;
 import net.cz.blog.services.IUserService;
 import net.cz.blog.utils.Constants;
@@ -38,6 +41,8 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
     private ArticleDao articleDao;
     @Autowired
     private ArticleNoContentDao articleNoContentDao;
+    @Autowired
+    private LabelDao labelDao;
 
     /**
      * 后期考虑定时发布的功能
@@ -133,11 +138,36 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
         article.setUserId(blogUser.getId());
         article.setUpdateTime(new Date());
         articleDao.save(article);
-
         //todo 将搜索的关键字保存到数据库中
+        //对标签进行更新
+        setupLabels(article.getLabels());
         return ResponseResult.SUCCESS(Constants.Article.ARTICLE_PUBLISH.equals(state)
                 ? "文章发表成功" : "草稿发布成功").setData(articleId);
     }
+
+    private void setupLabels(String labels) {
+        List<String> labelList = new ArrayList<>();
+        if (labelList.contains("-")) {
+            labelList.addAll(Arrays.asList(labels.split("-")));
+        } else {
+            labelList.add(labels);
+        }
+        //统计 加入数据库
+        for (String label : labelList) {
+            int result = labelDao.updateCountByName(label);
+            if (result == 0) {
+                //没有该标签 进行创建
+                Label targetLabel = new Label();
+                targetLabel.setId(idWorker.nextId() + "");
+                targetLabel.setName(label);
+                targetLabel.setCount(1);
+                targetLabel.setCreateTime(new Date());
+                targetLabel.setUpdateTime(new Date());
+                labelDao.save(targetLabel);
+            }
+        }
+    }
+
 
     @Override
     public ResponseResult getArticleList(int page, int size, String state, String categoryId, String keyword) {
@@ -324,5 +354,33 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
             articleListByLabel.addAll(lastedArticleListBySize);
         }
         return ResponseResult.SUCCESS("获取推荐文章成功").setData(articleListByLabel);
+    }
+
+    @Override
+    public ResponseResult getArticleListByLabel(String label, int page, int size) {
+        page = checkPage(page);
+        size = checkSize(size);
+        Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        Page<ArticleNoContent> result = articleNoContentDao.findAll(new Specification<ArticleNoContent>() {
+            @Override
+            public Predicate toPredicate(Root<ArticleNoContent> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                Predicate labelPre = criteriaBuilder.like(root.get("labels").as(String.class), "%" + label + "%");
+                Predicate publishPre = criteriaBuilder.equal(root.get("state").as(String.class), Constants.Article.ARTICLE_PUBLISH);
+                Predicate topPre = criteriaBuilder.equal(root.get("state").as(String.class), Constants.Article.ARTICLE_TOP);
+                Predicate articlePre = criteriaBuilder.or(publishPre, topPre);
+                return criteriaBuilder.and(labelPre, articlePre);
+            }
+        }, pageable);
+        return ResponseResult.SUCCESS("根据标签查询文章成功").setData(result);
+    }
+
+    @Override
+    public ResponseResult getLabels(int size) {
+        size = checkSize(size);
+        Sort sort = Sort.by(Sort.Direction.DESC, "count");
+        Pageable pageable = PageRequest.of(0, size, sort);
+        Page<Label> result = labelDao.findAll(pageable);
+        return ResponseResult.SUCCESS("获取标签列表成功").setData(result);
     }
 }
