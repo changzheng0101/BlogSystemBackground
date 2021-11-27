@@ -121,4 +121,32 @@ public class CommentServiceImpl extends BaseService implements ICommentService {
         return ResponseResult.FAILED("评论删除失败");
     }
 
+    @Override
+    public ResponseResult getCommentList(int page, int size) {
+        page = checkPage(page);
+        size = checkSize(size);
+        Sort sort = Sort.by(Sort.Direction.DESC, "state", "createTime");
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        Page<Comment> result = commentDao.findAll(pageable);
+        return ResponseResult.SUCCESS("评论列表查询成功").setData(result);
+    }
+
+    @Override
+    public ResponseResult topComment(String commentId) {
+        Comment comment = commentDao.findOneById(commentId);
+        if (comment == null) {
+            return ResponseResult.FAILED("评论不存在");
+        }
+        String state = comment.getState();
+        if (Constants.Comment.ARTICLE_PUBLISH.equals(state)) {
+            comment.setState(Constants.Comment.ARTICLE_TOP);
+            return ResponseResult.SUCCESS("置顶成功");
+        } else if (Constants.Comment.ARTICLE_TOP.equals(state)) {
+            comment.setState(Constants.Comment.ARTICLE_PUBLISH);
+            return ResponseResult.SUCCESS("取消置顶成功");
+        } else {
+            return ResponseResult.FAILED("不支持此操作");
+        }
+    }
+
 }

@@ -5,6 +5,7 @@ import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.pojo.Setting;
 import net.cz.blog.services.IWebsiteInfoService;
 import net.cz.blog.utils.Constants;
+import net.cz.blog.utils.RedisUtil;
 import net.cz.blog.utils.SnowflakeIdWorker;
 import net.cz.blog.utils.TextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class WebsiteInfoImpl extends BaseService implements IWebsiteInfoService 
     private SettingsDao settingsDao;
     @Autowired
     private SnowflakeIdWorker idWorker;
+    @Autowired
+    private RedisUtil redisUtil;
 
     /**
      * 添加拦截器进行统计，要做细还得统计分来源
@@ -31,14 +34,18 @@ public class WebsiteInfoImpl extends BaseService implements IWebsiteInfoService 
      */
     @Override
     public ResponseResult getWebsiteViewCount() {
+        String viewCountStr = (String) redisUtil.get(Constants.Settings.WEBSITE_VIEW_COUNTS);
         Setting viewCountFromDb = settingsDao.findOneByKey(Constants.Settings.WEBSITE_VIEW_COUNTS);
         if (viewCountFromDb == null) {
-            viewCountFromDb = new Setting();
-            viewCountFromDb.setId(idWorker.nextId() + "");
-            viewCountFromDb.setKey(Constants.Settings.WEBSITE_KEYWORDS);
-            viewCountFromDb.setValue("1");
-            viewCountFromDb.setUpdateTime(new Date());
-            viewCountFromDb.setCreateTime(new Date());
+            viewCountFromDb = initViewCount();
+            settingsDao.save(viewCountFromDb);
+        }
+        if (TextUtils.isEmpty(viewCountStr)) {
+            viewCountStr = viewCountFromDb.getValue();
+            redisUtil.set(Constants.Settings.WEBSITE_VIEW_COUNTS,viewCountStr);
+        }else {
+            //把redis中的值更新到数据库中
+            viewCountFromDb.setValue(viewCountStr);
             settingsDao.save(viewCountFromDb);
         }
         Map<String, Integer> result = new HashMap<>();
@@ -109,5 +116,34 @@ public class WebsiteInfoImpl extends BaseService implements IWebsiteInfoService 
     public ResponseResult getWebsiteTitle() {
         Setting title = settingsDao.findOneByKey(Constants.Settings.WEBSITE_TITLE);
         return ResponseResult.SUCCESS("网站标题查询成功").setData(title);
+    }
+
+    /**
+     * 1. 并发量
+     * 2. 过滤相同的ip、id
+     * 3. 放置dds攻击，一定的访问量后提示稍后重试
+     */
+    @Override
+    public void updateViewCount() {
+        String viewCount = (String) redisUtil.get(Constants.Settings.WEBSITE_VIEW_COUNTS);
+        if (TextUtils.isEmpty(viewCount)) {
+            Setting setting = settingsDao.findOneByKey(Constants.Settings.WEBSITE_VIEW_COUNTS);
+            if (setting == null) {
+                setting = initViewCount();
+                settingsDao.save(setting);
+            }
+            redisUtil.set(Constants.Settings.WEBSITE_VIEW_COUNTS, setting.getValue());
+        }
+        redisUtil.incr(Constants.Settings.WEBSITE_VIEW_COUNTS, 1);
+    }
+
+    private Setting initViewCount() {
+        Setting setting = new Setting();
+        setting.setId(idWorker.nextId() + "");
+        setting.setKey(Constants.Settings.WEBSITE_KEYWORDS);
+        setting.setValue("1");
+        setting.setUpdateTime(new Date());
+        setting.setCreateTime(new Date());
+        return setting;
     }
 }

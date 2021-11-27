@@ -60,4 +60,11 @@ public interface Constants {
         String ARTICLE_DRAFT = "2";
         String ARTICLE_TOP = "3";
     }
+
+    interface Comment {
+        // 0 删除 1 发布成功 3 置顶
+        String ARTICLE_DELETE = "0";
+        String ARTICLE_PUBLISH = "1";
+        String ARTICLE_TOP = "3";
+    }
 }
