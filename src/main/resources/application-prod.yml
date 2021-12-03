@@ -14,6 +14,9 @@ spring:
     port: 6379
     password: 123456
     host: 47.94.195.238
+  data:
+    solr:
+      host: http://47.94.195.238:8983/solr/sob_blog_core
 blog.images.save-path: path/in/linux
 #2MB
 blog.images.max-size: 2,097,152

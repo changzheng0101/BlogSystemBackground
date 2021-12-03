@@ -6,5 +6,8 @@
         <language minSize="56" name="Java" />
       </Languages>
     </inspection_tool>
+    <inspection_tool class="MavenModelInspection" enabled="true" level="ERROR" enabled_by_default="true">
+      <scope name="Project Files" level="ERROR" enabled="true" />
+    </inspection_tool>
   </profile>
 </component>

@@ -15,5 +15,14 @@
       <jdbc-url>jdbc:mysql://47.94.195.238:3306/blog_system_database</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="BlogSystemBackground/Hibernate" uuid="3ef1a20e-7b59-400e-95f9-d68a67a8d3a4">
+      <driver-ref>athena</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>Hibernate</remarks>
+      <jdbc-driver>com.simba.athena.jdbc42.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://47.94.195.238 :3306/blog_system_database?characterEncoding=utf-8&amp;useSSL=false</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
