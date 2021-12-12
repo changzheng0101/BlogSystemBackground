@@ -1,2 +1,26 @@
-[2021/12/03-14:58:03] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 972 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
-[2021/12/03-14:58:03] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
+[2021/12/12-09:30:43] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 7988 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/12/12-09:30:43] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
+[2021/12/12-09:30:50] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 7.179 seconds (JVM running for 8.538)
+[2021/12/12-09:31:49] [http-nio-2021-exec-7] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {}
+[2021/12/12-09:31:49] [http-nio-2021-exec-7] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : []
+[2021/12/12-09:54:16] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 496 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/12/12-09:54:16] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
+[2021/12/12-09:54:21] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.46 seconds (JVM running for 6.704)
+[2021/12/12-09:54:47] [http-nio-2021-exec-10] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {}
+[2021/12/12-09:54:47] [http-nio-2021-exec-10] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : []
+[2021/12/12-09:55:21] [http-nio-2021-exec-4] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {}
+[2021/12/12-09:55:21] [http-nio-2021-exec-4] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : []
+[2021/12/12-09:55:24] [http-nio-2021-exec-3] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {}
+[2021/12/12-09:55:24] [http-nio-2021-exec-3] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : []
+[2021/12/12-09:56:06] [http-nio-2021-exec-9] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {}
+[2021/12/12-09:56:06] [http-nio-2021-exec-9] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : []
+[2021/12/12-09:56:09] [http-nio-2021-exec-8] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {}
+[2021/12/12-09:56:09] [http-nio-2021-exec-8] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : []
+[2021/12/12-09:56:09] [http-nio-2021-exec-10] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {}
+[2021/12/12-09:56:09] [http-nio-2021-exec-10] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : []
+[2021/12/12-09:56:09] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {}
+[2021/12/12-09:56:09] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : []
+[2021/12/12-09:56:09] [http-nio-2021-exec-4] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {}
+[2021/12/12-09:56:09] [http-nio-2021-exec-4] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : []
+[2021/12/12-09:56:10] [http-nio-2021-exec-3] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {}
+[2021/12/12-09:56:10] [http-nio-2021-exec-3] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : []

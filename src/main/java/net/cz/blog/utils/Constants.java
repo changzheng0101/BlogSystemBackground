@@ -52,6 +52,8 @@ public interface Constants {
     }
 
     interface Article {
+        String TYPE_MARKDOWN="1";
+        String TYPE_RICH_TEXT="0";
         int TITLE_MAX_LENGTH = 128;
         int SUMMARY_MAX_LENGTH = 256;
         // 0 删除 1 发布成功  2 草稿 3 置顶
