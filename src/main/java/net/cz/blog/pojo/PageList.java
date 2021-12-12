@@ -5,6 +5,21 @@ import java.util.List;
 
 //将搜索的结果转化成分页数据
 public class PageList<T> implements Serializable {
+
+    public PageList(long currentPage, long totalCount, long pageSize) {
+        this.currentPage = currentPage;
+        this.totalCount = totalCount;
+        this.pageSize = pageSize;
+        //总页码判断
+        if (totalCount % pageSize == 0) {
+            totalPage = totalCount / pageSize;
+        } else {
+            totalPage = totalCount / pageSize + 1;
+        }
+        isFirst = currentPage == 1;
+        isLast = currentPage == totalPage;
+    }
+
     //数据
     //当前页码
     private long currentPage;

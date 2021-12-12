@@ -41,3 +41,8 @@
 [2021/12/12-10:03:39] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : []
 [2021/12/12-10:03:54] [http-nio-2021-exec-5] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {45646={}}
 [2021/12/12-10:03:54] [http-nio-2021-exec-5] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : [net.cz.blog.pojo.SearchResult@595f39fe]
+[2021/12/12-10:20:42] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 2772 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/12/12-10:20:42] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
+[2021/12/12-10:20:47] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.403 seconds (JVM running for 6.631)
+[2021/12/12-10:20:59] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {912635629618069504={blog_content=[这是关于java<font color='red'>基础</font>的文章], blog_title=[java<font color='red'>基础</font>]}, 912636290489384960={blog_content=[这是关于java<font color='red'>基础</font>的文章], blog_title=[java<font color='red'>基础</font>]}, 912636165092278272={blog_content=[这是关于java<font color='red'>基础</font>的文章], blog_title=[java<font color='red'>基础</font>]}}
+[2021/12/12-10:20:59] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : [net.cz.blog.pojo.SearchResult@544f5550, net.cz.blog.pojo.SearchResult@3a3cf269, net.cz.blog.pojo.SearchResult@3eb67175]

@@ -3,6 +3,7 @@ package net.cz.blog.services.Impl;
 import jdk.nashorn.internal.ir.IfNode;
 import net.cz.blog.Dao.ArticleDao;
 import net.cz.blog.Dao.ArticleNoContentDao;
+import net.cz.blog.Dao.CommentDao;
 import net.cz.blog.Dao.LabelDao;
 import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.pojo.Article;
@@ -10,6 +11,7 @@ import net.cz.blog.pojo.ArticleNoContent;
 import net.cz.blog.pojo.BlogUser;
 import net.cz.blog.pojo.Label;
 import net.cz.blog.services.IArticleService;
+import net.cz.blog.services.ISolrService;
 import net.cz.blog.services.IUserService;
 import net.cz.blog.utils.Constants;
 import net.cz.blog.utils.SnowflakeIdWorker;
@@ -43,6 +45,10 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
     private ArticleNoContentDao articleNoContentDao;
     @Autowired
     private LabelDao labelDao;
+    @Autowired
+    private ISolrService solrService;
+    @Autowired
+    private CommentDao commentDao;
 
     /**
      * 后期考虑定时发布的功能
@@ -138,7 +144,8 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
         article.setUserId(blogUser.getId());
         article.setUpdateTime(new Date());
         articleDao.save(article);
-        //todo 将搜索的关键字保存到数据库中
+        //将需要搜索的数据保存到数据库中
+        solrService.addArticle(article);
         //对标签进行更新
         setupLabels(article.getLabels());
         return ResponseResult.SUCCESS(Constants.Article.ARTICLE_PUBLISH.equals(state)
@@ -272,8 +279,13 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
 
     @Override
     public ResponseResult deleteArticleById(String articleId) {
+        //先删除评论
+        commentDao.deleteAllByArticleId(articleId);
+        //在删除文章
         int result = articleDao.deleteAlLById(articleId);
         if (result > 0) {
+            //删除solr中的
+            solrService.deleteArticle(articleId);
             return ResponseResult.SUCCESS("文章删除成功");
         }
         return ResponseResult.FAILED("文章不存在，删除失败");
@@ -313,6 +325,7 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
     public ResponseResult deleteArticleByChangeState(String articleId) {
         int result = articleDao.deleteAllByChangeState(articleId);
         if (result > 0) {
+            solrService.deleteArticle(articleId);
             return ResponseResult.SUCCESS("文章删除成功");
         }
         return ResponseResult.FAILED("文章不存在，删除失败");
