@@ -63,8 +63,9 @@ public class SolrServiceImpl extends BaseService implements ISolrService {
         solrQuery.addHighlightField("blog_title,blog_content");
         solrQuery.setHighlightSimplePre("<font color='red'>");
         solrQuery.setHighlightSimplePost("</font>");
+        solrQuery.setHighlightFragsize(500); //设置高亮部分有多少个字符
         //设置返回结果
-        solrQuery.addField("blog_content,blog_create_time,blog_labels,blog_url,blog_title,blog_view_count");
+        solrQuery.addField("id,blog_content,blog_create_time,blog_labels,blog_url,blog_title,blog_view_count");
         //4.处理搜索结果
         try {
             QueryResponse result = solrClient.query(solrQuery);
@@ -74,6 +75,19 @@ public class SolrServiceImpl extends BaseService implements ISolrService {
             List<SearchResult> resultList = result.getBeans(SearchResult.class);
             log.info(highlighting.toString());
             log.info(resultList.toString());
+            for (SearchResult item : resultList) {
+                Map<String, List<String>> stringListMap = highlighting.get(item.getId());
+                if (stringListMap != null) {
+                    List<String> blogTitle = stringListMap.get("blog_title");
+                    if (blogTitle == null) {
+                        item.setBlogTitle(blogTitle.get(0));
+                    }
+                    List<String> blogContent = stringListMap.get("blog_content");
+                    if (blogContent != null) {
+                        item.setBlogContent(blogContent.get(0));
+                    }
+                }
+            }
 
             PageList<SearchResult> pageList = new PageList<>();
             pageList.setContents(resultList);

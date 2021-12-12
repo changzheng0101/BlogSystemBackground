@@ -6,7 +6,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class SearchResult implements Serializable {
-    //blog_content,blog_create_time,blog_labels,blog_url,blog_title,blog_view_count
+    //id,blog_content,blog_create_time,blog_labels,blog_url,blog_title,blog_view_count
+    @Field("id")
+    private String id;
     @Field("blog_content")
     private String blogContent;
     @Field("blog_create_time")
@@ -19,6 +21,14 @@ public class SearchResult implements Serializable {
     private String blogTitle;
     @Field("blog_view_count")
     private int blogViewCount;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getBlogContent() {
         return blogContent;

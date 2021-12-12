@@ -25,8 +25,6 @@ public class SolrTestService {
 
     @Autowired
     private SolrClient solrClient;
-
-
     @Autowired
     private ArticleDao articleDao;
 
@@ -43,7 +41,7 @@ public class SolrTestService {
             doc.addField("blog_title", article.getTitle());
             //对内容进行处理，去掉标签，提取出纯文本
             //第一种是由markdown写的内容--->type = 1
-            //第二种是符文本内容 === > type = 0
+            //第二种是富文本内容 === > type = 0
             //如果type === 1 ===> 转成html
             //再由html === > 纯文本
             //如果type == 0 == > 纯文本

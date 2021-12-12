@@ -24,3 +24,20 @@
 [2021/12/12-09:56:09] [http-nio-2021-exec-4] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : []
 [2021/12/12-09:56:10] [http-nio-2021-exec-3] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {}
 [2021/12/12-09:56:10] [http-nio-2021-exec-3] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : []
+[2021/12/12-10:01:44] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 8004 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2021/12/12-10:01:44] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
+[2021/12/12-10:01:49] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 5.511 seconds (JVM running for 6.732)
+[2021/12/12-10:02:27] [http-nio-2021-exec-10] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {}
+[2021/12/12-10:02:27] [http-nio-2021-exec-10] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : []
+[2021/12/12-10:02:44] [http-nio-2021-exec-3] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {912635629618069504={blog_content=[这是关于java<font color='red'>基础</font>的文章], blog_title=[java<font color='red'>基础</font>]}, 912636290489384960={blog_content=[这是关于java<font color='red'>基础</font>的文章], blog_title=[java<font color='red'>基础</font>]}, 912636165092278272={blog_content=[这是关于java<font color='red'>基础</font>的文章], blog_title=[java<font color='red'>基础</font>]}}
+[2021/12/12-10:02:44] [http-nio-2021-exec-3] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : [net.cz.blog.pojo.SearchResult@2b20736c, net.cz.blog.pojo.SearchResult@7f11da46, net.cz.blog.pojo.SearchResult@6a04e314]
+[2021/12/12-10:03:04] [http-nio-2021-exec-9] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {}
+[2021/12/12-10:03:04] [http-nio-2021-exec-9] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : []
+[2021/12/12-10:03:11] [http-nio-2021-exec-8] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {912635629618069504={blog_content=[这是关于<font color='red'>java</font>基础的文章], blog_title=[<font color='red'>java</font>基础]}, 912636290489384960={blog_content=[这是关于<font color='red'>java</font>基础的文章], blog_title=[<font color='red'>java</font>基础]}, 912636165092278272={blog_content=[这是关于<font color='red'>java</font>基础的文章], blog_title=[<font color='red'>java</font>基础]}}
+[2021/12/12-10:03:11] [http-nio-2021-exec-8] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : [net.cz.blog.pojo.SearchResult@3c674e, net.cz.blog.pojo.SearchResult@5d5d1deb, net.cz.blog.pojo.SearchResult@5621d0f]
+[2021/12/12-10:03:25] [http-nio-2021-exec-10] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {912635629618069504={}, 912636290489384960={}, 912636165092278272={}}
+[2021/12/12-10:03:25] [http-nio-2021-exec-10] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : [net.cz.blog.pojo.SearchResult@12da3590, net.cz.blog.pojo.SearchResult@5b0a7517, net.cz.blog.pojo.SearchResult@ea5ab15]
+[2021/12/12-10:03:39] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {}
+[2021/12/12-10:03:39] [http-nio-2021-exec-1] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : []
+[2021/12/12-10:03:54] [http-nio-2021-exec-5] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : {45646={}}
+[2021/12/12-10:03:54] [http-nio-2021-exec-5] [INFO ] [net.cz.blog.services.Impl.SolrServiceImpl] : [net.cz.blog.pojo.SearchResult@595f39fe]
