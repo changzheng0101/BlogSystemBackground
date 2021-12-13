@@ -17,7 +17,9 @@ spring:
   data:
     solr:
       host: http://47.94.195.238:8983/solr/sob_blog_core
-blog.images.save-path: path/in/linux
+blog.images.save-path: user/app/upload
 #2MB
 blog.images.max-size: 2,097,152
+#控制swagger ui 是否可见
+blog.swagger.config.enable: false
 

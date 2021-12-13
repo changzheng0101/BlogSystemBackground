@@ -20,5 +20,7 @@ spring:
 blog.images.save-path: D:\Code\WEBProject\images
 #2MB
 blog.images.max-size: 2097152
+#控制swagger ui 是否可见
+blog.swagger.config.enable: true
 
 

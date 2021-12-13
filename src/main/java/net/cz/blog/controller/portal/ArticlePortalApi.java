@@ -2,6 +2,7 @@ package net.cz.blog.controller.portal;
 
 import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.services.IArticleService;
+import net.cz.blog.services.ICategoryService;
 import net.cz.blog.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,8 @@ public class ArticlePortalApi {
 
     @Autowired
     private IArticleService articleService;
+    @Autowired
+    private ICategoryService categoryService;
 
     /**
      * 针对所有用户
@@ -68,5 +71,10 @@ public class ArticlePortalApi {
     @GetMapping("/top")
     public ResponseResult getTopArticleList() {
         return articleService.getTopArticleList();
+    }
+
+    @GetMapping("/categories")
+    public ResponseResult getCategories() {
+        return categoryService.getCategoryList();
     }
 }

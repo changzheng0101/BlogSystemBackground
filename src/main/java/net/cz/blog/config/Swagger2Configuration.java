@@ -1,5 +1,6 @@
 package net.cz.blog.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -13,6 +14,10 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 public class Swagger2Configuration {
+    //enable false ---> 发布时候完成禁用
+
+    @Value("${blog.swagger.config.enable}")
+    private boolean isEnable;
 
     //版本
     public static final String VERSION = "1.0.0";
@@ -26,6 +31,7 @@ public class Swagger2Configuration {
     public Docket portalApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(portalApiInfo())
+                .enable(isEnable)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("net.cz.blog.controller.portal"))
                 .paths(PathSelectors.any()) // 可以根据url路径设置哪些请求加入文档，忽略哪些请求
@@ -51,6 +57,7 @@ public class Swagger2Configuration {
     public Docket adminApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(adminApiInfo())
+                .enable(isEnable)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("net.cz.blog.controller.admin"))
                 .paths(PathSelectors.any()) // 可以根据url路径设置哪些请求加入文档，忽略哪些请求
@@ -72,6 +79,7 @@ public class Swagger2Configuration {
     public Docket UserApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(userApiInfo())
+                .enable(isEnable)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("net.cz.blog.controller.user"))
                 .paths(PathSelectors.any()) // 可以根据url路径设置哪些请求加入文档，忽略哪些请求

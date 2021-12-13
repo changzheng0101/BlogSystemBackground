@@ -21,7 +21,7 @@ public class CookieUtils {
     public static void setUpCookie(HttpServletResponse response, String key, String value, int age) {
         Cookie cookie = new Cookie(key, value);
         cookie.setPath("/");
-//        cookie.setDomain(domain);
+//        cookie.setDomain(domain); //注释掉之后cookie才能正常
         cookie.setMaxAge(age);
         response.addCookie(cookie);
     }

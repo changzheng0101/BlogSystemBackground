@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/portal/website_info")
 public class WebsiteInfo {
-    @Autowired
-    private ICategoryService categoryService;
+
     @Autowired
     private IWebsiteInfoService websiteInfoService;
     @Autowired
@@ -25,10 +24,7 @@ public class WebsiteInfo {
     private IFriendLinkService friendLinkService;
 
 
-    @GetMapping("/categories")
-    public ResponseResult getCategories() {
-        return categoryService.getCategoryList();
-    }
+
 
     @GetMapping("/title")
     public ResponseResult getWebsiteTitle() {
