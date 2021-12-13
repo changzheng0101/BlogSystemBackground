@@ -1,5 +1,6 @@
 package net.cz.blog.services.Impl;
 
+import com.google.gson.Gson;
 import jdk.nashorn.internal.ir.IfNode;
 import net.cz.blog.Dao.ArticleDao;
 import net.cz.blog.Dao.ArticleNoContentDao;
@@ -14,6 +15,7 @@ import net.cz.blog.services.IArticleService;
 import net.cz.blog.services.ISolrService;
 import net.cz.blog.services.IUserService;
 import net.cz.blog.utils.Constants;
+import net.cz.blog.utils.RedisUtil;
 import net.cz.blog.utils.SnowflakeIdWorker;
 import net.cz.blog.utils.TextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,10 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
     private ISolrService solrService;
     @Autowired
     private CommentDao commentDao;
+    @Autowired
+    private RedisUtil redisUtil;
+    @Autowired
+    private Gson gson;
 
     /**
      * 后期考虑定时发布的功能
@@ -218,12 +224,26 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
      * 草稿用户本人也可以进行访问
      * <p>
      * 目前是单人博客 草稿和删除的直接管理员权限才可以访问
+     * <p>
+     * 计算阅读量
+     * 每次有人访问的时候，将阅读量保存到redis中
+     * 同时文章也保存在redis中，10分钟后删除
+     * redis中获取不到文章，就去mysql中获取，同时更新阅读量
+     * 相当于10分钟之后，下一次访问时候更新
      *
      * @param articleId 文章id
      * @return
      */
     @Override
     public ResponseResult getArticle(String articleId) {
+        //首先从redis中进行获取
+        String articleJson = (String) redisUtil.get(Constants.Article.REDIS_ARTICLE_CACHE + articleId);
+        if (!TextUtils.isEmpty(articleJson)) {
+            Article article = gson.fromJson(articleJson, Article.class);
+            redisUtil.incr(Constants.Article.REDIS_ARTICLE_VIEW_COUNT + articleId, 1);
+            return ResponseResult.SUCCESS("文章查询成功").setData(article);
+        }
+
         Article articleFromDb = articleDao.findOneById(articleId);
         if (articleFromDb == null) {
             return ResponseResult.FAILED("文章不存在");
@@ -231,6 +251,20 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
         String state = articleFromDb.getState();
         if (Constants.Article.ARTICLE_PUBLISH.equals(state) ||
                 Constants.Article.ARTICLE_TOP.equals(state)) {
+            //这里才是正常访问 增加阅读量
+            redisUtil.set(Constants.Article.REDIS_ARTICLE_CACHE + articleId, gson.toJson(articleFromDb),
+                    Constants.TimeValue.MIN * 10);
+            String viewCountFromRedis = (String) redisUtil.get(Constants.Article.REDIS_ARTICLE_VIEW_COUNT + articleId);
+            if (TextUtils.isEmpty(viewCountFromRedis)) {
+                long viewCount = articleFromDb.getViewCount() + 1;
+                redisUtil.set(Constants.Article.REDIS_ARTICLE_VIEW_COUNT + articleId, viewCount);
+            } else {
+                long viewCount = redisUtil.incr(Constants.Article.REDIS_ARTICLE_VIEW_COUNT + articleId, 1);
+                articleFromDb.setViewCount(viewCount);
+                articleDao.save(articleFromDb);
+                //更新solr的数据库
+                solrService.updateArticle(articleId, articleFromDb);
+            }
             return ResponseResult.SUCCESS("文章查询成功").setData(articleFromDb);
         }
         //鉴权
@@ -284,6 +318,8 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
         //在删除文章
         int result = articleDao.deleteAlLById(articleId);
         if (result > 0) {
+            //删除redis里的
+            redisUtil.del(Constants.Article.REDIS_ARTICLE_CACHE + articleId);
             //删除solr中的
             solrService.deleteArticle(articleId);
             return ResponseResult.SUCCESS("文章删除成功");
@@ -325,6 +361,7 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
     public ResponseResult deleteArticleByChangeState(String articleId) {
         int result = articleDao.deleteAllByChangeState(articleId);
         if (result > 0) {
+            redisUtil.del(Constants.Article.REDIS_ARTICLE_CACHE + articleId);
             solrService.deleteArticle(articleId);
             return ResponseResult.SUCCESS("文章删除成功");
         }

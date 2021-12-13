@@ -173,4 +173,10 @@ public class SolrServiceImpl extends BaseService implements ISolrService {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void updateArticle(String articleId, Article article) {
+        article.setId(articleId);
+        addArticle(article);
+    }
 }

@@ -61,6 +61,8 @@ public interface Constants {
         String ARTICLE_PUBLISH = "1";
         String ARTICLE_DRAFT = "2";
         String ARTICLE_TOP = "3";
+        String REDIS_ARTICLE_CACHE = "redis_article_cache_";
+        String REDIS_ARTICLE_VIEW_COUNT = "redis_article_view_count_";
     }
 
     interface Comment {

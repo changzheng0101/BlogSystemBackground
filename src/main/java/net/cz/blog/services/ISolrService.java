@@ -9,4 +9,6 @@ public interface ISolrService {
     void addArticle(Article article);
 
     void deleteArticle(String articleId);
+
+    void updateArticle(String articleId, Article article);
 }
