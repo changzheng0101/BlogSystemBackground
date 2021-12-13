@@ -1,6 +1,7 @@
 package net.cz.blog.controller.admin;
 
 import net.cz.blog.Response.ResponseResult;
+import net.cz.blog.interceptor.checkTooFrequentCommit;
 import net.cz.blog.pojo.Article;
 import net.cz.blog.services.IArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ public class ArticleAdminApi {
     private IArticleService articleService;
 
     //增删改查 还有列出所有数据的方法
+    @checkTooFrequentCommit
     @PostMapping
     public ResponseResult postArticle(@RequestBody Article article) {
         return articleService.postArticle(article);
@@ -35,6 +37,7 @@ public class ArticleAdminApi {
 
     @PreAuthorize("@permission.isAdmin()")
     @PutMapping("/{articleId}")
+    @checkTooFrequentCommit
     public ResponseResult updateArticle(@PathVariable("articleId") String articleId, @RequestParam Article article) {
         return articleService.updateArticle(articleId, article);
     }

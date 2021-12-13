@@ -2,6 +2,7 @@ package net.cz.blog.controller.portal;
 
 
 import net.cz.blog.Response.ResponseResult;
+import net.cz.blog.interceptor.checkTooFrequentCommit;
 import net.cz.blog.pojo.Comment;
 import net.cz.blog.services.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ public class CommentPortalApi {
     @Autowired
     private ICommentService commentService;
 
+    @checkTooFrequentCommit
     @PostMapping
     public ResponseResult postComment(@RequestBody Comment comment) {
         return commentService.postComment(comment);

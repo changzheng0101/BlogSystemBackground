@@ -2,6 +2,7 @@ package net.cz.blog.controller.admin;
 
 import lombok.extern.slf4j.Slf4j;
 import net.cz.blog.Response.ResponseResult;
+import net.cz.blog.interceptor.checkTooFrequentCommit;
 import net.cz.blog.pojo.FriendLink;
 import net.cz.blog.services.IFriendLinkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class FriendLinkAdminApi {
     //增删改查 还有列出所有数据的方法
     @PreAuthorize("@permission.isAdmin()")
     @PostMapping
+    @checkTooFrequentCommit
     public ResponseResult addFriendLink(@RequestBody FriendLink friendLink) {
         log.info("name==>" + friendLink.getName());
         log.info("logo==>" + friendLink.getLogo());

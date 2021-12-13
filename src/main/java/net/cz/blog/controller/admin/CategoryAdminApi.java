@@ -1,6 +1,7 @@
 package net.cz.blog.controller.admin;
 
 import net.cz.blog.Response.ResponseResult;
+import net.cz.blog.interceptor.checkTooFrequentCommit;
 import net.cz.blog.pojo.Category;
 import net.cz.blog.services.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class CategoryAdminApi {
     //增加分类
     @PreAuthorize("@permission.isAdmin()")
     @PostMapping
+    @checkTooFrequentCommit
     public ResponseResult addCategory(@RequestBody Category category) {
         return categoryService.addCategory(category);
     }
@@ -32,6 +34,7 @@ public class CategoryAdminApi {
     //修改某个类
     @PreAuthorize("@permission.isAdmin()")
     @PutMapping("/{categoryId}")
+    @checkTooFrequentCommit
     public ResponseResult updateCategory(@PathVariable("categoryId") String categoryId, @RequestBody Category category) {
         return categoryService.updateCategory(categoryId,category);
     }

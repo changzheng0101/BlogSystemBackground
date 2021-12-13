@@ -1,16 +1,13 @@
 package net.cz.blog.services.Impl;
 
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import jdk.nashorn.internal.ir.IfNode;
 import net.cz.blog.Dao.ArticleDao;
 import net.cz.blog.Dao.ArticleNoContentDao;
 import net.cz.blog.Dao.CommentDao;
 import net.cz.blog.Dao.LabelDao;
 import net.cz.blog.Response.ResponseResult;
-import net.cz.blog.pojo.Article;
-import net.cz.blog.pojo.ArticleNoContent;
-import net.cz.blog.pojo.BlogUser;
-import net.cz.blog.pojo.Label;
+import net.cz.blog.pojo.*;
 import net.cz.blog.services.IArticleService;
 import net.cz.blog.services.ISolrService;
 import net.cz.blog.services.IUserService;
@@ -154,6 +151,8 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
         solrService.addArticle(article);
         //对标签进行更新
         setupLabels(article.getLabels());
+        //删除redis中第一页的那些数据
+        redisUtil.del(Constants.Article.KEY_FIRST_PAGE_ARTICLE);
         return ResponseResult.SUCCESS(Constants.Article.ARTICLE_PUBLISH.equals(state)
                 ? "文章发表成功" : "草稿发布成功").setData(articleId);
     }
@@ -187,6 +186,15 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
         //处理数据
         page = checkPage(page);
         size = checkSize(size);
+        //先从redis中获取第一页
+        if (page == 1) {
+            String articleListJson = (String) redisUtil.get(Constants.Article.KEY_FIRST_PAGE_ARTICLE);
+            if (!TextUtils.isEmpty(articleListJson)) {
+                PageList<ArticleNoContent> result = gson.fromJson(articleListJson, new TypeToken<PageList<ArticleNoContent>>() {
+                }.getType());
+                return ResponseResult.SUCCESS("条件查询成功").setData(result);
+            }
+        }
         //sort
         Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
         //查询
@@ -212,8 +220,14 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
                 return criteriaBuilder.and(predicates.toArray(preArray));
             }
         }, pageable);
+        PageList<ArticleNoContent> articleNoContentPageList = new PageList<>();
+        articleNoContentPageList.parsePage(all);
+        if (page == 1) {
+            redisUtil.set(Constants.Article.KEY_FIRST_PAGE_ARTICLE, gson.toJson(articleNoContentPageList),
+                    Constants.TimeValue.HOUR);
+        }
         //返回结果
-        return ResponseResult.SUCCESS("条件查询成功").setData(all);
+        return ResponseResult.SUCCESS("条件查询成功").setData(articleNoContentPageList);
     }
 
     /**
@@ -237,10 +251,10 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
     @Override
     public ResponseResult getArticle(String articleId) {
         //首先从redis中进行获取
-        String articleJson = (String) redisUtil.get(Constants.Article.REDIS_ARTICLE_CACHE + articleId);
+        String articleJson = (String) redisUtil.get(Constants.Article.KEY_ARTICLE_CACHE + articleId);
         if (!TextUtils.isEmpty(articleJson)) {
             Article article = gson.fromJson(articleJson, Article.class);
-            redisUtil.incr(Constants.Article.REDIS_ARTICLE_VIEW_COUNT + articleId, 1);
+            redisUtil.incr(Constants.Article.KEY_ARTICLE_VIEW_COUNT + articleId, 1);
             return ResponseResult.SUCCESS("文章查询成功").setData(article);
         }
 
@@ -252,14 +266,14 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
         if (Constants.Article.ARTICLE_PUBLISH.equals(state) ||
                 Constants.Article.ARTICLE_TOP.equals(state)) {
             //这里才是正常访问 增加阅读量
-            redisUtil.set(Constants.Article.REDIS_ARTICLE_CACHE + articleId, gson.toJson(articleFromDb),
+            redisUtil.set(Constants.Article.KEY_ARTICLE_CACHE + articleId, gson.toJson(articleFromDb),
                     Constants.TimeValue.MIN * 10);
-            String viewCountFromRedis = (String) redisUtil.get(Constants.Article.REDIS_ARTICLE_VIEW_COUNT + articleId);
+            String viewCountFromRedis = (String) redisUtil.get(Constants.Article.KEY_ARTICLE_VIEW_COUNT + articleId);
             if (TextUtils.isEmpty(viewCountFromRedis)) {
                 long viewCount = articleFromDb.getViewCount() + 1;
-                redisUtil.set(Constants.Article.REDIS_ARTICLE_VIEW_COUNT + articleId, viewCount);
+                redisUtil.set(Constants.Article.KEY_ARTICLE_VIEW_COUNT + articleId, viewCount);
             } else {
-                long viewCount = redisUtil.incr(Constants.Article.REDIS_ARTICLE_VIEW_COUNT + articleId, 1);
+                long viewCount = redisUtil.incr(Constants.Article.KEY_ARTICLE_VIEW_COUNT + articleId, 1);
                 articleFromDb.setViewCount(viewCount);
                 articleDao.save(articleFromDb);
                 //更新solr的数据库
@@ -315,11 +329,13 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
     public ResponseResult deleteArticleById(String articleId) {
         //先删除评论
         commentDao.deleteAllByArticleId(articleId);
+        redisUtil.del(Constants.Comment.KEY_FIRST_PAGE_COMMENTS + articleId);
         //在删除文章
         int result = articleDao.deleteAlLById(articleId);
         if (result > 0) {
             //删除redis里的
-            redisUtil.del(Constants.Article.REDIS_ARTICLE_CACHE + articleId);
+            redisUtil.del(Constants.Article.KEY_ARTICLE_CACHE + articleId);
+            redisUtil.del(Constants.Article.KEY_FIRST_PAGE_ARTICLE);
             //删除solr中的
             solrService.deleteArticle(articleId);
             return ResponseResult.SUCCESS("文章删除成功");
@@ -361,7 +377,8 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
     public ResponseResult deleteArticleByChangeState(String articleId) {
         int result = articleDao.deleteAllByChangeState(articleId);
         if (result > 0) {
-            redisUtil.del(Constants.Article.REDIS_ARTICLE_CACHE + articleId);
+            redisUtil.del(Constants.Article.KEY_ARTICLE_CACHE + articleId);
+            redisUtil.del(Constants.Article.KEY_FIRST_PAGE_ARTICLE);
             solrService.deleteArticle(articleId);
             return ResponseResult.SUCCESS("文章删除成功");
         }

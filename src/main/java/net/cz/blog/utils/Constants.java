@@ -12,6 +12,7 @@ public interface Constants {
         int WEEK = 7 * DAY;
         int MONTH = 30 * DAY;
         int YEAR = 365 * DAY;
+        int SECOND_10=10;
     }
 
     interface Page {
@@ -41,6 +42,7 @@ public interface Constants {
         String KEY_EMAIL_SEND_STATE = "key_email_send_state";
         String KEY_TOKEN = "key_token_";
         String COOKIE_TOKEN_KEY = "blog_token";
+        String KEY_COMMIT_TOKEN_RECORD = "key_commit_token_record_";
     }
 
     interface Settings {
@@ -61,8 +63,9 @@ public interface Constants {
         String ARTICLE_PUBLISH = "1";
         String ARTICLE_DRAFT = "2";
         String ARTICLE_TOP = "3";
-        String REDIS_ARTICLE_CACHE = "redis_article_cache_";
-        String REDIS_ARTICLE_VIEW_COUNT = "redis_article_view_count_";
+        String KEY_ARTICLE_CACHE = "key_article_cache_";
+        String KEY_ARTICLE_VIEW_COUNT = "key_article_view_count_";
+        String KEY_FIRST_PAGE_ARTICLE= "key_first_page_article";
     }
 
     interface Comment {
