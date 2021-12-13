@@ -1,5 +1,7 @@
 package net.cz.blog.services.Impl;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import net.cz.blog.Dao.ArticleDao;
 import net.cz.blog.Dao.ArticleNoContentDao;
 import net.cz.blog.Dao.CommentDao;
@@ -7,9 +9,11 @@ import net.cz.blog.Response.ResponseResult;
 import net.cz.blog.pojo.ArticleNoContent;
 import net.cz.blog.pojo.BlogUser;
 import net.cz.blog.pojo.Comment;
+import net.cz.blog.pojo.PageList;
 import net.cz.blog.services.ICommentService;
 import net.cz.blog.services.IUserService;
 import net.cz.blog.utils.Constants;
+import net.cz.blog.utils.RedisUtil;
 import net.cz.blog.utils.SnowflakeIdWorker;
 import net.cz.blog.utils.TextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +43,10 @@ public class CommentServiceImpl extends BaseService implements ICommentService {
     private SnowflakeIdWorker idWorker;
     @Autowired
     private CommentDao commentDao;
+    @Autowired
+    private RedisUtil redisUtil;
+    @Autowired
+    private Gson gson;
 
     @Override
     public ResponseResult postComment(Comment comment) {
@@ -79,6 +87,8 @@ public class CommentServiceImpl extends BaseService implements ICommentService {
      * <p>
      * 根据文章id获取评论列表
      *
+     * 对于第一页 从redis中获取，访问快，其余从mysql中进行获取
+     *
      * @param articleId
      * @param page
      * @param size
@@ -88,6 +98,15 @@ public class CommentServiceImpl extends BaseService implements ICommentService {
     public ResponseResult listCommentByArticleId(String articleId, int page, int size) {
         page = checkPage(page);
         size = checkSize(size);
+        if (page==1) {
+            //从redis中拿到的是自己写的pageList
+            String commentsCacheJson = (String) redisUtil.get(Constants.Comment.KEY_FIRST_PAGE_COMMENTS + articleId);
+            if (!TextUtils.isEmpty(commentsCacheJson)) {
+                PageList<Comment> result = gson.fromJson(commentsCacheJson, new TypeToken<PageList<Comment>>() {
+                }.getType());
+                return ResponseResult.SUCCESS("查询文章评论列表成功").setData(result);
+            }
+        }
         Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
         Pageable pageable = PageRequest.of(page - 1, size, sort);
         Page<Comment> result = commentDao.findAll(new Specification<Comment>() {
@@ -96,7 +115,15 @@ public class CommentServiceImpl extends BaseService implements ICommentService {
                 return criteriaBuilder.equal(root.get("article_id").as(String.class), articleId);
             }
         }, pageable);
-        return ResponseResult.SUCCESS("查询文章评论列表成功").setData(result);
+        //把结果转化为pageList
+        PageList<Comment> commentPageList = new PageList<>();
+        commentPageList.parsePage(result);
+        //把第一页保存到redis中
+        if (page==1) {
+            redisUtil.set(Constants.Comment.KEY_FIRST_PAGE_COMMENTS + articleId, gson.toJson(commentPageList),
+                    Constants.TimeValue.MIN*10);
+        }
+        return ResponseResult.SUCCESS("查询文章评论列表成功").setData(commentPageList);
     }
 
     @Override

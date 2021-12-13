@@ -70,5 +70,6 @@ public interface Constants {
         String ARTICLE_DELETE = "0";
         String ARTICLE_PUBLISH = "1";
         String ARTICLE_TOP = "3";
+        String KEY_FIRST_PAGE_COMMENTS = "key_first_page_comments_";
     }
 }

@@ -1,10 +1,17 @@
 package net.cz.blog.pojo;
 
+import org.springframework.data.domain.Page;
+
 import java.io.Serializable;
 import java.util.List;
 
 //将搜索的结果转化成分页数据
 public class PageList<T> implements Serializable {
+
+    public PageList() {
+
+    }
+
 
     public PageList(long currentPage, long totalCount, long pageSize) {
         this.currentPage = currentPage;
@@ -90,5 +97,14 @@ public class PageList<T> implements Serializable {
 
     public void setContents(List<T> contents) {
         this.contents = contents;
+    }
+
+    public void parsePage(Page<T> data){
+        setContents(data.getContent());
+        setFirst(data.isFirst());
+        setLast(data.isLast());
+        setCurrentPage(data.getNumber() + 1);
+        setTotalPage(data.getTotalPages());
+        setPageSize(data.getSize());
     }
 }
