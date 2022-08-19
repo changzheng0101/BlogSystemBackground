@@ -121,7 +121,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
         if (TextUtils.isEmpty(captcha_key) || captcha_key.length() < 13) {
             return;
         }
-        long key = 0l;
+        long key = 0L;
         try {
             key = Long.parseLong(captcha_key);
         } catch (Exception e) {
@@ -306,8 +306,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
         if (!captchaCorrect.equals(captcha)) {
             return ResponseResult.FAILED("人类验证码不正确");
         }
-        //验证成功 删除redis中的数据
-        redisUtil.del(Constants.User.KEY_CAPTCHA_CONTENT + captchaKey);
+
         //用户名可能为邮箱也可能为用户名
         String userAccount = user.getUserName();
         if (TextUtils.isEmpty(userAccount)) {
@@ -337,6 +336,8 @@ public class UserServiceImpl extends BaseService implements IUserService {
         if (!"1".equals(userFromDb.getState())) {
             return ResponseResult.FAILED("该账号已被禁止");
         }
+        //验证成功 删除redis中的数据
+        redisUtil.del(Constants.User.KEY_CAPTCHA_CONTENT + captchaKey);
         createToken(response, userFromDb);
         return ResponseResult.SUCCESS("用户认证成功");
     }
@@ -353,6 +354,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
         //保存到redis中 有效期为两个小时
         redisUtil.set(Constants.User.KEY_TOKEN + tokenKey, token, Constants.TimeValue.HOUR * 2);
         //把tokenKey写到cookie中
+        log.info("set cookie in response");
         CookieUtils.setUpCookie(response, Constants.User.COOKIE_TOKEN_KEY, tokenKey);
         //生成refresh token
         String refreshTokenVal = JwtUtil.createRefreshToken(userFromDb.getId(), Constants.TimeValue.YEAR * 1000L);
@@ -566,6 +568,15 @@ public class UserServiceImpl extends BaseService implements IUserService {
         return ResponseResult.SUCCESS("用户退出登录成功");
     }
 
+    @Override
+    public ResponseResult parseToken() {
+        BlogUser blogUser = checkBolgUser();
+        if (blogUser == null) {
+            return ResponseResult.FAILED("用户未登录");
+        }
+        return ResponseResult.SUCCESS("获取用户数据成功").setData(blogUser);
+    }
+
 
     private BlogUser parseByTokenKey(String tokenKey) {
         String token = (String) redisUtil.get(Constants.User.KEY_TOKEN + tokenKey);
@@ -579,6 +590,4 @@ public class UserServiceImpl extends BaseService implements IUserService {
         }
         return null;
     }
-
-
 }

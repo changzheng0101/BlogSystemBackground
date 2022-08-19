@@ -26,4 +26,6 @@ public interface IArticleService {
     ResponseResult getArticleListByLabel(String label, int page, int size);
 
     ResponseResult getLabels(int size);
+
+    ResponseResult getSelectedArticleList();
 }

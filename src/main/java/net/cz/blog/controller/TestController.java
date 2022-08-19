@@ -3,7 +3,6 @@ package net.cz.blog.controller;
 
 import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.base.Captcha;
-import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import net.cz.blog.Dao.CommentDao;
 import net.cz.blog.Dao.LabelDao;
@@ -31,10 +30,10 @@ import java.awt.*;
 import java.util.Date;
 import java.util.List;
 
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 @Slf4j
 @RestController  //不用声明 @ResponseBody -->这个代表返回的是json对象 不是一个页面
-@RequestMapping("/test")  //代表所有文件都在test目录之下
+@RequestMapping("/test")
 public class TestController {
 
     @Autowired
@@ -122,16 +121,13 @@ public class TestController {
     //多条件查询
     @GetMapping("/label/search")
     public ResponseResult doLabelSearch(@RequestParam("keyword") String keyword, @RequestParam("count") int count) {
-        List<Label> result = labelDao.findAll(new Specification<Label>() {
-            @Override
-            public Predicate toPredicate(Root<Label> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                //模糊匹配
-                Predicate namePre = cb.like(root.get("name").as(String.class), "%" + keyword + "%");
-                //精确查询
-                Predicate countPre = cb.equal(root.get("count").as(Integer.class), count);
-                Predicate finalPre = cb.and(namePre, countPre);
-                return finalPre;
-            }
+        List<Label> result = labelDao.findAll((Specification<Label>) (root, query, cb) -> {
+            //模糊匹配
+            Predicate namePre = cb.like(root.get("name").as(String.class), "%" + keyword + "%");
+            //精确查询
+            Predicate countPre = cb.equal(root.get("count").as(Integer.class), count);
+            Predicate finalPre = cb.and(namePre, countPre);
+            return finalPre;
         });
         if (result.size() == 0) {
             return ResponseResult.FAILED("结果为空");

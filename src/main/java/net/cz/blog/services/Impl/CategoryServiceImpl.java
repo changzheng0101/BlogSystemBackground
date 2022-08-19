@@ -72,7 +72,7 @@ public class CategoryServiceImpl extends BaseService implements ICategoryService
     @Override
     public ResponseResult getCategoryList() {
         BlogUser blogUser = userService.checkBolgUser();
-        List<Category> categories = new ArrayList<>();
+        List<Category> categories;
         if (blogUser == null || !Constants.User.ROLE_ADMIN.equals(blogUser.getRoles())) {
             //处理其余情况
             categories = categoryDao.listCategoryByStatus("1");
@@ -104,6 +104,7 @@ public class CategoryServiceImpl extends BaseService implements ICategoryService
         if (!TextUtils.isEmpty(category.getOrder() + "")) {
             categoryFromDb.setOrder(category.getOrder());
         }
+        categoryFromDb.setStatus(category.getStatus());
         categoryFromDb.setUpdateTime(new Date());
         //保存数据
         categoryDao.save(categoryFromDb);

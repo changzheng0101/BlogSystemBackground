@@ -58,21 +58,23 @@ public interface Constants {
         String TYPE_RICH_TEXT="0";
         int TITLE_MAX_LENGTH = 128;
         int SUMMARY_MAX_LENGTH = 256;
-        // 0 删除 1 发布成功  2 草稿 3 置顶
+        // 0 删除 1 发布成功  2 草稿 3 置顶 4 精选文章
         String ARTICLE_DELETE = "0";
         String ARTICLE_PUBLISH = "1";
         String ARTICLE_DRAFT = "2";
         String ARTICLE_TOP = "3";
+        String ARTICLE_SELECTED="4";
         String KEY_ARTICLE_CACHE = "key_article_cache_";
         String KEY_ARTICLE_VIEW_COUNT = "key_article_view_count_";
         String KEY_FIRST_PAGE_ARTICLE= "key_first_page_article";
+        String KEY_SELECTED_ARTICLE = "key_selected_article";
     }
 
     interface Comment {
         // 0 删除 1 发布成功 3 置顶
-        String ARTICLE_DELETE = "0";
-        String ARTICLE_PUBLISH = "1";
-        String ARTICLE_TOP = "3";
+        String COMMENT_DELETE = "0";
+        String COMMENT_PUBLISH = "1";
+        String COMMENT_TOP = "3";
         String KEY_FIRST_PAGE_COMMENTS = "key_first_page_comments_";
     }
 }

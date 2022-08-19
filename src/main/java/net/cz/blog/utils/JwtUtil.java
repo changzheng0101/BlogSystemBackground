@@ -21,17 +21,11 @@ public class JwtUtil {
         return key;
     }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
 
     public long getTtl() {
         return ttl;
     }
 
-    public void setTtl(long ttl) {
-        this.ttl = ttl;
-    }
 
     /**
      * @param claims 载荷内容

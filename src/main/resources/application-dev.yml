@@ -4,19 +4,24 @@ spring:
   application:
     name: cz_blog_system
   datasource:
-    url: jdbc:mysql://47.94.195.238 :3306/blog_system_database?characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://47.94.195.238:3306/blog_system_database?characterEncoding=utf-8&useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 123456
+    hikari:
+      max-lifetime: 120000
   jpa:
     show-sql: true
   redis:
     port: 6379
     password: 123456
     host: 47.94.195.238
-  data:
-    solr:
-      host: http://47.94.195.238:8983/solr/sob_blog_core
+    lettuce:
+      shutdown-timeout: 1000
+#  data:
+#    solr:
+#      host: http://47.94.195.238:8983/solr/sob_blog_core
+
 blog.images.save-path: D:\Code\WEBProject\images
 #2MB
 blog.images.max-size: 2097152

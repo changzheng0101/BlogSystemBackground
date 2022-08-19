@@ -22,4 +22,7 @@ public interface ArticleNoContentDao extends JpaRepository<ArticleNoContent, Str
     List<ArticleNoContent> getLastedArticleListBySize(String articleId, int size);
 
 
+    @Query(nativeQuery = true, value = "select  * from `tb_article` where `state`=?  order by `create_time`")
+    List<ArticleNoContent> findAllByState(String articleSelected);
+
 }

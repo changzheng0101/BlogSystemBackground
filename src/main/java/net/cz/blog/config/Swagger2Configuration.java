@@ -34,16 +34,18 @@ public class Swagger2Configuration {
                 .enable(isEnable)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("net.cz.blog.controller.portal"))
-                .paths(PathSelectors.any()) // 可以根据url路径设置哪些请求加入文档，忽略哪些请求
+                // 可以根据url路径设置哪些请求加入文档，忽略哪些请求
+                .paths(PathSelectors.any())
                 .build()
                 .groupName("前端门户");
     }
 
     private ApiInfo portalApiInfo() {
         return new ApiInfoBuilder()
-                .title("微笑个人博客系统门户接口文档") //设置文档的标题
-                .description("门户接口文档") // 设置文档的描述
-                .version(VERSION) // 设置文档的版本信息-> 1.0.0 Version information
+                .title("微笑个人博客系统门户接口文档")
+                .description("门户接口文档")
+                // 设置文档的版本信息-> 1.0.0 Version information
+                .version(VERSION)
                 .build();
     }
 

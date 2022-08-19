@@ -164,11 +164,11 @@ public class CommentServiceImpl extends BaseService implements ICommentService {
             return ResponseResult.FAILED("评论不存在");
         }
         String state = comment.getState();
-        if (Constants.Comment.ARTICLE_PUBLISH.equals(state)) {
-            comment.setState(Constants.Comment.ARTICLE_TOP);
+        if (Constants.Comment.COMMENT_PUBLISH.equals(state)) {
+            comment.setState(Constants.Comment.COMMENT_TOP);
             return ResponseResult.SUCCESS("置顶成功");
-        } else if (Constants.Comment.ARTICLE_TOP.equals(state)) {
-            comment.setState(Constants.Comment.ARTICLE_PUBLISH);
+        } else if (Constants.Comment.COMMENT_TOP.equals(state)) {
+            comment.setState(Constants.Comment.COMMENT_PUBLISH);
             return ResponseResult.SUCCESS("取消置顶成功");
         } else {
             return ResponseResult.FAILED("不支持此操作");

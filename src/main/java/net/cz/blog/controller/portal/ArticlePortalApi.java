@@ -73,6 +73,11 @@ public class ArticlePortalApi {
         return articleService.getTopArticleList();
     }
 
+    @GetMapping("/selected")
+    public ResponseResult getSelectedArticleList(){
+        return articleService.getSelectedArticleList();
+    }
+
     @GetMapping("/categories")
     public ResponseResult getCategories() {
         return categoryService.getCategoryList();

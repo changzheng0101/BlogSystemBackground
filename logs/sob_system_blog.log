@@ -1,8 +1,2 @@
-[2021/12/13-17:37:12] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 1.8.0_66 on CZ-LAPTOP with PID 11504 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
-[2021/12/13-17:37:12] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev
-[2021/12/13-17:37:18] [main] [INFO ] [net.cz.blog.BlogApplication] : Started BlogApplication in 6.23 seconds (JVM running for 7.977)
-[2021/12/13-17:37:18] [http-nio-2021-exec-8] [INFO ] [net.cz.blog.interceptor.ApiInterceptor] : name-->uiConfiguration
-[2021/12/13-17:37:18] [http-nio-2021-exec-9] [INFO ] [net.cz.blog.interceptor.ApiInterceptor] : name-->securityConfiguration
-[2021/12/13-17:37:18] [http-nio-2021-exec-10] [INFO ] [net.cz.blog.interceptor.ApiInterceptor] : name-->swaggerResources
-[2021/12/13-17:37:18] [http-nio-2021-exec-2] [INFO ] [net.cz.blog.interceptor.ApiInterceptor] : name-->error
-[2021/12/13-17:37:18] [http-nio-2021-exec-6] [INFO ] [net.cz.blog.interceptor.ApiInterceptor] : name-->error
+[2022/08/19-21:37:00] [main] [INFO ] [net.cz.blog.BlogApplication] : Starting BlogApplication using Java 11.0.14 on CZ-LAPTOP with PID 14496 (D:\programe\code\WebCode\BlogSystemBackground\target\classes started by 微笑 in D:\programe\code\WebCode\BlogSystemBackground)
+[2022/08/19-21:37:00] [main] [INFO ] [net.cz.blog.BlogApplication] : The following profiles are active: dev

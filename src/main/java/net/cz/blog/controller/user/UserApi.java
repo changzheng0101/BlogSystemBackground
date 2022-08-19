@@ -23,7 +23,13 @@ public class UserApi {
     @Autowired
     private IUserService userService;
 
-    //   初始化管理员账号
+    /**
+     * 初始化管理员账号
+     * todo 发布时候还是删除这个接口吧
+     * @param user
+     * @param request
+     * @return
+     */
     @PostMapping("/admin_account")
     public ResponseResult initManagerAccount(@RequestBody BlogUser user, HttpServletRequest request) {
         log.info("user name==>" + user.getUserName());
@@ -65,7 +71,6 @@ public class UserApi {
     public void getCaptcha(HttpServletResponse response, @RequestParam("captcha_key") String captcha_key) {
         try {
             userService.createCaptcha(response, captcha_key);
-
         } catch (Exception e) {
             log.error(e.toString());
         }
@@ -221,5 +226,10 @@ public class UserApi {
     @GetMapping("/logout")
     public ResponseResult logout() {
         return userService.doLogout();
+    }
+
+    @GetMapping("/check-token")
+    public ResponseResult parseToken() {
+        return userService.parseToken();
     }
 }

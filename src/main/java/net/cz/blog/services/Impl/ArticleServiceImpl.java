@@ -2,6 +2,7 @@ package net.cz.blog.services.Impl;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.openhtmltopdf.css.style.Length;
 import net.cz.blog.Dao.ArticleDao;
 import net.cz.blog.Dao.ArticleNoContentDao;
 import net.cz.blog.Dao.CommentDao;
@@ -23,6 +24,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import springfox.documentation.spring.web.json.Json;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -85,7 +87,9 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
             return ResponseResult.FAILED("文章类型不可以为空");
         }
         if (!Constants.Article.ARTICLE_PUBLISH.equals(state) &&
-                !Constants.Article.ARTICLE_DRAFT.equals(state)) {
+                !Constants.Article.ARTICLE_DRAFT.equals(state) &&
+                !Constants.Article.ARTICLE_SELECTED.equals(state) &&
+                !Constants.Article.ARTICLE_TOP.equals(state)) {
             return ResponseResult.FAILED("文章类型不支持");
         }
         BlogUser blogUser = userService.checkBolgUser();
@@ -151,10 +155,22 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
         solrService.addArticle(article);
         //对标签进行更新
         setupLabels(article.getLabels());
-        //删除redis中第一页的那些数据
-        redisUtil.del(Constants.Article.KEY_FIRST_PAGE_ARTICLE);
-        return ResponseResult.SUCCESS(Constants.Article.ARTICLE_PUBLISH.equals(state)
-                ? "文章发表成功" : "草稿发布成功").setData(articleId);
+        //删除redis中第一页的那些数据 要删除对应的类
+        redisUtil.del(Constants.Article.KEY_FIRST_PAGE_ARTICLE + article.getCategoryId());
+        String responseMessage = "";
+        if (Constants.Article.ARTICLE_PUBLISH.equals(state)) {
+            responseMessage = "文章发表成功";
+        }
+        if (Constants.Article.ARTICLE_TOP.equals(state)) {
+            responseMessage = "置顶文章发表成功";
+        }
+        if (Constants.Article.ARTICLE_SELECTED.equals(state)) {
+            responseMessage = "精选文章发表成功";
+        }
+        if (Constants.Article.ARTICLE_DRAFT.equals(state)) {
+            responseMessage = "草稿发布成功";
+        }
+        return ResponseResult.SUCCESS(responseMessage).setData(articleId);
     }
 
     private void setupLabels(String labels) {
@@ -188,7 +204,7 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
         size = checkSize(size);
         //先从redis中获取第一页
         if (page == 1) {
-            String articleListJson = (String) redisUtil.get(Constants.Article.KEY_FIRST_PAGE_ARTICLE);
+            String articleListJson = (String) redisUtil.get(Constants.Article.KEY_FIRST_PAGE_ARTICLE + categoryId);
             if (!TextUtils.isEmpty(articleListJson)) {
                 PageList<ArticleNoContent> result = gson.fromJson(articleListJson, new TypeToken<PageList<ArticleNoContent>>() {
                 }.getType());
@@ -223,7 +239,7 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
         PageList<ArticleNoContent> articleNoContentPageList = new PageList<>();
         articleNoContentPageList.parsePage(all);
         if (page == 1) {
-            redisUtil.set(Constants.Article.KEY_FIRST_PAGE_ARTICLE, gson.toJson(articleNoContentPageList),
+            redisUtil.set(Constants.Article.KEY_FIRST_PAGE_ARTICLE + categoryId, gson.toJson(articleNoContentPageList),
                     Constants.TimeValue.HOUR);
         }
         //返回结果
@@ -287,6 +303,24 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
             return ResponseResult.PERMISSION_FORBID();
         }
         return ResponseResult.SUCCESS("文章查询成功").setData(articleFromDb);
+    }
+
+    /**
+     * 得到精选的文章
+     * 第一次获取 要存到redis中
+     * 之后先从redis中拿
+     *
+     * @return
+     */
+    @Override
+    public ResponseResult getSelectedArticleList() {
+        String selectedArticleRedisResult = (String) redisUtil.get(Constants.Article.KEY_SELECTED_ARTICLE);
+        if (!TextUtils.isEmpty(selectedArticleRedisResult)) {
+            return ResponseResult.SUCCESS().setData(selectedArticleRedisResult);
+        }
+        List<ArticleNoContent> result = articleNoContentDao.findAllByState(Constants.Article.ARTICLE_SELECTED);
+        redisUtil.set(Constants.Article.KEY_SELECTED_ARTICLE, gson.toJson(result), Constants.TimeValue.HOUR);
+        return ResponseResult.SUCCESS().setData(result);
     }
 
     @Override
@@ -369,8 +403,9 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
                 articleFromDb.setState(Constants.Article.ARTICLE_PUBLISH);
                 articleDao.save(articleFromDb);
                 return ResponseResult.SUCCESS("文章取消置顶成功");
+            default:
+                return ResponseResult.FAILED("文章状态不在已经给定的状态中");
         }
-        return ResponseResult.FAILED("文章状态不在已经给定的状态中");
     }
 
     @Override
@@ -450,4 +485,6 @@ public class ArticleServiceImpl extends BaseService implements IArticleService {
         Page<Label> result = labelDao.findAll(pageable);
         return ResponseResult.SUCCESS("获取标签列表成功").setData(result);
     }
+
+
 }
